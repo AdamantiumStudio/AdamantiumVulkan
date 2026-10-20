@@ -12,7 +12,7 @@
   <PropertyGroup>
     <IsPackable>true</IsPackable>
     <PackageId>Adamantium.Vulkan.Spirv</PackageId>
-    <Version>1.0.12</Version>
+    <Version>1.0.13</Version>
     <Description>C# bindings to SPIRV-Cross, shipping its native library. Reads back what a compiled shader declares, so resources can be bound by what the shader actually asks for rather than by a hand-kept table. SPIRV-Cross is a Khronos project under Apache-2.0 - see THIRD-PARTY-NOTICES.md in the repository.</Description>
     <PackageTags>spirv;spirv-cross;reflection;shader;vulkan</PackageTags>
   </PropertyGroup>
