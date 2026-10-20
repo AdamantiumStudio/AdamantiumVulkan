@@ -132,10 +132,13 @@ namespace Adamantium.Vulkan.Spirv.Reflection
                     resourceDescription.Size = tmpSize;
 
                     resourceDescription.RowCount = spvcType.GetColumns();
-                    resourceDescription.ArrayDimensionsCount = spvcType.GetNumArrayDimensions();
+                    // The base type is the element: an array of resources is told by the variable's own type, a size of
+                    // 0 meaning one of no length.
+                    var arrayType = compiler.GetTypeHandle(shaderResources[i].Type_id);
+                    resourceDescription.ArrayDimensionsCount = arrayType.GetNumArrayDimensions();
                     for (var x = 0u; x < resourceDescription.ArrayDimensionsCount; ++x)
                     {
-                        resourceDescription.AddArraySizeForDimension(x, spvcType.GetArrayDimension(x));
+                        resourceDescription.AddArraySizeForDimension(x, arrayType.GetArrayDimension(x));
                     }
 
                     resourceDescription.Dimension = (ShaderResourceDimension)spvcType.GetImageDimension();
