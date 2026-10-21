@@ -33,3 +33,11 @@ add_library(slang-c-shared SHARED slang_c.cpp slang_c.h)
 set_target_properties(slang-c-shared PROPERTIES OUTPUT_NAME "slang-c-shared")
 target_include_directories(slang-c-shared PRIVATE "${SLANG_INCLUDE_DIR}")
 target_link_libraries(slang-c-shared PRIVATE "${SLANG_LIBRARY}")
+
+# The shim links the Slang compiler by its soname (libslang-compiler.so.0.<version>) and ships beside it in
+# runtimes/<rid>/native, so it looks there first - not in the SDK directory it was linked against.
+if(APPLE)
+    set_target_properties(slang-c-shared PROPERTIES BUILD_WITH_INSTALL_RPATH ON INSTALL_RPATH "@loader_path")
+elseif(UNIX)
+    set_target_properties(slang-c-shared PROPERTIES BUILD_WITH_INSTALL_RPATH ON INSTALL_RPATH "$ORIGIN")
+endif()

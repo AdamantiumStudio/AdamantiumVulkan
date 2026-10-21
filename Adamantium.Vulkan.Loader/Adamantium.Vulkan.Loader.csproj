@@ -8,7 +8,7 @@
 
     <IsPackable>true</IsPackable>
     <PackageId>Adamantium.Vulkan.Loader</PackageId>
-    <Version>1.0.2</Version>
+    <Version>1.0.3</Version>
     <Description>Finds and loads the Vulkan loader at run time and resolves its entry points, so an application binds to whichever Vulkan the machine actually has instead of to an import library fixed at build time.</Description>
     <PackageTags>vulkan;loader;interop;gpu</PackageTags>
   </PropertyGroup>

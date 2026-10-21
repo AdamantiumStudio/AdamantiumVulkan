@@ -28,11 +28,14 @@ if ($LASTEXITCODE) { throw "cmake configure failed" }
 & $cmake --build "$native\build" --config $Config
 if ($LASTEXITCODE) { throw "cmake build failed" }
 
-# Stage the shim + Slang runtime + its language server next to the C# project so they ship as <Content>. All from one
-# Slang build: slangd loads the same slang-compiler.dll the bindings do.
-Copy-Item "$native\build\$Config\slang-c-shared.dll" $project -Force
-$runtime = "slang.dll", "slang-compiler.dll", "slang-glslang.dll", "slangd.exe", "slangd.dll"
+# Stage the shim + Slang runtime + its language server under runtimes\win-x64\native, which the C# project packs as it
+# is. All from one Slang build: slangd loads the same slang-compiler.dll the bindings do. The 2026.17 SDK no longer
+# ships slangd.dll - slangd.exe imports slang-compiler.dll itself.
+$stage = Join-Path $project "runtimes\win-x64\native"
+New-Item -ItemType Directory -Force $stage | Out-Null
+Copy-Item "$native\build\$Config\slang-c-shared.dll" $stage -Force
+$runtime = "slang.dll", "slang-compiler.dll", "slang-glslang.dll", "slangd.exe"
 foreach ($file in $runtime) {
-    Copy-Item "$slang\Bin\$file" $project -Force
+    Copy-Item "$slang\Bin\$file" $stage -Force
 }
-Write-Host "OK: slang-c-shared.dll + $($runtime -join ', ') -> $project" -ForegroundColor Green
+Write-Host "OK: slang-c-shared.dll + $($runtime -join ', ') -> $stage" -ForegroundColor Green
