@@ -98,6 +98,9 @@ namespace Adamantium.Vulkan.Generator
             spivCrossModule.EachTypeInSeparateFile = true;
             spivCrossModule.CleanPreviousGeneration = true;
             spivCrossModule.Name = "Spirv.Cross";
+            // Read as on 64-bit Windows wherever the generator runs - the defines take the headers' Windows branches -
+            // so the bindings come out the same on any machine.
+            spivCrossModule.TargetPlatform = TargetPlatform.Windows;
             spivCrossModule.Files.Add(Path.Combine(vulkanBasePath, "spirv_cross", "spirv_cross_c.h"));
             spivCrossModule.Defines.Add("SPVC_EXPORT_SYMBOLS");
             spivCrossModule.Defines.Add("_MSC_VER");
@@ -121,6 +124,7 @@ namespace Adamantium.Vulkan.Generator
             spivToolsModule.EachTypeInSeparateFile = true;
             spivToolsModule.CleanPreviousGeneration = true;
             spivToolsModule.Name = "SpirvTools";
+            spivToolsModule.TargetPlatform = TargetPlatform.Windows;
             spivToolsModule.Files.Add(Path.Combine(vulkanBasePath, "spirv-tools", "libspirv.h"));
             spivToolsModule.Defines.Add("SPIRV_TOOLS_EXPORT");
             spivToolsModule.Defines.Add("_WIN32");
@@ -145,6 +149,7 @@ namespace Adamantium.Vulkan.Generator
             slangModule.EachTypeInSeparateFile = true;
             slangModule.CleanPreviousGeneration = true;
             slangModule.Name = "Slang";
+            slangModule.TargetPlatform = TargetPlatform.Windows;
             slangModule.Files.Add(slangHeader);
             slangModule.Defines.Add("_WIN32");   // makes SLANGC_API = __declspec(dllexport) so the funcs are seen as exported
             slangModule.Defines.Add("_MSC_VER");
