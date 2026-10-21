@@ -34,7 +34,7 @@ namespace Adamantium.Vulkan.Generator
             string spirvToolsLibrary = "SPIRV-Tools-shared";
             string slangLibrary = "slang-c-shared";
             string mainNamespace = "Adamantium.Vulkan";
-            string vulkanBasePath = Path.Combine(VulkanSdkRoot(), "Include");
+            string vulkanBasePath = VulkanSdkIncludes();
             string vulkanXmlPath = "vk.xml";
             string interopSubNamespace = "Interop";
 
@@ -42,6 +42,7 @@ namespace Adamantium.Vulkan.Generator
             string corePath = Path.GetFullPath(Path.Combine(appRoot, "..", "Adamantium.Vulkan", "Core" ,"Generated"));
             string windowsPath = Path.GetFullPath(Path.Combine(appRoot, "..", "Adamantium.Vulkan", "Windows", "Generated"));
             string macOSPath = Path.GetFullPath(Path.Combine(appRoot, "..", "Adamantium.Vulkan", "MacOS", "Generated"));
+            string linuxPath = Path.GetFullPath(Path.Combine(appRoot, "..", "Adamantium.Vulkan", "Linux", "Generated"));
             string spirvPath = Path.GetFullPath(Path.Combine(appRoot, "..", "Adamantium.Vulkan.Spirv", "Generated"));
             var spirvToolsPath = (Path.Combine(appRoot, "..", "Adamantium.Vulkan.SpirvTools", "Generated"));
             var slangPath = Path.GetFullPath(Path.Combine(appRoot, "..", "Adamantium.Vulkan.Slang", "Generated"));
@@ -57,7 +58,8 @@ namespace Adamantium.Vulkan.Generator
             namespaceMappings.Add(new NamespaceMapping(){FileName = "vulkan_core", SubNamespace = "Core", OutputPath = corePath});
             namespaceMappings.Add(new NamespaceMapping(){FileName = "vulkan_win32", SubNamespace = "Windows", OutputPath = spirvPath});
             namespaceMappings.Add(new NamespaceMapping(){FileName = "vulkan_macos", SubNamespace = "MacOS", OutputPath = spirvToolsPath});
-            var parserSettings = new VulkanParserSettings(namespaceMappings,["win32", "macos"]);
+            namespaceMappings.Add(new NamespaceMapping(){FileName = "vulkan_wayland", SubNamespace = "Linux", OutputPath = linuxPath});
+            var parserSettings = new VulkanParserSettings(namespaceMappings,["win32", "macos", "wayland"]);
             parserSettings.IncludeVideoExtensions = true;
             parserSettings.VideoExtensionsPath = "video.xml";
             vkMainModule = Module.Create(vkMainLibrary, false).WithVulkanXmlParser(parserSettings);
@@ -70,6 +72,7 @@ namespace Adamantium.Vulkan.Generator
             vkMainModule.Defines.Add("_MSC_VER");
             vkMainModule.Defines.Add("VK_USE_PLATFORM_WIN32_KHR");
             vkMainModule.Defines.Add("VK_USE_PLATFORM_MACOS_MVK");
+            vkMainModule.Defines.Add("VK_USE_PLATFORM_WAYLAND_KHR");
             vkMainModule.Files.AddRange(vulkanXmlPath);
             vkMainModule.ForceCallingConvention = false;
             vkMainModule.InteropClassAccessSpecifier = AccessSpecifier.Internal;
@@ -82,6 +85,7 @@ namespace Adamantium.Vulkan.Generator
             vkMainModule.AddNamespaceMapping("vulkan_core", "Core", corePath);
             vkMainModule.AddNamespaceMapping("vulkan_win32", "Windows", windowsPath);
             vkMainModule.AddNamespaceMapping("vulkan_macos", "MacOS", macOSPath);
+            vkMainModule.AddNamespaceMapping("vulkan_wayland", "Linux", linuxPath);
             vkMainModule.GenerateOverloadsForArrayParams = true;
             vkMainModule.GeneratorSpecializations = GeneratorSpecializations.All;
             vkMainModule.OutputPath = corePath;
@@ -184,6 +188,15 @@ namespace Adamantium.Vulkan.Generator
             return root;
         }
 
+        /// <summary>The SDK's headers: "Include" in the Windows SDK, "include" in the Linux one, whose file system tells
+        /// the two apart.</summary>
+        private static string VulkanSdkIncludes()
+        {
+            var root = VulkanSdkRoot();
+            var windows = Path.Combine(root, "Include");
+            return Directory.Exists(windows) ? windows : Path.Combine(root, "include");
+        }
+
         public override void OnBeforeSetupPasses(ProcessingContext context)
         {
             VulkanBindings.ProvideFunctionsForParametersFix(context);
@@ -258,6 +271,7 @@ namespace Adamantium.Vulkan.Generator
             var macroAction = new MacroFunctionsToCSharpFunctionsPass();
             macroAction.IgnoreList.Add("VK_USE_PLATFORM_WIN32_KHR");
             macroAction.IgnoreList.Add("_WIN32");
+            macroAction.IgnoreList.Add("VK_USE_PLATFORM_WAYLAND_KHR");
             macroAction.IgnoreList.Add("VULKAN_H_");
             macroAction.IgnoreList.Add("VKAPI_CALL");
             macroAction.IgnoreList.Add("VULKAN_CORE_H_");

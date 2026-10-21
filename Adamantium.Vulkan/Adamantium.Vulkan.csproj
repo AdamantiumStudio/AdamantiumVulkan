@@ -8,7 +8,7 @@
 
     <IsPackable>true</IsPackable>
     <PackageId>Adamantium.Vulkan</PackageId>
-    <Version>1.0.3</Version>
+    <Version>1.0.4</Version>
     <Description>C# bindings to the Vulkan API, generated from the Khronos registry. Hand-written wrappers over the generated interop give the structures and handles ordinary .NET shapes, so calling Vulkan reads as C# rather than as marshalling.</Description>
     <PackageTags>vulkan;graphics;bindings;interop;gpu</PackageTags>
   </PropertyGroup>

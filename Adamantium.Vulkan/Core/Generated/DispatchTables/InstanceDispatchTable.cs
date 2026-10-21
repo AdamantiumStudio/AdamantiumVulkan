@@ -30,6 +30,7 @@ public unsafe partial class InstanceDispatchTable
         vkCreateHeadlessSurfaceEXT = (delegate* unmanaged<Adamantium.Vulkan.Core.Interop.VkInstance_T, Adamantium.Vulkan.Core.Interop.VkHeadlessSurfaceCreateInfoEXT*, Adamantium.Vulkan.Core.Interop.VkAllocationCallbacks*, Adamantium.Vulkan.Core.Interop.VkSurfaceKHR_T*, Result>)owner.GetInstanceProcAddr("vkCreateHeadlessSurfaceEXT");
         vkCreateWin32SurfaceKHR = (delegate* unmanaged<Adamantium.Vulkan.Core.Interop.VkInstance_T, Adamantium.Vulkan.Windows.Interop.VkWin32SurfaceCreateInfoKHR*, Adamantium.Vulkan.Core.Interop.VkAllocationCallbacks*, Adamantium.Vulkan.Core.Interop.VkSurfaceKHR_T*, Result>)owner.GetInstanceProcAddr("vkCreateWin32SurfaceKHR");
         vkCreateMacOSSurfaceMVK = (delegate* unmanaged<Adamantium.Vulkan.Core.Interop.VkInstance_T, Adamantium.Vulkan.MacOS.Interop.VkMacOSSurfaceCreateInfoMVK*, Adamantium.Vulkan.Core.Interop.VkAllocationCallbacks*, Adamantium.Vulkan.Core.Interop.VkSurfaceKHR_T*, Result>)owner.GetInstanceProcAddr("vkCreateMacOSSurfaceMVK");
+        vkCreateWaylandSurfaceKHR = (delegate* unmanaged<Adamantium.Vulkan.Core.Interop.VkInstance_T, Adamantium.Vulkan.Linux.Interop.VkWaylandSurfaceCreateInfoKHR*, Adamantium.Vulkan.Core.Interop.VkAllocationCallbacks*, Adamantium.Vulkan.Core.Interop.VkSurfaceKHR_T*, Result>)owner.GetInstanceProcAddr("vkCreateWaylandSurfaceKHR");
         vkGetPhysicalDeviceProperties = (delegate* unmanaged<Adamantium.Vulkan.Core.Interop.VkPhysicalDevice_T, Adamantium.Vulkan.Core.Interop.VkPhysicalDeviceProperties*, void>)owner.GetInstanceProcAddr("vkGetPhysicalDeviceProperties");
         vkGetPhysicalDeviceQueueFamilyProperties = (delegate* unmanaged<Adamantium.Vulkan.Core.Interop.VkPhysicalDevice_T, ref uint, Adamantium.Vulkan.Core.Interop.VkQueueFamilyProperties*, void>)owner.GetInstanceProcAddr("vkGetPhysicalDeviceQueueFamilyProperties");
         vkGetPhysicalDeviceMemoryProperties = (delegate* unmanaged<Adamantium.Vulkan.Core.Interop.VkPhysicalDevice_T, Adamantium.Vulkan.Core.Interop.VkPhysicalDeviceMemoryProperties*, void>)owner.GetInstanceProcAddr("vkGetPhysicalDeviceMemoryProperties");
@@ -99,6 +100,7 @@ public unsafe partial class InstanceDispatchTable
         vkAcquireWinrtDisplayNV = (delegate* unmanaged<Adamantium.Vulkan.Core.Interop.VkPhysicalDevice_T, Adamantium.Vulkan.Core.Interop.VkDisplayKHR_T, Result>)owner.GetInstanceProcAddr("vkAcquireWinrtDisplayNV");
         vkGetWinrtDisplayNV = (delegate* unmanaged<Adamantium.Vulkan.Core.Interop.VkPhysicalDevice_T, uint, Adamantium.Vulkan.Core.Interop.VkDisplayKHR_T*, Result>)owner.GetInstanceProcAddr("vkGetWinrtDisplayNV");
         vkGetPhysicalDeviceSurfacePresentModes2EXT = (delegate* unmanaged<Adamantium.Vulkan.Core.Interop.VkPhysicalDevice_T, Adamantium.Vulkan.Core.Interop.VkPhysicalDeviceSurfaceInfo2KHR*, ref uint, PresentModeKHR*, Result>)owner.GetInstanceProcAddr("vkGetPhysicalDeviceSurfacePresentModes2EXT");
+        vkGetPhysicalDeviceWaylandPresentationSupportKHR = (delegate* unmanaged<Adamantium.Vulkan.Core.Interop.VkPhysicalDevice_T, uint, void*, VkBool32>)owner.GetInstanceProcAddr("vkGetPhysicalDeviceWaylandPresentationSupportKHR");
     }
 
     public delegate* unmanaged<Adamantium.Vulkan.Core.Interop.VkInstance_T, Adamantium.Vulkan.Core.Interop.VkAllocationCallbacks*, void> vkDestroyInstance;
@@ -115,6 +117,7 @@ public unsafe partial class InstanceDispatchTable
     public delegate* unmanaged<Adamantium.Vulkan.Core.Interop.VkInstance_T, Adamantium.Vulkan.Core.Interop.VkHeadlessSurfaceCreateInfoEXT*, Adamantium.Vulkan.Core.Interop.VkAllocationCallbacks*, Adamantium.Vulkan.Core.Interop.VkSurfaceKHR_T*, Result> vkCreateHeadlessSurfaceEXT;
     public delegate* unmanaged<Adamantium.Vulkan.Core.Interop.VkInstance_T, Adamantium.Vulkan.Windows.Interop.VkWin32SurfaceCreateInfoKHR*, Adamantium.Vulkan.Core.Interop.VkAllocationCallbacks*, Adamantium.Vulkan.Core.Interop.VkSurfaceKHR_T*, Result> vkCreateWin32SurfaceKHR;
     public delegate* unmanaged<Adamantium.Vulkan.Core.Interop.VkInstance_T, Adamantium.Vulkan.MacOS.Interop.VkMacOSSurfaceCreateInfoMVK*, Adamantium.Vulkan.Core.Interop.VkAllocationCallbacks*, Adamantium.Vulkan.Core.Interop.VkSurfaceKHR_T*, Result> vkCreateMacOSSurfaceMVK;
+    public delegate* unmanaged<Adamantium.Vulkan.Core.Interop.VkInstance_T, Adamantium.Vulkan.Linux.Interop.VkWaylandSurfaceCreateInfoKHR*, Adamantium.Vulkan.Core.Interop.VkAllocationCallbacks*, Adamantium.Vulkan.Core.Interop.VkSurfaceKHR_T*, Result> vkCreateWaylandSurfaceKHR;
     public delegate* unmanaged<Adamantium.Vulkan.Core.Interop.VkPhysicalDevice_T, Adamantium.Vulkan.Core.Interop.VkPhysicalDeviceProperties*, void> vkGetPhysicalDeviceProperties;
     public delegate* unmanaged<Adamantium.Vulkan.Core.Interop.VkPhysicalDevice_T, ref uint, Adamantium.Vulkan.Core.Interop.VkQueueFamilyProperties*, void> vkGetPhysicalDeviceQueueFamilyProperties;
     public delegate* unmanaged<Adamantium.Vulkan.Core.Interop.VkPhysicalDevice_T, Adamantium.Vulkan.Core.Interop.VkPhysicalDeviceMemoryProperties*, void> vkGetPhysicalDeviceMemoryProperties;
@@ -184,6 +187,7 @@ public unsafe partial class InstanceDispatchTable
     public delegate* unmanaged<Adamantium.Vulkan.Core.Interop.VkPhysicalDevice_T, Adamantium.Vulkan.Core.Interop.VkDisplayKHR_T, Result> vkAcquireWinrtDisplayNV;
     public delegate* unmanaged<Adamantium.Vulkan.Core.Interop.VkPhysicalDevice_T, uint, Adamantium.Vulkan.Core.Interop.VkDisplayKHR_T*, Result> vkGetWinrtDisplayNV;
     public delegate* unmanaged<Adamantium.Vulkan.Core.Interop.VkPhysicalDevice_T, Adamantium.Vulkan.Core.Interop.VkPhysicalDeviceSurfaceInfo2KHR*, ref uint, PresentModeKHR*, Result> vkGetPhysicalDeviceSurfacePresentModes2EXT;
+    public delegate* unmanaged<Adamantium.Vulkan.Core.Interop.VkPhysicalDevice_T, uint, void*, VkBool32> vkGetPhysicalDeviceWaylandPresentationSupportKHR;
 }
 
 

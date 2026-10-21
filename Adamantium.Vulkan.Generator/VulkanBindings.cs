@@ -388,6 +388,18 @@ public static partial class VulkanBindings
             .WithField("hwnd")
             .InterpretAs(new BuiltinType(PrimitiveType.IntPtr));
 
+        api.Class("VkWaylandSurfaceCreateInfoKHR")
+            .WithField("display")
+            .InterpretAs(new BuiltinType(PrimitiveType.IntPtr))
+            .WithField("surface")
+            .InterpretAs(new BuiltinType(PrimitiveType.IntPtr));
+
+        // The display goes in: read as a void*, it would come back out.
+        api.Function("vkGetPhysicalDeviceWaylandPresentationSupportKHR")
+            .WithParameterName("display")
+            .InterpretAsIs()
+            .SetParameterKind(ParameterKind.In);
+
         api.Class("StdVideoH265HrdParameters")
             .SaveInteropSource(true)
             .WithField("pSubLayerHrdParametersNal")
