@@ -16,6 +16,8 @@ namespace Adamantium.Vulkan.Loader
 
         public string OSXLibraryName { get; set; }
 
+        public string LinuxLibraryName { get; set; }
+
         public string LibraryNameForCurrentPlatform 
         { 
             get 
@@ -28,6 +30,10 @@ namespace Adamantium.Vulkan.Loader
                 else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
                 {
                     libName = OSXLibraryName;
+                }
+                else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                {
+                    libName = LinuxLibraryName;
                 }
                 else
                 {
