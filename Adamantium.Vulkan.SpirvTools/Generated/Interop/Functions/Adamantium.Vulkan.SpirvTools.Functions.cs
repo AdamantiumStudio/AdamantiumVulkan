@@ -367,10 +367,22 @@ public static unsafe partial class SpirvToolsInterop
     internal static extern void spvValidatorOptionsSetBeforeHlslLegalization(Adamantium.Vulkan.SpirvTools.Interop.spv_validator_options_t options, bool val);
 
     ///<summary>
+    /// Sets custom size and alignment for buffer and acceleration structure descriptor heap resources.
+    ///</summary>
+    [DllImport(LibraryPath, EntryPoint = "spvValidatorOptionsSetBufferDescriptorLayout", ExactSpelling = true, CallingConvention = CallingConvention.Winapi)]
+    internal static extern void spvValidatorOptionsSetBufferDescriptorLayout(Adamantium.Vulkan.SpirvTools.Interop.spv_validator_options_t options, uint size, uint alignment);
+
+    ///<summary>
     /// Whether friendly names should be used in validation error messages.
     ///</summary>
     [DllImport(LibraryPath, EntryPoint = "spvValidatorOptionsSetFriendlyNames", ExactSpelling = true, CallingConvention = CallingConvention.Winapi)]
     internal static extern void spvValidatorOptionsSetFriendlyNames(Adamantium.Vulkan.SpirvTools.Interop.spv_validator_options_t options, bool val);
+
+    ///<summary>
+    /// Sets custom size and alignment for image and sampled image descriptor heap resources.
+    ///</summary>
+    [DllImport(LibraryPath, EntryPoint = "spvValidatorOptionsSetImageDescriptorLayout", ExactSpelling = true, CallingConvention = CallingConvention.Winapi)]
+    internal static extern void spvValidatorOptionsSetImageDescriptorLayout(Adamantium.Vulkan.SpirvTools.Interop.spv_validator_options_t options, uint size, uint alignment);
 
     ///<summary>
     /// Records whether the validator should use "relaxed" block layout rules. Relaxed layout rules are described by Vulkan extension VK_KHR_relaxed_block_layout, and they affect uniform blocks, storage blocks, and push constants.
@@ -391,6 +403,12 @@ public static unsafe partial class SpirvToolsInterop
     internal static extern void spvValidatorOptionsSetRelaxStoreStruct(Adamantium.Vulkan.SpirvTools.Interop.spv_validator_options_t options, bool val);
 
     ///<summary>
+    /// Sets custom size and alignment for sampler descriptor heap resources.
+    ///</summary>
+    [DllImport(LibraryPath, EntryPoint = "spvValidatorOptionsSetSamplerDescriptorLayout", ExactSpelling = true, CallingConvention = CallingConvention.Winapi)]
+    internal static extern void spvValidatorOptionsSetSamplerDescriptorLayout(Adamantium.Vulkan.SpirvTools.Interop.spv_validator_options_t options, uint size, uint alignment);
+
+    ///<summary>
     /// Records whether the validator should use "scalar" block layout rules. Scalar layout rules are more permissive than relaxed block layout.
     ///</summary>
     [DllImport(LibraryPath, EntryPoint = "spvValidatorOptionsSetScalarBlockLayout", ExactSpelling = true, CallingConvention = CallingConvention.Winapi)]
@@ -401,6 +419,12 @@ public static unsafe partial class SpirvToolsInterop
     ///</summary>
     [DllImport(LibraryPath, EntryPoint = "spvValidatorOptionsSetSkipBlockLayout", ExactSpelling = true, CallingConvention = CallingConvention.Winapi)]
     internal static extern void spvValidatorOptionsSetSkipBlockLayout(Adamantium.Vulkan.SpirvTools.Interop.spv_validator_options_t options, bool val);
+
+    ///<summary>
+    /// Sets custom size and alignment for tensor descriptor heap resources.
+    ///</summary>
+    [DllImport(LibraryPath, EntryPoint = "spvValidatorOptionsSetTensorDescriptorLayout", ExactSpelling = true, CallingConvention = CallingConvention.Winapi)]
+    internal static extern void spvValidatorOptionsSetTensorDescriptorLayout(Adamantium.Vulkan.SpirvTools.Interop.spv_validator_options_t options, uint size, uint alignment);
 
     ///<summary>
     /// Records whether the validator should use standard block layout rules for uniform blocks.

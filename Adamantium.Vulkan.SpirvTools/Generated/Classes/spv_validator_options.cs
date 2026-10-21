@@ -75,11 +75,27 @@ public unsafe partial class spv_validator_options : IUnmanagedWrapper<Adamantium
     }
 
     ///<summary>
+    /// Sets custom size and alignment for buffer and acceleration structure descriptor heap resources.
+    ///</summary>
+    public void SpvValidatorOptionsSetBufferDescriptorLayout(uint size, uint alignment)
+    {
+        Adamantium.Vulkan.SpirvTools.Interop.SpirvToolsInterop.spvValidatorOptionsSetBufferDescriptorLayout(this, size, alignment);
+    }
+
+    ///<summary>
     /// Whether friendly names should be used in validation error messages.
     ///</summary>
     public void SpvValidatorOptionsSetFriendlyNames(bool val)
     {
         Adamantium.Vulkan.SpirvTools.Interop.SpirvToolsInterop.spvValidatorOptionsSetFriendlyNames(this, val);
+    }
+
+    ///<summary>
+    /// Sets custom size and alignment for image and sampled image descriptor heap resources.
+    ///</summary>
+    public void SpvValidatorOptionsSetImageDescriptorLayout(uint size, uint alignment)
+    {
+        Adamantium.Vulkan.SpirvTools.Interop.SpirvToolsInterop.spvValidatorOptionsSetImageDescriptorLayout(this, size, alignment);
     }
 
     ///<summary>
@@ -107,6 +123,14 @@ public unsafe partial class spv_validator_options : IUnmanagedWrapper<Adamantium
     }
 
     ///<summary>
+    /// Sets custom size and alignment for sampler descriptor heap resources.
+    ///</summary>
+    public void SpvValidatorOptionsSetSamplerDescriptorLayout(uint size, uint alignment)
+    {
+        Adamantium.Vulkan.SpirvTools.Interop.SpirvToolsInterop.spvValidatorOptionsSetSamplerDescriptorLayout(this, size, alignment);
+    }
+
+    ///<summary>
     /// Records whether the validator should use "scalar" block layout rules. Scalar layout rules are more permissive than relaxed block layout.
     ///</summary>
     public void SpvValidatorOptionsSetScalarBlockLayout(bool val)
@@ -120,6 +144,14 @@ public unsafe partial class spv_validator_options : IUnmanagedWrapper<Adamantium
     public void SpvValidatorOptionsSetSkipBlockLayout(bool val)
     {
         Adamantium.Vulkan.SpirvTools.Interop.SpirvToolsInterop.spvValidatorOptionsSetSkipBlockLayout(this, val);
+    }
+
+    ///<summary>
+    /// Sets custom size and alignment for tensor descriptor heap resources.
+    ///</summary>
+    public void SpvValidatorOptionsSetTensorDescriptorLayout(uint size, uint alignment)
+    {
+        Adamantium.Vulkan.SpirvTools.Interop.SpirvToolsInterop.spvValidatorOptionsSetTensorDescriptorLayout(this, size, alignment);
     }
 
     ///<summary>

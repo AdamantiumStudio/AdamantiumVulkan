@@ -45,10 +45,12 @@ public enum spv_ext_inst_type_t : uint
 
     ExtInstTypeArmExperimentalMlOperations = 15,
 
+    ExtInstTypeNonsemanticDebugprintf = 16,
+
     ///<summary>
     /// Multiple distinct extended instruction set types could return this value, if they are prefixed with NonSemantic. and are otherwise unrecognised
     ///</summary>
-    ExtInstTypeNonsemanticUnknown = 16,
+    ExtInstTypeNonsemanticUnknown = 17,
 
     ///<summary>
     /// Multiple distinct extended instruction set types could return this value, if they are prefixed with NonSemantic. and are otherwise unrecognised
