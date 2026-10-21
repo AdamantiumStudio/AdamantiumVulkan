@@ -2,6 +2,8 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Adamantium.Vulkan.Core.Interop;
+using Adamantium.Vulkan.Linux;
+using Adamantium.Vulkan.Linux.Interop;
 using Adamantium.Vulkan.MacOS;
 using Adamantium.Vulkan.MacOS.Interop;
 using Adamantium.Vulkan.Windows;
@@ -97,6 +99,17 @@ namespace Adamantium.Vulkan.Core
             VkSurfaceKHR_T surface = default;
             var result = Commands.vkCreateMacOSSurfaceMVK(this, infoPtr, null, &surface);
             ResultHelper.CheckResult(result, nameof(CreateMacOSSurfaceMVK));
+            return new SurfaceKHR(surface);
+        }
+
+        public SurfaceKHR CreateWaylandSurface(WaylandSurfaceCreateInfoKHR surfaceInfo)
+        {
+            using var ctx = new NativeContext(surfaceInfo.GetSize(), stackalloc byte[(int)MarshalingUtils.StackAllocThreshold]);
+            var native = surfaceInfo.MarshalToNative(ctx);
+            var infoPtr = (VkWaylandSurfaceCreateInfoKHR*)Unsafe.AsPointer(ref native);
+            VkSurfaceKHR_T surface = default;
+            var result = Commands.vkCreateWaylandSurfaceKHR(this, infoPtr, null, &surface);
+            ResultHelper.CheckResult(result, nameof(CreateWaylandSurface));
             return new SurfaceKHR(surface);
         }
     }

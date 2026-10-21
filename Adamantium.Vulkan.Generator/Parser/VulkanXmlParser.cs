@@ -2170,6 +2170,8 @@ public class VulkanXmlParser : IMetadataProvider
             "int" => PrimitiveType.Int32,
             "HWND" or "HINSTANCE" or "HANDLE" or "SECURITY_ATTRIBUTES" or "DWORD" or "LPCWSTR" or "HMONITOR" =>
                 PrimitiveType.Nuint,
+            // Wayland's display and surface are opaque structs, met only behind a pointer.
+            "wl_display" or "wl_surface" => PrimitiveType.Void,
             _ => throw new Exception($"Unknown primitive type: {xmlType}")
         };
 
