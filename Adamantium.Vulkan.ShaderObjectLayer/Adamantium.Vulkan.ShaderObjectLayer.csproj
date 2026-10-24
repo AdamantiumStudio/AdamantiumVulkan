@@ -8,7 +8,7 @@
   <PropertyGroup>
     <IsPackable>true</IsPackable>
     <PackageId>Adamantium.Vulkan.ShaderObjectLayer</PackageId>
-    <Version>1.0.0</Version>
+    <Version>1.0.1</Version>
     <Description>Khronos' VK_LAYER_KHRONOS_shader_object (Vulkan-ExtensionLayer), built for Windows x64, Linux x64 and macOS arm64: VK_EXT_shader_object on a driver that does not have it, over pipelines it makes itself. Copied beside the application under vulkan/layers/&lt;rid&gt;/. Apache-2.0 - see THIRD-PARTY-NOTICES.md in the repository.</Description>
     <PackageTags>vulkan;layer;shader-object;moltenvk;kosmickrisp</PackageTags>
     <!-- Native files and build logic only: no assembly of its own goes to the consumer. -->
