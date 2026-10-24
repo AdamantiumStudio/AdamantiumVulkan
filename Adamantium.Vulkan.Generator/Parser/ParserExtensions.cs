@@ -90,7 +90,6 @@ public static class ParserExtensions
             cleanInput = cleanInput.Slice(1);
         }
 
-        // In hex F is a digit, not the float suffix: trimming it made 0x7FFFFFFF read as 7 and 0x0000001F as 1.
         if (cleanInput.StartsWith("0x".AsSpan(), StringComparison.OrdinalIgnoreCase))
         {
             var digits = cleanInput.Slice(2).TrimEnd("uUlL".AsSpan());
@@ -102,7 +101,6 @@ public static class ParserExtensions
             return false;
         }
 
-        // A decimal is read with its sign; only its type suffix goes.
         var number = input.Trim("() ".AsSpan()).TrimEnd("uUlLfF".AsSpan());
         return Int128.TryParse(number, NumberStyles.Integer, CultureInfo.InvariantCulture, out result);
     }
