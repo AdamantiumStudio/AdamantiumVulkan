@@ -7,8 +7,10 @@ param([string]$Tag = "vulkan-sdk-1.4.363.0")
 $ErrorActionPreference = "Stop"
 $native = $PSScriptRoot
 $project = Split-Path $native -Parent
-$work = Join-Path $native "build"
-$source = Join-Path $work "Vulkan-ExtensionLayer"
+# Out of the repository: the dependencies build several folders deep, and under a checkout's path that passes the
+# 260 characters MSBuild's file tracker can write to.
+$work = Join-Path ([IO.Path]::GetTempPath()) "vkel-$Tag"
+$source = Join-Path $work "src"
 
 if (-not (Test-Path $source)) {
     git clone --depth 1 --branch $Tag https://github.com/KhronosGroup/Vulkan-ExtensionLayer.git $source
@@ -16,7 +18,7 @@ if (-not (Test-Path $source)) {
 }
 
 $out = Join-Path $work "out"
-cmake -S $source -B $out -A x64 -D UPDATE_DEPS=ON
+cmake -S $source -B $out -A x64 -D UPDATE_DEPS=ON -D CMAKE_BUILD_TYPE=Release
 if ($LASTEXITCODE -ne 0) { throw "cmake configure failed" }
 cmake --build $out --config Release --target VkLayer_khronos_shader_object
 if ($LASTEXITCODE -ne 0) { throw "cmake build failed" }
