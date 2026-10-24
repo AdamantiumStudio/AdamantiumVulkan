@@ -43,6 +43,8 @@ public enum StdVideoAV1MatrixCoefficients : int
 
     Ictcp = 14,
 
+    Invalid = 2147483647,
+
 }
 
 

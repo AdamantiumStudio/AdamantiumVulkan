@@ -11,13 +11,14 @@ using System.Runtime.InteropServices;
 
 namespace Adamantium.Vulkan.Core;
 
+[Flags]
 public enum StdVideoDecodeH264FieldOrderCount : int
 {
     Top = 0,
 
     Bottom = 1,
 
-    Invalid = 7,
+    Invalid = 2147483647,
 
 }
 

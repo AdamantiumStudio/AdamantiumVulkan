@@ -82,6 +82,23 @@ Upstream: https://github.com/KhronosGroup/SPIRV-Tools
 
 ---
 
+## Vulkan-ExtensionLayer — VK_LAYER_KHRONOS_shader_object
+
+**Where:** the `Adamantium.Vulkan.ShaderObjectLayer` package, `layers/<rid>/` — `win-x64/VkLayer_khronos_shader_object.dll`,
+`linux-x64/libVkLayer_khronos_shader_object.so`, `osx-arm64/libVkLayer_khronos_shader_object.dylib`, each with its
+manifest `VkLayer_khronos_shader_object.json`. Not committed: CI builds them from the tag `vulkan-sdk-1.4.363.0`
+(`native/build.sh`, `native/build.ps1`) and the publish workflow packs what it built.
+
+Gives `VK_EXT_shader_object` to a driver that does not have it - Intel Arc on Windows, KosmicKrisp on macOS - by making
+the pipelines itself; on a driver that has it, the layer stands aside.
+
+A Khronos Group project, licensed under the **Apache License 2.0** — text in `LICENSE` at the root of this
+repository.
+
+Upstream: https://github.com/KhronosGroup/Vulkan-ExtensionLayer
+
+---
+
 ## Not third-party
 
 For the avoidance of doubt, these committed binaries are this project's own and are covered by the repository's

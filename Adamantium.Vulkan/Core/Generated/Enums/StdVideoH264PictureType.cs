@@ -21,7 +21,7 @@ public enum StdVideoH264PictureType : int
 
     Idr = 5,
 
-    Invalid = 7,
+    Invalid = 2147483647,
 
 }
 

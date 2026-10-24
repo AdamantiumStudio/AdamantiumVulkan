@@ -21,7 +21,7 @@ public enum StdVideoAV1FrameRestorationType : int
 
     Switchable = 3,
 
-    Invalid = 7,
+    Invalid = 2147483647,
 
 }
 

@@ -333,3 +333,6 @@ Output/
 # CMake build tree for the slang-c-shared native shim (intermediates; the built .dll is staged
 # next to the project and committed separately).
 **/native/build/
+
+# The shader-object layer is built by CI for every platform and packed from there; a local build stages here.
+Adamantium.Vulkan.ShaderObjectLayer/layers/

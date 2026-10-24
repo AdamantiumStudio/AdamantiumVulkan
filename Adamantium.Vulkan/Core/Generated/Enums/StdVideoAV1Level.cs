@@ -61,6 +61,8 @@ public enum StdVideoAV1Level : int
 
     _73 = 23,
 
+    Invalid = 2147483647,
+
 }
 
 

@@ -14,7 +14,7 @@ namespace Adamantium.Vulkan.Core;
 [Flags]
 public enum SpirvResourceTypeFlagBitsEXT : uint
 {
-    AllExt = 7,
+    AllExt = 2147483647,
 
     SamplerBitExt = 1,
 

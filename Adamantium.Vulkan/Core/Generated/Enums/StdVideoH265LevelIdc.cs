@@ -39,6 +39,8 @@ public enum StdVideoH265LevelIdc : int
 
     _62 = 12,
 
+    Invalid = 2147483647,
+
 }
 
 

@@ -11,6 +11,7 @@ using System.Runtime.InteropServices;
 
 namespace Adamantium.Vulkan.Core;
 
+[Flags]
 public enum StdVideoH264SliceType : int
 {
     P = 0,
@@ -19,7 +20,7 @@ public enum StdVideoH264SliceType : int
 
     I = 2,
 
-    Invalid = 7,
+    Invalid = 2147483647,
 
 }
 

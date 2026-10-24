@@ -21,7 +21,7 @@ public enum StdVideoH264ModificationOfPicNumsIdc : int
 
     End = 3,
 
-    Invalid = 7,
+    Invalid = 2147483647,
 
 }
 

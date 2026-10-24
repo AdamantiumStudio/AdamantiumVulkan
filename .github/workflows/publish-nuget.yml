@@ -1,4 +1,4 @@
-# Publishes the four Adamantium.Vulkan packages to nuget.org without a stored key.
+# Publishes the five Adamantium.Vulkan packages to nuget.org without a stored key.
 #
 # The job asks GitHub for a short-lived OIDC token, NuGet/login exchanges it for a temporary API key good for one
 # hour, and the push uses that. Nothing to rotate and nothing to leak - which matters, since API keys created from
@@ -23,7 +23,12 @@ on:
         default: true
 
 jobs:
+  # The shader-object layer, built on each platform it ships for; the publish job packs the three together.
+  shader-object-layer:
+    uses: ./.github/workflows/shader-object-layer.yml
+
   publish:
+    needs: shader-object-layer
     runs-on: ubuntu-latest
     permissions:
       id-token: write   # lets the job ask GitHub for the OIDC token; without it NuGet/login has nothing to exchange
@@ -37,12 +42,19 @@ jobs:
         with:
           global-json-file: global.json
 
-      # One project at a time rather than the solution, which also holds the generator and the demo: only these four
+      - uses: actions/download-artifact@v7
+        with:
+          pattern: shader-object-layer-*
+          path: Adamantium.Vulkan.ShaderObjectLayer/layers
+          merge-multiple: true
+
+      # One project at a time rather than the solution, which also holds the generator and the demo: only these five
       # are IsPackable.
       # AnyCPU: the libraries load in any 64-bit process, the ARM64 ones of Apple Silicon included.
       - name: Pack
         run: |
-          for p in Adamantium.Vulkan Adamantium.Vulkan.Loader Adamantium.Vulkan.Slang Adamantium.Vulkan.Spirv; do
+          for p in Adamantium.Vulkan Adamantium.Vulkan.Loader Adamantium.Vulkan.Slang Adamantium.Vulkan.Spirv \
+                   Adamantium.Vulkan.ShaderObjectLayer; do
             echo "== $p"
             dotnet pack "$p/$p.csproj" -c Release -o artifacts
           done

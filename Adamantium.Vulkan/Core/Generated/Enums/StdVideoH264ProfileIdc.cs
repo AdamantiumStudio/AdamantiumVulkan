@@ -21,7 +21,7 @@ public enum StdVideoH264ProfileIdc : int
 
     High444Predictive = 244,
 
-    Invalid = 7,
+    Invalid = 2147483647,
 
 }
 

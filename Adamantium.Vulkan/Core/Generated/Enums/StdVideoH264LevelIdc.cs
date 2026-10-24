@@ -51,6 +51,8 @@ public enum StdVideoH264LevelIdc : int
 
     _62 = 18,
 
+    Invalid = 2147483647,
+
 }
 
 

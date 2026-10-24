@@ -26,7 +26,9 @@ public enum ShaderStageFlagBits : uint
 
     ComputeBit = 32,
 
-    All = 7,
+    AllGraphics = 31,
+
+    All = 2147483647,
 
     RaygenBitKhr = 256,
 

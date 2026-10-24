@@ -37,6 +37,8 @@ public enum StdVideoAV1ColorPrimaries : int
 
     Ebu3213 = 22,
 
+    Invalid = 2147483647,
+
 }
 
 

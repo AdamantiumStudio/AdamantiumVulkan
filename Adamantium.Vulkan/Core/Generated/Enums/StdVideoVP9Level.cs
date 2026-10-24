@@ -41,6 +41,8 @@ public enum StdVideoVP9Level : int
 
     _62 = 13,
 
+    Invalid = 2147483647,
+
 }
 
 

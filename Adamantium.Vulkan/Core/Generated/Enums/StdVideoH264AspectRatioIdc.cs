@@ -49,6 +49,8 @@ public enum StdVideoH264AspectRatioIdc : int
 
     ExtendedSar = 255,
 
+    Invalid = 2147483647,
+
 }
 
 

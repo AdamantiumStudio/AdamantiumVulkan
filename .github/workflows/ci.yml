@@ -1,5 +1,5 @@
 # Builds the solution, the demo and the binding generator included, and packs the four published packages, on Windows,
-# Linux and macOS. The bindings are not regenerated here: the generator needs an installed Vulkan SDK for the SPIR-V
+# Linux and macOS; builds the shader-object layer on each of them and packs its package from the three. The bindings are not regenerated here: the generator needs an installed Vulkan SDK for the SPIR-V
 # headers.
 name: CI
 
@@ -38,4 +38,37 @@ jobs:
         run: |
           for p in Adamantium.Vulkan Adamantium.Vulkan.Loader Adamantium.Vulkan.Slang Adamantium.Vulkan.Spirv; do
             dotnet pack "$p/$p.csproj" -c Release -o artifacts
+          done
+
+  shader-object-layer:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository
+    uses: ./.github/workflows/shader-object-layer.yml
+
+  # The layer package from the three platforms' builds, as publishing packs it - and a check that none is missing.
+  pack-shader-object-layer:
+    needs: shader-object-layer
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-dotnet@v6
+        with:
+          global-json-file: global.json
+
+      - uses: actions/download-artifact@v7
+        with:
+          pattern: shader-object-layer-*
+          path: Adamantium.Vulkan.ShaderObjectLayer/layers
+          merge-multiple: true
+
+      - name: Pack
+        run: |
+          dotnet pack Adamantium.Vulkan.ShaderObjectLayer/Adamantium.Vulkan.ShaderObjectLayer.csproj -c Release -o artifacts
+          unzip -l artifacts/Adamantium.Vulkan.ShaderObjectLayer.*.nupkg
+          for f in win-x64/VkLayer_khronos_shader_object.dll linux-x64/libVkLayer_khronos_shader_object.so \
+                   osx-arm64/libVkLayer_khronos_shader_object.dylib; do
+            for file in "layers/$f" "layers/$(dirname "$f")/VkLayer_khronos_shader_object.json"; do
+              unzip -l artifacts/Adamantium.Vulkan.ShaderObjectLayer.*.nupkg | grep -q "$file" || { echo "missing $file"; exit 1; }
+            done
           done

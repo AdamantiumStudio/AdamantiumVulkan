@@ -29,6 +29,8 @@ public enum StdVideoVP9ColorSpace : int
 
     Rgb = 7,
 
+    Invalid = 2147483647,
+
 }
 
 

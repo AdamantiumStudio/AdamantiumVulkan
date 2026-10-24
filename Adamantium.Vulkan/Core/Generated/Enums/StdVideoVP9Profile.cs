@@ -21,7 +21,7 @@ public enum StdVideoVP9Profile : int
 
     _3 = 3,
 
-    Invalid = 7,
+    Invalid = 2147483647,
 
 }
 
