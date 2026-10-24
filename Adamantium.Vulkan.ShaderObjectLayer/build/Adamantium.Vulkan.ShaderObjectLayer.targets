@@ -1,0 +1,13 @@
+<Project>
+
+  <!-- Each platform's layer and manifest beside the application, under vulkan/layers/<rid>/ - where the Adamantium
+       engine tells the Vulkan loader to look for layers of its own process. The manifest names its library by a
+       relative path, so the pair must stay together. -->
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)..\layers\**\*"
+          Link="vulkan\layers\%(RecursiveDir)%(Filename)%(Extension)"
+          CopyToOutputDirectory="PreserveNewest"
+          Visible="false" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,40 @@
+# Builds VK_LAYER_KHRONOS_shader_object from Vulkan-ExtensionLayer on each platform the package carries, for CI and
+# for publishing to pack together. Each machine builds its own: a Windows DLL or a macOS dylib cannot be built on
+# Linux. Ubuntu 22.04 rather than the latest, so the library asks for no newer glibc than older distributions have.
+name: Shader-object layer
+
+on:
+  workflow_call:
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            rid: win-x64
+          - os: ubuntu-22.04
+            rid: linux-x64
+          - os: macos-latest
+            rid: osx-arm64
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Build (Windows)
+        if: runner.os == 'Windows'
+        run: ./Adamantium.Vulkan.ShaderObjectLayer/native/build.ps1
+
+      - name: Build (Linux, macOS)
+        if: runner.os != 'Windows'
+        run: ./Adamantium.Vulkan.ShaderObjectLayer/native/build.sh
+
+      # The folder above the platform's, so the artifact keeps <rid>/ and the three merge into one layers/ when
+      # downloaded together.
+      - uses: actions/upload-artifact@v7
+        with:
+          name: shader-object-layer-${{ matrix.rid }}
+          path: Adamantium.Vulkan.ShaderObjectLayer/layers/
+          if-no-files-found: error

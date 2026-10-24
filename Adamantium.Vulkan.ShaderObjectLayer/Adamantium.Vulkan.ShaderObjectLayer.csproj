@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Configurations>Debug;Release</Configurations>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+    <PackageId>Adamantium.Vulkan.ShaderObjectLayer</PackageId>
+    <Version>1.0.0</Version>
+    <Description>Khronos' VK_LAYER_KHRONOS_shader_object (Vulkan-ExtensionLayer), built for Windows x64, Linux x64 and macOS arm64: VK_EXT_shader_object on a driver that does not have it, over pipelines it makes itself. Copied beside the application under vulkan/layers/&lt;rid&gt;/. Apache-2.0 - see THIRD-PARTY-NOTICES.md in the repository.</Description>
+    <PackageTags>vulkan;layer;shader-object;moltenvk;kosmickrisp</PackageTags>
+    <!-- Native files and build logic only: no assembly of its own goes to the consumer. -->
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
+    <NoWarn>$(NoWarn);NU5128</NoWarn>
+  </PropertyGroup>
+
+  <!--
+    layers/<rid>/ holds the layer library and its manifest, built from Vulkan-ExtensionLayer by native/build.sh (Linux,
+    macOS) or native/build.ps1 (Windows); CI builds all three and the publish workflow packs them together. The targets
+    file copies every platform's pair to the application's output: a framework-dependent application runs on any of
+    them, and the engine points the loader at the one for the platform it runs on.
+  -->
+  <ItemGroup>
+    <None Include="layers\**" Pack="true" PackagePath="layers\" />
+    <None Include="build\Adamantium.Vulkan.ShaderObjectLayer.targets" Pack="true" PackagePath="build\;buildTransitive\" />
+  </ItemGroup>
+
+</Project>

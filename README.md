@@ -23,6 +23,7 @@ carry no dependency on it and can be used on their own.
 | [`Adamantium.Vulkan.Loader`](https://www.nuget.org/packages/Adamantium.Vulkan.Loader) | Finds the Vulkan loader at run time and resolves its entry points |
 | [`Adamantium.Vulkan.Slang`](https://www.nuget.org/packages/Adamantium.Vulkan.Slang) | Bindings to the Slang shader compiler, shipping the compiler itself and its language server, `slangd` |
 | [`Adamantium.Vulkan.Spirv`](https://www.nuget.org/packages/Adamantium.Vulkan.Spirv) | Bindings to SPIRV-Cross, for reading back what a compiled shader declares |
+| [`Adamantium.Vulkan.ShaderObjectLayer`](https://www.nuget.org/packages/Adamantium.Vulkan.ShaderObjectLayer) | Khronos' `VK_LAYER_KHRONOS_shader_object` for Windows x64, Linux x64 and macOS arm64, copied beside the application under `vulkan/layers/<rid>/`: shader objects on a driver without them |
 
 ```
 dotnet add package Adamantium.Vulkan
@@ -45,9 +46,9 @@ error you can catch rather than refusing to start.
 
 ## Third-party binaries
 
-The Slang and SPIRV-Cross packages ship compiled binaries of projects that are not ours - among them the Slang
+The Slang, SPIRV-Cross and shader-object layer packages ship compiled binaries of projects that are not ours - among them the Slang
 compiler (Apache-2.0 with the LLVM exception, itself carrying glslang, SPIRV-Tools, LLVM, mimalloc and lz4),
-SPIRV-Cross and SPIRV-Tools (Apache-2.0, Khronos). Every one of those licences is permissive, and the notices travel
+SPIRV-Cross, SPIRV-Tools and Vulkan-ExtensionLayer's shader-object layer (Apache-2.0, Khronos). Every one of those licences is permissive, and the notices travel
 with the binaries in
 [THIRD-PARTY-NOTICES.md](https://github.com/AdamantiumStudio/AdamantiumVulkan/blob/master/THIRD-PARTY-NOTICES.md).
 
