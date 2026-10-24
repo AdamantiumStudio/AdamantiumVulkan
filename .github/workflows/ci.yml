@@ -39,6 +39,9 @@ jobs:
           for p in Adamantium.Vulkan Adamantium.Vulkan.Loader Adamantium.Vulkan.Slang Adamantium.Vulkan.Spirv; do
             dotnet pack "$p/$p.csproj" -c Release -o artifacts
           done
+          for f in artifacts/*.nupkg; do
+            unzip -l "$f" | grep -q ' icon.png$' || { echo "$f has no icon.png"; exit 1; }
+          done
 
   shader-object-layer:
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository
@@ -66,6 +69,7 @@ jobs:
         run: |
           dotnet pack Adamantium.Vulkan.ShaderObjectLayer/Adamantium.Vulkan.ShaderObjectLayer.csproj -c Release -o artifacts
           unzip -l artifacts/Adamantium.Vulkan.ShaderObjectLayer.*.nupkg
+          unzip -l artifacts/Adamantium.Vulkan.ShaderObjectLayer.*.nupkg | grep -q ' icon.png$' || { echo "no icon.png"; exit 1; }
           for f in win-x64/VkLayer_khronos_shader_object.dll linux-x64/libVkLayer_khronos_shader_object.so \
                    osx-arm64/libVkLayer_khronos_shader_object.dylib; do
             for file in "layers/$f" "layers/$(dirname "$f")/VkLayer_khronos_shader_object.json"; do

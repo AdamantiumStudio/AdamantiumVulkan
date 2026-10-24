@@ -72,6 +72,13 @@ jobs:
             unzip -l "$f" | grep -E 'icon.png|README.md|\.dll|\.dylib|\.so' || true
           done
 
+      # A version on nuget.org is never replaced: a package that went out without its icon took a version to fix.
+      - name: Every package carries its icon
+        run: |
+          for f in artifacts/*.nupkg; do
+            unzip -l "$f" | grep -q ' icon.png$' || { echo "$f has no icon.png"; exit 1; }
+          done
+
       - name: Upload packages as an artifact
         uses: actions/upload-artifact@v7
         with:
