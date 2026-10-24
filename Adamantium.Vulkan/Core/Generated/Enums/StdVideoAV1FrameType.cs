@@ -21,7 +21,7 @@ public enum StdVideoAV1FrameType : int
 
     Switch = 3,
 
-    Invalid = 7,
+    Invalid = 2147483647,
 
 }
 

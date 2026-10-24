@@ -51,6 +51,8 @@ public enum StdVideoAV1TransferCharacteristics : int
 
     Hlg = 18,
 
+    Invalid = 2147483647,
+
 }
 
 

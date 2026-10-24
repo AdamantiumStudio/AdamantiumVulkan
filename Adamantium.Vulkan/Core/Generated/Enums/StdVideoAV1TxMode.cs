@@ -11,6 +11,7 @@ using System.Runtime.InteropServices;
 
 namespace Adamantium.Vulkan.Core;
 
+[Flags]
 public enum StdVideoAV1TxMode : int
 {
     Only4x4 = 0,
@@ -19,7 +20,7 @@ public enum StdVideoAV1TxMode : int
 
     Select = 2,
 
-    Invalid = 7,
+    Invalid = 2147483647,
 
 }
 

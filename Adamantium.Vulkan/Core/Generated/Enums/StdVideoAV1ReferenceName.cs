@@ -29,6 +29,8 @@ public enum StdVideoAV1ReferenceName : int
 
     AltrefFrame = 7,
 
+    Invalid = 2147483647,
+
 }
 
 

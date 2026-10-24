@@ -23,7 +23,7 @@ public enum StdVideoH265ProfileIdc : int
 
     SccExtensions = 9,
 
-    Invalid = 7,
+    Invalid = 2147483647,
 
 }
 

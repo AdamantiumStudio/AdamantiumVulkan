@@ -21,7 +21,7 @@ public enum StdVideoH264ChromaFormatIdc : int
 
     _444 = 3,
 
-    Invalid = 7,
+    Invalid = 2147483647,
 
 }
 

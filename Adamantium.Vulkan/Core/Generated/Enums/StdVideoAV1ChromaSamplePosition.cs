@@ -21,7 +21,7 @@ public enum StdVideoAV1ChromaSamplePosition : int
 
     Reserved = 3,
 
-    Invalid = 7,
+    Invalid = 2147483647,
 
 }
 

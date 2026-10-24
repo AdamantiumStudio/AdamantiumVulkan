@@ -27,7 +27,7 @@ public enum StdVideoH264MemMgmtControlOp : int
 
     MarkCurrentAsLongTerm = 6,
 
-    Invalid = 7,
+    Invalid = 2147483647,
 
 }
 

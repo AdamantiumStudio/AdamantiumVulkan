@@ -23,7 +23,7 @@ public enum StdVideoAV1InterpolationFilter : int
 
     Switchable = 4,
 
-    Invalid = 7,
+    Invalid = 2147483647,
 
 }
 
