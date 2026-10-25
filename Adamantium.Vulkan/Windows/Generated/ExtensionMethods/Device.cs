@@ -58,41 +58,13 @@ public static unsafe partial class DeviceExtension
         }
     }
 
-    public static Result GetMemoryWin32HandlePropertiesKHR(this Adamantium.Vulkan.Core.Device device, ExternalMemoryHandleTypeFlagBits handleType, nuint handle, ref MemoryWin32HandlePropertiesKHR pMemoryWin32HandleProperties)
+    public static Result GetMemoryWin32HandlePropertiesKHR(this Adamantium.Vulkan.Core.Device device, ExternalMemoryHandleTypeFlagBits handleType, nuint handle, out MemoryWin32HandlePropertiesKHR pMemoryWin32HandleProperties)
     {
-        int CalculateSize(MemoryWin32HandlePropertiesKHR pMemoryWin32HandleProperties)
-        {
-            int totalSize = 0;
-            if (pMemoryWin32HandleProperties != null)
-                totalSize += pMemoryWin32HandleProperties.GetSize();
-            return totalSize;
-        }
-
-        var totalSize = CalculateSize(pMemoryWin32HandleProperties);
-        byte[] rentedArray = null;
-        var mainBuffer = totalSize <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc byte[totalSize] : (rentedArray = System.Buffers.ArrayPool<byte>.Shared.Rent(totalSize)).AsSpan(0, totalSize);
-        fixed (byte* bufferPtr = mainBuffer)
-        {
-            try
-            {
-                ref System.Span<byte> currentCursor = ref mainBuffer;
-                var arg3 = QuantumBinding.Utils.MarshalContextUtils.MarshalStructToPointer<Adamantium.Vulkan.Windows.MemoryWin32HandlePropertiesKHR, Adamantium.Vulkan.Windows.Interop.VkMemoryWin32HandlePropertiesKHR>(pMemoryWin32HandleProperties, ref currentCursor);
-                var result = device.Commands.vkGetMemoryWin32HandlePropertiesKHR(device, handleType, handle, arg3);
-                if (arg3 is not null)
-                {
-                    if (pMemoryWin32HandleProperties != null)
-                        pMemoryWin32HandleProperties.MarshalFrom(*arg3);
-                    else
-                        pMemoryWin32HandleProperties = new Adamantium.Vulkan.Windows.MemoryWin32HandlePropertiesKHR(*arg3);
-                }
-                return result;
-            }
-            finally
-            {
-                if (rentedArray != null)
-                    System.Buffers.ArrayPool<byte>.Shared.Return(rentedArray);
-            }
-        }
+        Adamantium.Vulkan.Windows.Interop.VkMemoryWin32HandlePropertiesKHR arg3 = default;
+        arg3.sType = StructureType.MemoryWin32HandlePropertiesKhr;
+        var result = device.Commands.vkGetMemoryWin32HandlePropertiesKHR(device, handleType, handle, &arg3);
+        pMemoryWin32HandleProperties = new MemoryWin32HandlePropertiesKHR(arg3);
+        return result;
     }
 
     public static Result GetSemaphoreWin32HandleKHR(this Adamantium.Vulkan.Core.Device device, in SemaphoreGetWin32HandleInfoKHR pGetWin32HandleInfo, out nuint pHandle)

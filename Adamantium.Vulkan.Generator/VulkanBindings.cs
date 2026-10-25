@@ -405,20 +405,11 @@ public static partial class VulkanBindings
             .InterpretAsPointerType(new BuiltinType(PrimitiveType.Void))
             .SetParameterKind(ParameterKind.Out);
 
-        // ...and goes in as one: the pointer is the handle, not a place to read it from. The properties go in with
-        // their sType, as every structure the driver fills does: as an out they went with none.
+        // ...and goes in as one: the pointer is the handle, not a place to read it from.
         api.Function("vkGetMemoryMetalHandlePropertiesEXT")
             .WithParameterName("pHandle")
             .InterpretAsIs()
-            .SetParameterKind(ParameterKind.In)
-            .WithParameterName("pMemoryMetalHandleProperties")
-            .InterpretAsIs()
-            .SetParameterKind(ParameterKind.Ref);
-
-        api.Function("vkGetMemoryWin32HandlePropertiesKHR")
-            .WithParameterName("pMemoryWin32HandleProperties")
-            .InterpretAsIs()
-            .SetParameterKind(ParameterKind.Ref);
+            .SetParameterKind(ParameterKind.In);
 
         // The structures to fill are chained to it by the caller: it goes in, and comes back filled.
         api.Function("vkExportMetalObjectsEXT")

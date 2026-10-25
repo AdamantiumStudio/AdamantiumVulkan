@@ -30,6 +30,7 @@ public unsafe partial class ExternalComputeQueueNV : IUnmanagedWrapper<Adamantiu
     public void GetExternalComputeQueueDataNV(out ExternalComputeQueueDataParamsNV @params, out nuint pData)
     {
         Adamantium.Vulkan.Core.Interop.VkExternalComputeQueueDataParamsNV arg1 = default;
+        arg1.sType = StructureType.ExternalComputeQueueDataParamsNv;
         void* arg2 = null;
         Commands.vkGetExternalComputeQueueDataNV(this, &arg1, arg2);
         @params = new ExternalComputeQueueDataParamsNV(arg1);
