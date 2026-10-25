@@ -10,15 +10,15 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Adamantium.Vulkan.Core;
 
-namespace Adamantium.Vulkan.MacOS.Interop;
+namespace Adamantium.Vulkan.Metal.Interop;
 
 [StructLayout(LayoutKind.Sequential)]
-public unsafe partial struct VkMacOSSurfaceCreateInfoMVK
+public unsafe partial struct VkImportMetalTextureInfoEXT
 {
     public StructureType sType;
     public void* pNext;
-    public VkMacOSSurfaceCreateFlagsMVK flags;
-    public void* pView;
+    public ImageAspectFlagBits plane;
+    public MTLTexture_id mtlTexture;
 }
 
 

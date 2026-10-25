@@ -9,21 +9,21 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace Adamantium.Vulkan.MacOS.Interop;
+namespace Adamantium.Vulkan.Metal.Interop;
 
 [StructLayout(LayoutKind.Sequential)]
-public unsafe partial struct VkMacOSSurfaceCreateFlagsMVK
+public unsafe partial struct MTLBuffer_id
 {
-    public uint value;
+    public nuint value;
 
-    public static implicit operator uint(VkMacOSSurfaceCreateFlagsMVK v)
+    public static implicit operator nuint(MTLBuffer_id m)
     {
-        return v.value;
+        return m.value;
     }
 
-    public static implicit operator VkMacOSSurfaceCreateFlagsMVK(uint v)
+    public static implicit operator MTLBuffer_id(nuint m)
     {
-        return new VkMacOSSurfaceCreateFlagsMVK(){value = v};
+        return new MTLBuffer_id(){value = m};
     }
 
 }

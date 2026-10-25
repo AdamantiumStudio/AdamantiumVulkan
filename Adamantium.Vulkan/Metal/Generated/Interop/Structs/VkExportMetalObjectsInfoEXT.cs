@@ -9,14 +9,15 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Adamantium.Vulkan.Core;
-using Adamantium.Vulkan.Core.Interop;
 
-namespace Adamantium.Vulkan.MacOS.Interop;
+namespace Adamantium.Vulkan.Metal.Interop;
 
-public static unsafe class Delegates
+[StructLayout(LayoutKind.Sequential)]
+public unsafe partial struct VkExportMetalObjectsInfoEXT
 {
-    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-    public unsafe delegate Result PFN_vkCreateMacOSSurfaceMVK(Adamantium.Vulkan.Core.Interop.VkInstance_T instance, Adamantium.Vulkan.MacOS.Interop.VkMacOSSurfaceCreateInfoMVK* pCreateInfo, Adamantium.Vulkan.Core.Interop.VkAllocationCallbacks* pAllocator, Adamantium.Vulkan.Core.Interop.VkSurfaceKHR_T* pSurface);
+    public StructureType sType;
+    public void* pNext;
 }
+
 
 
