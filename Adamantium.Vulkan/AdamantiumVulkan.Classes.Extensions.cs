@@ -4,8 +4,8 @@ using System.Runtime.InteropServices;
 using Adamantium.Vulkan.Core.Interop;
 using Adamantium.Vulkan.Linux;
 using Adamantium.Vulkan.Linux.Interop;
-using Adamantium.Vulkan.MacOS;
-using Adamantium.Vulkan.MacOS.Interop;
+using Adamantium.Vulkan.Metal;
+using Adamantium.Vulkan.Metal.Interop;
 using Adamantium.Vulkan.Windows;
 using Adamantium.Vulkan.Windows.Interop;
 using QuantumBinding.Utils;
@@ -91,14 +91,16 @@ namespace Adamantium.Vulkan.Core
             return new SurfaceKHR(surface);
         }
         
-        public SurfaceKHR CreateMacOSSurfaceMVK(MacOSSurfaceCreateInfoMVK surfaceInfo)
+        /// <summary>A surface on a CAMetalLayer - on every Apple platform, through whichever driver runs Vulkan there.
+        /// </summary>
+        public SurfaceKHR CreateMetalSurface(MetalSurfaceCreateInfoEXT surfaceInfo)
         {
             using var ctx = new NativeContext(surfaceInfo.GetSize(), stackalloc byte[(int)MarshalingUtils.StackAllocThreshold]);
             var native = surfaceInfo.MarshalToNative(ctx);
-            var infoPtr = (VkMacOSSurfaceCreateInfoMVK*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref native);
+            var infoPtr = (VkMetalSurfaceCreateInfoEXT*)Unsafe.AsPointer(ref native);
             VkSurfaceKHR_T surface = default;
-            var result = Commands.vkCreateMacOSSurfaceMVK(this, infoPtr, null, &surface);
-            ResultHelper.CheckResult(result, nameof(CreateMacOSSurfaceMVK));
+            var result = Commands.vkCreateMetalSurfaceEXT(this, infoPtr, null, &surface);
+            ResultHelper.CheckResult(result, nameof(CreateMetalSurface));
             return new SurfaceKHR(surface);
         }
 

@@ -11,15 +11,15 @@ using System.Runtime.InteropServices;
 using QuantumBinding.Utils;
 using Adamantium.Vulkan.Core;
 using Adamantium.Vulkan.Core.Interop;
-using Adamantium.Vulkan.MacOS.Interop;
+using Adamantium.Vulkan.Metal.Interop;
 
-namespace Adamantium.Vulkan.MacOS;
+namespace Adamantium.Vulkan.Metal;
 
 public static unsafe partial class InstanceExtension
 {
-    public static Result CreateMacOSSurfaceMVK(this Adamantium.Vulkan.Core.Instance instance, in MacOSSurfaceCreateInfoMVK pCreateInfo, in AllocationCallbacks pAllocator, out Adamantium.Vulkan.Core.SurfaceKHR pSurface)
+    public static Result CreateMetalSurfaceEXT(this Adamantium.Vulkan.Core.Instance instance, in MetalSurfaceCreateInfoEXT pCreateInfo, in AllocationCallbacks pAllocator, out Adamantium.Vulkan.Core.SurfaceKHR pSurface)
     {
-        int CalculateSize(MacOSSurfaceCreateInfoMVK pCreateInfo, AllocationCallbacks pAllocator)
+        int CalculateSize(MetalSurfaceCreateInfoEXT pCreateInfo, AllocationCallbacks pAllocator)
         {
             int totalSize = 0;
             if (pCreateInfo != null)
@@ -37,10 +37,10 @@ public static unsafe partial class InstanceExtension
             try
             {
                 ref System.Span<byte> currentCursor = ref mainBuffer;
-                var arg1 = QuantumBinding.Utils.MarshalContextUtils.MarshalStructToPointer<Adamantium.Vulkan.MacOS.MacOSSurfaceCreateInfoMVK, Adamantium.Vulkan.MacOS.Interop.VkMacOSSurfaceCreateInfoMVK>(pCreateInfo, ref currentCursor);
+                var arg1 = QuantumBinding.Utils.MarshalContextUtils.MarshalStructToPointer<Adamantium.Vulkan.Metal.MetalSurfaceCreateInfoEXT, Adamantium.Vulkan.Metal.Interop.VkMetalSurfaceCreateInfoEXT>(pCreateInfo, ref currentCursor);
                 var arg2 = QuantumBinding.Utils.MarshalContextUtils.MarshalStructToPointer<Adamantium.Vulkan.Core.AllocationCallbacks, Adamantium.Vulkan.Core.Interop.VkAllocationCallbacks>(pAllocator, ref currentCursor);
                 VkSurfaceKHR_T arg3 = default;
-                var result = instance.Commands.vkCreateMacOSSurfaceMVK(instance, arg1, arg2, &arg3);
+                var result = instance.Commands.vkCreateMetalSurfaceEXT(instance, arg1, arg2, &arg3);
                 pSurface = new SurfaceKHR(arg3);
                 return result;
             }

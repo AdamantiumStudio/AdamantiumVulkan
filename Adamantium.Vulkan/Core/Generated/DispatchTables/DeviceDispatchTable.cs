@@ -332,6 +332,9 @@ public unsafe partial class DeviceDispatchTable
         vkGetDeviceGroupSurfacePresentModes2EXT = (delegate* unmanaged<Adamantium.Vulkan.Core.Interop.VkDevice_T, Adamantium.Vulkan.Core.Interop.VkPhysicalDeviceSurfaceInfo2KHR*, DeviceGroupPresentModeFlagBitsKHR*, Result>)owner.GetDeviceProcAddr("vkGetDeviceGroupSurfacePresentModes2EXT");
         vkAcquireFullScreenExclusiveModeEXT = (delegate* unmanaged<Adamantium.Vulkan.Core.Interop.VkDevice_T, Adamantium.Vulkan.Core.Interop.VkSwapchainKHR_T, Result>)owner.GetDeviceProcAddr("vkAcquireFullScreenExclusiveModeEXT");
         vkReleaseFullScreenExclusiveModeEXT = (delegate* unmanaged<Adamantium.Vulkan.Core.Interop.VkDevice_T, Adamantium.Vulkan.Core.Interop.VkSwapchainKHR_T, Result>)owner.GetDeviceProcAddr("vkReleaseFullScreenExclusiveModeEXT");
+        vkExportMetalObjectsEXT = (delegate* unmanaged<Adamantium.Vulkan.Core.Interop.VkDevice_T, Adamantium.Vulkan.Metal.Interop.VkExportMetalObjectsInfoEXT*, void>)owner.GetDeviceProcAddr("vkExportMetalObjectsEXT");
+        vkGetMemoryMetalHandleEXT = (delegate* unmanaged<Adamantium.Vulkan.Core.Interop.VkDevice_T, Adamantium.Vulkan.Metal.Interop.VkMemoryGetMetalHandleInfoEXT*, void*, Result>)owner.GetDeviceProcAddr("vkGetMemoryMetalHandleEXT");
+        vkGetMemoryMetalHandlePropertiesEXT = (delegate* unmanaged<Adamantium.Vulkan.Core.Interop.VkDevice_T, ExternalMemoryHandleTypeFlagBits, void*, Adamantium.Vulkan.Metal.Interop.VkMemoryMetalHandlePropertiesEXT*, Result>)owner.GetDeviceProcAddr("vkGetMemoryMetalHandlePropertiesEXT");
         vkQueueSubmit = (delegate* unmanaged<Adamantium.Vulkan.Core.Interop.VkQueue_T, uint, Adamantium.Vulkan.Core.Interop.VkSubmitInfo*, Adamantium.Vulkan.Core.Interop.VkFence_T, Result>)owner.GetDeviceProcAddr("vkQueueSubmit");
         vkQueueWaitIdle = (delegate* unmanaged<Adamantium.Vulkan.Core.Interop.VkQueue_T, Result>)owner.GetDeviceProcAddr("vkQueueWaitIdle");
         vkQueueBindSparse = (delegate* unmanaged<Adamantium.Vulkan.Core.Interop.VkQueue_T, uint, Adamantium.Vulkan.Core.Interop.VkBindSparseInfo*, Adamantium.Vulkan.Core.Interop.VkFence_T, Result>)owner.GetDeviceProcAddr("vkQueueBindSparse");
@@ -930,6 +933,9 @@ public unsafe partial class DeviceDispatchTable
     public delegate* unmanaged<Adamantium.Vulkan.Core.Interop.VkDevice_T, Adamantium.Vulkan.Core.Interop.VkPhysicalDeviceSurfaceInfo2KHR*, DeviceGroupPresentModeFlagBitsKHR*, Result> vkGetDeviceGroupSurfacePresentModes2EXT;
     public delegate* unmanaged<Adamantium.Vulkan.Core.Interop.VkDevice_T, Adamantium.Vulkan.Core.Interop.VkSwapchainKHR_T, Result> vkAcquireFullScreenExclusiveModeEXT;
     public delegate* unmanaged<Adamantium.Vulkan.Core.Interop.VkDevice_T, Adamantium.Vulkan.Core.Interop.VkSwapchainKHR_T, Result> vkReleaseFullScreenExclusiveModeEXT;
+    public delegate* unmanaged<Adamantium.Vulkan.Core.Interop.VkDevice_T, Adamantium.Vulkan.Metal.Interop.VkExportMetalObjectsInfoEXT*, void> vkExportMetalObjectsEXT;
+    public delegate* unmanaged<Adamantium.Vulkan.Core.Interop.VkDevice_T, Adamantium.Vulkan.Metal.Interop.VkMemoryGetMetalHandleInfoEXT*, void*, Result> vkGetMemoryMetalHandleEXT;
+    public delegate* unmanaged<Adamantium.Vulkan.Core.Interop.VkDevice_T, ExternalMemoryHandleTypeFlagBits, void*, Adamantium.Vulkan.Metal.Interop.VkMemoryMetalHandlePropertiesEXT*, Result> vkGetMemoryMetalHandlePropertiesEXT;
     public delegate* unmanaged<Adamantium.Vulkan.Core.Interop.VkQueue_T, uint, Adamantium.Vulkan.Core.Interop.VkSubmitInfo*, Adamantium.Vulkan.Core.Interop.VkFence_T, Result> vkQueueSubmit;
     public delegate* unmanaged<Adamantium.Vulkan.Core.Interop.VkQueue_T, Result> vkQueueWaitIdle;
     public delegate* unmanaged<Adamantium.Vulkan.Core.Interop.VkQueue_T, uint, Adamantium.Vulkan.Core.Interop.VkBindSparseInfo*, Adamantium.Vulkan.Core.Interop.VkFence_T, Result> vkQueueBindSparse;

@@ -394,6 +394,29 @@ public static partial class VulkanBindings
             .WithField("surface")
             .InterpretAs(new BuiltinType(PrimitiveType.IntPtr));
 
+        // A CAMetalLayer is an Objective-C object, met only behind a pointer.
+        api.Class("VkMetalSurfaceCreateInfoEXT")
+            .WithField("pLayer")
+            .InterpretAs(new BuiltinType(PrimitiveType.IntPtr));
+
+        // The Metal resource comes back as a handle, as a Win32 one does.
+        api.Function("vkGetMemoryMetalHandleEXT")
+            .WithParameterName("pHandle")
+            .InterpretAsPointerType(new BuiltinType(PrimitiveType.Void))
+            .SetParameterKind(ParameterKind.Out);
+
+        // ...and goes in as one: the pointer is the handle, not a place to read it from.
+        api.Function("vkGetMemoryMetalHandlePropertiesEXT")
+            .WithParameterName("pHandle")
+            .InterpretAsIs()
+            .SetParameterKind(ParameterKind.In);
+
+        // The structures to fill are chained to it by the caller: it goes in, and comes back filled.
+        api.Function("vkExportMetalObjectsEXT")
+            .WithParameterName("pMetalObjectsInfo")
+            .InterpretAsIs()
+            .SetParameterKind(ParameterKind.Ref);
+
         // The display goes in: read as a void*, it would come back out.
         api.Function("vkGetPhysicalDeviceWaylandPresentationSupportKHR")
             .WithParameterName("display")

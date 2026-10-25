@@ -41,8 +41,8 @@ namespace Adamantium.Vulkan.Generator
             var appRoot = AppContext.BaseDirectory.Substring(0, AppContext.BaseDirectory.LastIndexOf("bin"));
             string corePath = Path.GetFullPath(Path.Combine(appRoot, "..", "Adamantium.Vulkan", "Core" ,"Generated"));
             string windowsPath = Path.GetFullPath(Path.Combine(appRoot, "..", "Adamantium.Vulkan", "Windows", "Generated"));
-            string macOSPath = Path.GetFullPath(Path.Combine(appRoot, "..", "Adamantium.Vulkan", "MacOS", "Generated"));
             string linuxPath = Path.GetFullPath(Path.Combine(appRoot, "..", "Adamantium.Vulkan", "Linux", "Generated"));
+            string metalPath = Path.GetFullPath(Path.Combine(appRoot, "..", "Adamantium.Vulkan", "Metal", "Generated"));
             string spirvPath = Path.GetFullPath(Path.Combine(appRoot, "..", "Adamantium.Vulkan.Spirv", "Generated"));
             var spirvToolsPath = (Path.Combine(appRoot, "..", "Adamantium.Vulkan.SpirvTools", "Generated"));
             var slangPath = Path.GetFullPath(Path.Combine(appRoot, "..", "Adamantium.Vulkan.Slang", "Generated"));
@@ -57,9 +57,9 @@ namespace Adamantium.Vulkan.Generator
             var namespaceMappings = new List<NamespaceMapping>();
             namespaceMappings.Add(new NamespaceMapping(){FileName = "vulkan_core", SubNamespace = "Core", OutputPath = corePath});
             namespaceMappings.Add(new NamespaceMapping(){FileName = "vulkan_win32", SubNamespace = "Windows", OutputPath = spirvPath});
-            namespaceMappings.Add(new NamespaceMapping(){FileName = "vulkan_macos", SubNamespace = "MacOS", OutputPath = spirvToolsPath});
             namespaceMappings.Add(new NamespaceMapping(){FileName = "vulkan_wayland", SubNamespace = "Linux", OutputPath = linuxPath});
-            var parserSettings = new VulkanParserSettings(namespaceMappings,["win32", "macos", "wayland"]);
+            namespaceMappings.Add(new NamespaceMapping(){FileName = "vulkan_metal", SubNamespace = "Metal", OutputPath = metalPath});
+            var parserSettings = new VulkanParserSettings(namespaceMappings,["win32", "wayland", "metal"]);
             parserSettings.IncludeVideoExtensions = true;
             parserSettings.VideoExtensionsPath = "video.xml";
             vkMainModule = Module.Create(vkMainLibrary, false).WithVulkanXmlParser(parserSettings);
@@ -71,8 +71,8 @@ namespace Adamantium.Vulkan.Generator
             vkMainModule.Defines.Add("_WIN32");
             vkMainModule.Defines.Add("_MSC_VER");
             vkMainModule.Defines.Add("VK_USE_PLATFORM_WIN32_KHR");
-            vkMainModule.Defines.Add("VK_USE_PLATFORM_MACOS_MVK");
             vkMainModule.Defines.Add("VK_USE_PLATFORM_WAYLAND_KHR");
+            vkMainModule.Defines.Add("VK_USE_PLATFORM_METAL_EXT");
             vkMainModule.Files.AddRange(vulkanXmlPath);
             vkMainModule.ForceCallingConvention = false;
             vkMainModule.InteropClassAccessSpecifier = AccessSpecifier.Internal;
@@ -84,8 +84,8 @@ namespace Adamantium.Vulkan.Generator
             vkMainModule.InteropSubNamespace = interopSubNamespace;
             vkMainModule.AddNamespaceMapping("vulkan_core", "Core", corePath);
             vkMainModule.AddNamespaceMapping("vulkan_win32", "Windows", windowsPath);
-            vkMainModule.AddNamespaceMapping("vulkan_macos", "MacOS", macOSPath);
             vkMainModule.AddNamespaceMapping("vulkan_wayland", "Linux", linuxPath);
+            vkMainModule.AddNamespaceMapping("vulkan_metal", "Metal", metalPath);
             vkMainModule.GenerateOverloadsForArrayParams = true;
             vkMainModule.GeneratorSpecializations = GeneratorSpecializations.All;
             vkMainModule.OutputPath = corePath;
@@ -277,6 +277,7 @@ namespace Adamantium.Vulkan.Generator
             macroAction.IgnoreList.Add("VK_USE_PLATFORM_WIN32_KHR");
             macroAction.IgnoreList.Add("_WIN32");
             macroAction.IgnoreList.Add("VK_USE_PLATFORM_WAYLAND_KHR");
+            macroAction.IgnoreList.Add("VK_USE_PLATFORM_METAL_EXT");
             macroAction.IgnoreList.Add("VULKAN_H_");
             macroAction.IgnoreList.Add("VKAPI_CALL");
             macroAction.IgnoreList.Add("VULKAN_CORE_H_");

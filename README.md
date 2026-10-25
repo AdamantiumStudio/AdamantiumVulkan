@@ -19,7 +19,7 @@ carry no dependency on it and can be used on their own.
 
 | Package | What it is |
 |---|---|
-| [`Adamantium.Vulkan`](https://www.nuget.org/packages/Adamantium.Vulkan) | The bindings themselves: structures, handles, enums and commands |
+| [`Adamantium.Vulkan`](https://www.nuget.org/packages/Adamantium.Vulkan) | The bindings themselves: structures, handles, enums and commands; window surfaces on Win32, Wayland and Metal - every Apple platform |
 | [`Adamantium.Vulkan.Loader`](https://www.nuget.org/packages/Adamantium.Vulkan.Loader) | Finds the Vulkan loader at run time and resolves its entry points |
 | [`Adamantium.Vulkan.Slang`](https://www.nuget.org/packages/Adamantium.Vulkan.Slang) | Bindings to the Slang shader compiler, shipping the compiler itself and its language server, `slangd` |
 | [`Adamantium.Vulkan.Spirv`](https://www.nuget.org/packages/Adamantium.Vulkan.Spirv) | Bindings to SPIRV-Cross, for reading back what a compiled shader declares |
