@@ -345,6 +345,10 @@ public unsafe partial class Instance : IUnmanagedWrapper<Adamantium.Vulkan.Core.
             {
                 ref System.Span<byte> currentCursor = ref mainBuffer;
                 var arg2 = stackalloc Adamantium.Vulkan.Core.Interop.VkPhysicalDeviceGroupProperties[(int)pPhysicalDeviceGroupProperties.Length];
+                for (var i = 0; i < (int)pPhysicalDeviceGroupProperties.Length; ++i)
+                {
+                    arg2[i].sType = StructureType.PhysicalDeviceGroupProperties;
+                }
                 var result = Commands.vkEnumeratePhysicalDeviceGroups(this, ref pPhysicalDeviceGroupCount, arg2);
                 for (var i = 0; i < pPhysicalDeviceGroupProperties.Length; ++i)
                 {

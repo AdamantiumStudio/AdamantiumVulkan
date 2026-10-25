@@ -53,6 +53,10 @@ public unsafe partial class Queue : IUnmanagedWrapper<Adamantium.Vulkan.Core.Int
             {
                 ref System.Span<byte> currentCursor = ref mainBuffer;
                 var arg2 = stackalloc Adamantium.Vulkan.Core.Interop.VkCheckpointData2NV[(int)pCheckpointData.Length];
+                for (var i = 0; i < (int)pCheckpointData.Length; ++i)
+                {
+                    arg2[i].sType = StructureType.CheckpointData2Nv;
+                }
                 Commands.vkGetQueueCheckpointData2NV(this, ref pCheckpointDataCount, arg2);
                 for (var i = 0; i < pCheckpointData.Length; ++i)
                 {
@@ -127,6 +131,10 @@ public unsafe partial class Queue : IUnmanagedWrapper<Adamantium.Vulkan.Core.Int
             {
                 ref System.Span<byte> currentCursor = ref mainBuffer;
                 var arg2 = stackalloc Adamantium.Vulkan.Core.Interop.VkCheckpointDataNV[(int)pCheckpointData.Length];
+                for (var i = 0; i < (int)pCheckpointData.Length; ++i)
+                {
+                    arg2[i].sType = StructureType.CheckpointDataNv;
+                }
                 Commands.vkGetQueueCheckpointDataNV(this, ref pCheckpointDataCount, arg2);
                 for (var i = 0; i < pCheckpointData.Length; ++i)
                 {
