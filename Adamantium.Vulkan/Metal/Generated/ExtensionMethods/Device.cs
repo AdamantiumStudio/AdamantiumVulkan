@@ -85,13 +85,42 @@ public static unsafe partial class DeviceExtension
         }
     }
 
-    public static Result GetMemoryMetalHandlePropertiesEXT(this Adamantium.Vulkan.Core.Device device, ExternalMemoryHandleTypeFlagBits handleType, nuint pHandle, out MemoryMetalHandlePropertiesEXT pMemoryMetalHandleProperties)
+    public static Result GetMemoryMetalHandlePropertiesEXT(this Adamantium.Vulkan.Core.Device device, ExternalMemoryHandleTypeFlagBits handleType, nuint pHandle, ref MemoryMetalHandlePropertiesEXT pMemoryMetalHandleProperties)
     {
-        var arg2 = (void*)pHandle;
-        Adamantium.Vulkan.Metal.Interop.VkMemoryMetalHandlePropertiesEXT arg3 = default;
-        var result = device.Commands.vkGetMemoryMetalHandlePropertiesEXT(device, handleType, arg2, &arg3);
-        pMemoryMetalHandleProperties = new MemoryMetalHandlePropertiesEXT(arg3);
-        return result;
+        int CalculateSize(MemoryMetalHandlePropertiesEXT pMemoryMetalHandleProperties)
+        {
+            int totalSize = 0;
+            if (pMemoryMetalHandleProperties != null)
+                totalSize += pMemoryMetalHandleProperties.GetSize();
+            return totalSize;
+        }
+
+        var totalSize = CalculateSize(pMemoryMetalHandleProperties);
+        byte[] rentedArray = null;
+        var mainBuffer = totalSize <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc byte[totalSize] : (rentedArray = System.Buffers.ArrayPool<byte>.Shared.Rent(totalSize)).AsSpan(0, totalSize);
+        fixed (byte* bufferPtr = mainBuffer)
+        {
+            try
+            {
+                ref System.Span<byte> currentCursor = ref mainBuffer;
+                void* arg2 = (void*)pHandle;
+                var arg3 = QuantumBinding.Utils.MarshalContextUtils.MarshalStructToPointer<Adamantium.Vulkan.Metal.MemoryMetalHandlePropertiesEXT, Adamantium.Vulkan.Metal.Interop.VkMemoryMetalHandlePropertiesEXT>(pMemoryMetalHandleProperties, ref currentCursor);
+                var result = device.Commands.vkGetMemoryMetalHandlePropertiesEXT(device, handleType, arg2, arg3);
+                if (arg3 is not null)
+                {
+                    if (pMemoryMetalHandleProperties != null)
+                        pMemoryMetalHandleProperties.MarshalFrom(*arg3);
+                    else
+                        pMemoryMetalHandleProperties = new Adamantium.Vulkan.Metal.MemoryMetalHandlePropertiesEXT(*arg3);
+                }
+                return result;
+            }
+            finally
+            {
+                if (rentedArray != null)
+                    System.Buffers.ArrayPool<byte>.Shared.Return(rentedArray);
+            }
+        }
     }
 
 }
