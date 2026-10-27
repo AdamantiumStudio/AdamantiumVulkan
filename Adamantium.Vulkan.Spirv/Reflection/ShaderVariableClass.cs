@@ -26,5 +26,8 @@
 
         /// <summary>A pointer to an interface.</summary>
         InterfacePointer = 7,
+
+        /// <summary>A pointer - <c>T*</c> in Slang: the 64-bit device address of data of the type it points to.</summary>
+        Pointer = 8,
     }
 }
