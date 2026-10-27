@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Runtime.InteropServices;
 using Adamantium.Vulkan.Spirv.Cross;
 using QuantumBinding.Utils;
 
@@ -35,11 +35,6 @@ namespace Adamantium.Vulkan.Spirv.Reflection
             };
         }
 
-        public byte[] GetByteCode()
-        {
-            return bytecode;
-        }
-
         public SpirvReflection(byte[] bytecode, Backend reflectionBackend = Backend.Hlsl)
         {
             if (bytecode == null || bytecode.Length == 0)
@@ -54,7 +49,9 @@ namespace Adamantium.Vulkan.Spirv.Reflection
             this.reflectionBackend = reflectionBackend;
         }
         
-        public SpirvReflectionResult Disassemble(List<ResourceBindingKey> resourceKeys)
+        /// <summary>The resources the SPIR-V declares, each where it is bound, as it binds it: the bytecode is read, never
+        /// changed.</summary>
+        public SpirvReflectionResult Disassemble()
         {
             lastResult = context.ParseSpirv(bytecode, (ulong)bytecode.Length / 4, out parsedIr);
             SpirvResultHelper.CheckResult(lastResult, "SpvcContext::ParseSpirv");
@@ -98,35 +95,6 @@ namespace Adamantium.Vulkan.Spirv.Reflection
                     resourceDescription.DescriptorSet = compiler.GetDecoration(shaderResources[i].Id, Decoration.DescriptorSet);
                     resourceDescription.SlotIndex = compiler.GetDecoration(shaderResources[i].Id, Decoration.Binding);
                     resourceDescription.Access = GetAccess(resourceType, shaderResources[i].Id);
-
-                    var bindingKey = MakeResourceBindingKey(
-                        resourceDescription.Name,
-                        resourceDescription.TypeId,
-                        resourceDescription.SlotIndex,
-                        resourceDescription.DescriptorSet);
-                    
-                    if (IsSameResourceIdPresent(resourceKeys, bindingKey))
-                    {
-                        bindingKey = FindNextAvailableId(bindingKey, resourceKeys);
-                        compiler.SetDecoration(shaderResources[i].Id, Decoration.Binding, bindingKey.BindingId);
-                        resourceKeys.Add(bindingKey);
-                        resourceDescription.SlotIndex = bindingKey.BindingId;
-                        uint offset = 0;
-                        if (compiler.GetBinaryOffsetForDecoration(shaderResources[i].Id, Decoration.Binding,
-                            ref offset))
-                        {
-                            var ids = BitConverter.GetBytes(bindingKey.BindingId);
-                            var byteOffset = offset * 4;
-                            foreach (var id in ids)
-                            {
-                                bytecode[byteOffset++] = id;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        resourceKeys.Add(bindingKey);
-                    }
 
                     ulong tmpSize = 0;
                     lastResult = compiler.GetDeclaredStructSize(spvcType, ref tmpSize);
@@ -248,9 +216,52 @@ namespace Adamantium.Vulkan.Spirv.Reflection
                 }
             }
 
-            disassembleResult.Bytecode = bytecode;
-
+            disassembleResult.InputPatchSize = GetInputPatchSize();
             return disassembleResult;
+        }
+
+        private uint GetInputPatchSize()
+        {
+            if (compiler.GetExecutionModel() != ExecutionModel.TessellationControl)
+            {
+                return 0;
+            }
+
+            const uint opConstant = 43, opTypeArray = 28, opTypePointer = 32, opVariable = 59, storageInput = 1;
+            var words = MemoryMarshal.Cast<byte, uint>(bytecode);
+            var constants = new Dictionary<uint, uint>();
+            var arrayLengths = new Dictionary<uint, uint>();
+            var inputPointees = new Dictionary<uint, uint>();
+            for (var at = 5; at < words.Length;)
+            {
+                var length = (int)(words[at] >> 16);
+                if (length == 0)
+                {
+                    break;
+                }
+
+                switch (words[at] & 0xFFFF)
+                {
+                    case opConstant:
+                        constants[words[at + 2]] = words[at + 3];
+                        break;
+                    case opTypeArray:
+                        arrayLengths[words[at + 1]] = words[at + 3];
+                        break;
+                    case opTypePointer when words[at + 2] == storageInput:
+                        inputPointees[words[at + 1]] = words[at + 3];
+                        break;
+                    case opVariable when words[at + 3] == storageInput
+                                         && inputPointees.TryGetValue(words[at + 1], out var pointee)
+                                         && arrayLengths.TryGetValue(pointee, out var lengthId)
+                                         && constants.TryGetValue(lengthId, out var size):
+                        return size;
+                }
+
+                at += length;
+            }
+
+            return 0;
         }
 
         private ShaderResourceAccess GetAccess(ResourceType resourceType, uint variableId)
@@ -268,38 +279,6 @@ namespace Adamantium.Vulkan.Spirv.Reflection
             return compiler.HasDecoration(variableId, Decoration.NonReadable)
                 ? ShaderResourceAccess.WriteOnly
                 : ShaderResourceAccess.ReadWrite;
-        }
-
-        private bool IsSameResourceIdPresent(List<ResourceBindingKey> resourceKeys, ResourceBindingKey current)
-        {
-            // We are looking for resource with same Binding Id, but different name
-            // If names are the same and Binding Id also the same, it means that this resource is sharing
-            // between several shaders
-            
-            foreach (var bindingKey in resourceKeys)
-            {
-                if (bindingKey.Name != current.Name &&
-                    bindingKey.BindingId == current.BindingId &&
-                    bindingKey.DescriptorSet == current.DescriptorSet)
-                {
-                    return true;
-                }
-                
-            }
-
-            return false;
-        }
-
-        private ResourceBindingKey MakeResourceBindingKey(string name, uint typeId, uint bindingId, uint descriptorSet)
-        {
-            return new ResourceBindingKey() { Name = name, TypeId = typeId, BindingId = bindingId, DescriptorSet = descriptorSet};
-        }
-
-        private ResourceBindingKey FindNextAvailableId(ResourceBindingKey key, List<ResourceBindingKey> bindingKeys)
-        {
-            var maxId = bindingKeys.Max(x => x.BindingId);
-            key.BindingId = maxId + 1;
-            return key;
         }
 
         protected override void UnmanagedDisposeOverride()
