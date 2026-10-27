@@ -31,6 +31,9 @@ namespace Adamantium.Vulkan.Spirv.Reflection
 
         public ShaderResourceDimension Dimension { get; internal set; }
 
+        /// <summary>What the shader does with the resource: read it, write it or both.</summary>
+        public ShaderResourceAccess Access { get; internal set; }
+
         public uint ArrayStride { get; internal set; }
 
         public uint ArrayDimensionsCount { get; internal set; }

@@ -97,6 +97,7 @@ namespace Adamantium.Vulkan.Spirv.Reflection
 
                     resourceDescription.DescriptorSet = compiler.GetDecoration(shaderResources[i].Id, Decoration.DescriptorSet);
                     resourceDescription.SlotIndex = compiler.GetDecoration(shaderResources[i].Id, Decoration.Binding);
+                    resourceDescription.Access = GetAccess(resourceType, shaderResources[i].Id);
 
                     var bindingKey = MakeResourceBindingKey(
                         resourceDescription.Name,
@@ -151,6 +152,7 @@ namespace Adamantium.Vulkan.Spirv.Reflection
 
                         member.TypeId = memberType;
                         var memberTypeHandle = compiler.GetTypeHandle(memberType);
+                        var isPointer = memberTypeHandle.GetStorageClass() == StorageClass.PhysicalStorageBuffer;
 
                         // Slang wraps an ARRAY inside a std140 uniform block in a synthetic single-member struct
                         // ("_Array_std140_matrix<float,4,4>64"), which is how it pins the element padding std140 asks
@@ -162,7 +164,7 @@ namespace Adamantium.Vulkan.Spirv.Reflection
                         var layoutIndex = k;
                         var layoutTypeId = shaderResources[i].Base_type_id;
 
-                        if (memberTypeHandle.GetBasetype() == Basetype.Struct &&
+                        if (!isPointer && memberTypeHandle.GetBasetype() == Basetype.Struct &&
                             memberTypeHandle.GetNumMemberTypes() == 1)
                         {
                             var innerType = memberTypeHandle.GetMemberType(0);
@@ -177,7 +179,7 @@ namespace Adamantium.Vulkan.Spirv.Reflection
                             }
                         }
 
-                        member.Type = memberTypeHandle.GetBasetype();
+                        member.Type = isPointer ? Basetype.Uint64 : memberTypeHandle.GetBasetype();
                         ulong typeSize = 0;
                         // Size and offset describe where the member sits IN THE BLOCK, so they stay on the block.
                         lastResult = compiler.GetDeclaredStructMemberSize(spvcType, k, ref typeSize);
@@ -194,12 +196,16 @@ namespace Adamantium.Vulkan.Spirv.Reflection
                         member.MatrixStride = stride;
 
                         //Get the number of rows in the type
-                        member.RowCount = memberTypeHandle.GetVectorSize();
+                        member.RowCount = isPointer ? 1 : memberTypeHandle.GetVectorSize();
                         //Get the number of columns in the type
-                        member.ColumnCount = memberTypeHandle.GetColumns();
+                        member.ColumnCount = isPointer ? 1 : memberTypeHandle.GetColumns();
                         member.ArrayDimensionsCount = memberTypeHandle.GetNumArrayDimensions();
 
-                        if (member.RowCount == 1 && member.ColumnCount == 1)
+                        if (isPointer)
+                        {
+                            member.VariableType = ShaderVariableClass.Pointer;
+                        }
+                        else if (member.RowCount == 1 && member.ColumnCount == 1)
                         {
                             member.VariableType = ShaderVariableClass.Scalar;
                         }
@@ -223,7 +229,7 @@ namespace Adamantium.Vulkan.Spirv.Reflection
                             }
                         }
 
-                        if (member.Type == Basetype.Struct)
+                        if (!isPointer && member.Type == Basetype.Struct)
                         {
                             member.VariableType = ShaderVariableClass.Struct;
                         }
@@ -245,6 +251,23 @@ namespace Adamantium.Vulkan.Spirv.Reflection
             disassembleResult.Bytecode = bytecode;
 
             return disassembleResult;
+        }
+
+        private ShaderResourceAccess GetAccess(ResourceType resourceType, uint variableId)
+        {
+            if (resourceType is not (ResourceType.StorageBuffer or ResourceType.StorageImage))
+            {
+                return ShaderResourceAccess.ReadOnly;
+            }
+
+            if (compiler.HasDecoration(variableId, Decoration.NonWritable))
+            {
+                return ShaderResourceAccess.ReadOnly;
+            }
+
+            return compiler.HasDecoration(variableId, Decoration.NonReadable)
+                ? ShaderResourceAccess.WriteOnly
+                : ShaderResourceAccess.ReadWrite;
         }
 
         private bool IsSameResourceIdPresent(List<ResourceBindingKey> resourceKeys, ResourceBindingKey current)
