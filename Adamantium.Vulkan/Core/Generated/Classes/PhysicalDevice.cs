@@ -1753,12 +1753,40 @@ public unsafe partial class PhysicalDevice : IUnmanagedWrapper<Adamantium.Vulkan
         pFormatProperties = new FormatProperties(arg2);
     }
 
-    public void GetPhysicalDeviceFormatProperties2(Format format, out FormatProperties2 pFormatProperties)
+    public void GetPhysicalDeviceFormatProperties2(Format format, ref FormatProperties2 pFormatProperties)
     {
-        Adamantium.Vulkan.Core.Interop.VkFormatProperties2 arg2 = default;
-        arg2.sType = StructureType.FormatProperties2;
-        Commands.vkGetPhysicalDeviceFormatProperties2(this, format, &arg2);
-        pFormatProperties = new FormatProperties2(arg2);
+        int CalculateSize(FormatProperties2 pFormatProperties)
+        {
+            int totalSize = 0;
+            if (pFormatProperties != null)
+                totalSize += pFormatProperties.GetSize();
+            return totalSize;
+        }
+
+        var totalSize = CalculateSize(pFormatProperties);
+        byte[] rentedArray = null;
+        var mainBuffer = totalSize <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc byte[totalSize] : (rentedArray = System.Buffers.ArrayPool<byte>.Shared.Rent(totalSize)).AsSpan(0, totalSize);
+        fixed (byte* bufferPtr = mainBuffer)
+        {
+            try
+            {
+                ref System.Span<byte> currentCursor = ref mainBuffer;
+                var arg2 = QuantumBinding.Utils.MarshalContextUtils.MarshalStructToPointer<Adamantium.Vulkan.Core.FormatProperties2, Adamantium.Vulkan.Core.Interop.VkFormatProperties2>(pFormatProperties, ref currentCursor);
+                Commands.vkGetPhysicalDeviceFormatProperties2(this, format, arg2);
+                if (arg2 is not null)
+                {
+                    if (pFormatProperties != null)
+                        pFormatProperties.MarshalFrom(*arg2);
+                    else
+                        pFormatProperties = new Adamantium.Vulkan.Core.FormatProperties2(*arg2);
+                }
+            }
+            finally
+            {
+                if (rentedArray != null)
+                    System.Buffers.ArrayPool<byte>.Shared.Return(rentedArray);
+            }
+        }
     }
 
     public Result GetPhysicalDeviceFragmentShadingRatesKHR(ref uint pFragmentShadingRateCount, System.Span<PhysicalDeviceFragmentShadingRateKHR> pFragmentShadingRates)
@@ -1849,17 +1877,19 @@ public unsafe partial class PhysicalDevice : IUnmanagedWrapper<Adamantium.Vulkan
         return result;
     }
 
-    public Result GetPhysicalDeviceImageFormatProperties2(in PhysicalDeviceImageFormatInfo2 pImageFormatInfo, out ImageFormatProperties2 pImageFormatProperties)
+    public Result GetPhysicalDeviceImageFormatProperties2(in PhysicalDeviceImageFormatInfo2 pImageFormatInfo, ref ImageFormatProperties2 pImageFormatProperties)
     {
-        int CalculateSize(PhysicalDeviceImageFormatInfo2 pImageFormatInfo)
+        int CalculateSize(PhysicalDeviceImageFormatInfo2 pImageFormatInfo, ImageFormatProperties2 pImageFormatProperties)
         {
             int totalSize = 0;
             if (pImageFormatInfo != null)
                 totalSize += pImageFormatInfo.GetSize();
+            if (pImageFormatProperties != null)
+                totalSize += pImageFormatProperties.GetSize();
             return totalSize;
         }
 
-        var totalSize = CalculateSize(pImageFormatInfo);
+        var totalSize = CalculateSize(pImageFormatInfo, pImageFormatProperties);
         byte[] rentedArray = null;
         var mainBuffer = totalSize <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc byte[totalSize] : (rentedArray = System.Buffers.ArrayPool<byte>.Shared.Rent(totalSize)).AsSpan(0, totalSize);
         fixed (byte* bufferPtr = mainBuffer)
@@ -1868,10 +1898,15 @@ public unsafe partial class PhysicalDevice : IUnmanagedWrapper<Adamantium.Vulkan
             {
                 ref System.Span<byte> currentCursor = ref mainBuffer;
                 var arg1 = QuantumBinding.Utils.MarshalContextUtils.MarshalStructToPointer<Adamantium.Vulkan.Core.PhysicalDeviceImageFormatInfo2, Adamantium.Vulkan.Core.Interop.VkPhysicalDeviceImageFormatInfo2>(pImageFormatInfo, ref currentCursor);
-                Adamantium.Vulkan.Core.Interop.VkImageFormatProperties2 arg2 = default;
-                arg2.sType = StructureType.ImageFormatProperties2;
-                var result = Commands.vkGetPhysicalDeviceImageFormatProperties2(this, arg1, &arg2);
-                pImageFormatProperties = new ImageFormatProperties2(arg2);
+                var arg2 = QuantumBinding.Utils.MarshalContextUtils.MarshalStructToPointer<Adamantium.Vulkan.Core.ImageFormatProperties2, Adamantium.Vulkan.Core.Interop.VkImageFormatProperties2>(pImageFormatProperties, ref currentCursor);
+                var result = Commands.vkGetPhysicalDeviceImageFormatProperties2(this, arg1, arg2);
+                if (arg2 is not null)
+                {
+                    if (pImageFormatProperties != null)
+                        pImageFormatProperties.MarshalFrom(*arg2);
+                    else
+                        pImageFormatProperties = new Adamantium.Vulkan.Core.ImageFormatProperties2(*arg2);
+                }
                 return result;
             }
             finally
@@ -1889,12 +1924,40 @@ public unsafe partial class PhysicalDevice : IUnmanagedWrapper<Adamantium.Vulkan
         pMemoryProperties = new PhysicalDeviceMemoryProperties(arg1);
     }
 
-    public void GetPhysicalDeviceMemoryProperties2(out PhysicalDeviceMemoryProperties2 pMemoryProperties)
+    public void GetPhysicalDeviceMemoryProperties2(ref PhysicalDeviceMemoryProperties2 pMemoryProperties)
     {
-        Adamantium.Vulkan.Core.Interop.VkPhysicalDeviceMemoryProperties2 arg1 = default;
-        arg1.sType = StructureType.PhysicalDeviceMemoryProperties2;
-        Commands.vkGetPhysicalDeviceMemoryProperties2(this, &arg1);
-        pMemoryProperties = new PhysicalDeviceMemoryProperties2(arg1);
+        int CalculateSize(PhysicalDeviceMemoryProperties2 pMemoryProperties)
+        {
+            int totalSize = 0;
+            if (pMemoryProperties != null)
+                totalSize += pMemoryProperties.GetSize();
+            return totalSize;
+        }
+
+        var totalSize = CalculateSize(pMemoryProperties);
+        byte[] rentedArray = null;
+        var mainBuffer = totalSize <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc byte[totalSize] : (rentedArray = System.Buffers.ArrayPool<byte>.Shared.Rent(totalSize)).AsSpan(0, totalSize);
+        fixed (byte* bufferPtr = mainBuffer)
+        {
+            try
+            {
+                ref System.Span<byte> currentCursor = ref mainBuffer;
+                var arg1 = QuantumBinding.Utils.MarshalContextUtils.MarshalStructToPointer<Adamantium.Vulkan.Core.PhysicalDeviceMemoryProperties2, Adamantium.Vulkan.Core.Interop.VkPhysicalDeviceMemoryProperties2>(pMemoryProperties, ref currentCursor);
+                Commands.vkGetPhysicalDeviceMemoryProperties2(this, arg1);
+                if (arg1 is not null)
+                {
+                    if (pMemoryProperties != null)
+                        pMemoryProperties.MarshalFrom(*arg1);
+                    else
+                        pMemoryProperties = new Adamantium.Vulkan.Core.PhysicalDeviceMemoryProperties2(*arg1);
+                }
+            }
+            finally
+            {
+                if (rentedArray != null)
+                    System.Buffers.ArrayPool<byte>.Shared.Return(rentedArray);
+            }
+        }
     }
 
     public void GetPhysicalDeviceMultisamplePropertiesEXT(SampleCountFlagBits samples, out MultisamplePropertiesEXT pMultisampleProperties)
@@ -3038,17 +3101,19 @@ public unsafe partial class PhysicalDevice : IUnmanagedWrapper<Adamantium.Vulkan
         }
     }
 
-    public Result GetPhysicalDeviceVideoCapabilitiesKHR(in VideoProfileInfoKHR pVideoProfile, out VideoCapabilitiesKHR pCapabilities)
+    public Result GetPhysicalDeviceVideoCapabilitiesKHR(in VideoProfileInfoKHR pVideoProfile, ref VideoCapabilitiesKHR pCapabilities)
     {
-        int CalculateSize(VideoProfileInfoKHR pVideoProfile)
+        int CalculateSize(VideoProfileInfoKHR pVideoProfile, VideoCapabilitiesKHR pCapabilities)
         {
             int totalSize = 0;
             if (pVideoProfile != null)
                 totalSize += pVideoProfile.GetSize();
+            if (pCapabilities != null)
+                totalSize += pCapabilities.GetSize();
             return totalSize;
         }
 
-        var totalSize = CalculateSize(pVideoProfile);
+        var totalSize = CalculateSize(pVideoProfile, pCapabilities);
         byte[] rentedArray = null;
         var mainBuffer = totalSize <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc byte[totalSize] : (rentedArray = System.Buffers.ArrayPool<byte>.Shared.Rent(totalSize)).AsSpan(0, totalSize);
         fixed (byte* bufferPtr = mainBuffer)
@@ -3057,10 +3122,15 @@ public unsafe partial class PhysicalDevice : IUnmanagedWrapper<Adamantium.Vulkan
             {
                 ref System.Span<byte> currentCursor = ref mainBuffer;
                 var arg1 = QuantumBinding.Utils.MarshalContextUtils.MarshalStructToPointer<Adamantium.Vulkan.Core.VideoProfileInfoKHR, Adamantium.Vulkan.Core.Interop.VkVideoProfileInfoKHR>(pVideoProfile, ref currentCursor);
-                Adamantium.Vulkan.Core.Interop.VkVideoCapabilitiesKHR arg2 = default;
-                arg2.sType = StructureType.VideoCapabilitiesKhr;
-                var result = Commands.vkGetPhysicalDeviceVideoCapabilitiesKHR(this, arg1, &arg2);
-                pCapabilities = new VideoCapabilitiesKHR(arg2);
+                var arg2 = QuantumBinding.Utils.MarshalContextUtils.MarshalStructToPointer<Adamantium.Vulkan.Core.VideoCapabilitiesKHR, Adamantium.Vulkan.Core.Interop.VkVideoCapabilitiesKHR>(pCapabilities, ref currentCursor);
+                var result = Commands.vkGetPhysicalDeviceVideoCapabilitiesKHR(this, arg1, arg2);
+                if (arg2 is not null)
+                {
+                    if (pCapabilities != null)
+                        pCapabilities.MarshalFrom(*arg2);
+                    else
+                        pCapabilities = new Adamantium.Vulkan.Core.VideoCapabilitiesKHR(*arg2);
+                }
                 return result;
             }
             finally
@@ -3071,17 +3141,19 @@ public unsafe partial class PhysicalDevice : IUnmanagedWrapper<Adamantium.Vulkan
         }
     }
 
-    public Result GetPhysicalDeviceVideoEncodeQualityLevelPropertiesKHR(in PhysicalDeviceVideoEncodeQualityLevelInfoKHR pQualityLevelInfo, out VideoEncodeQualityLevelPropertiesKHR pQualityLevelProperties)
+    public Result GetPhysicalDeviceVideoEncodeQualityLevelPropertiesKHR(in PhysicalDeviceVideoEncodeQualityLevelInfoKHR pQualityLevelInfo, ref VideoEncodeQualityLevelPropertiesKHR pQualityLevelProperties)
     {
-        int CalculateSize(PhysicalDeviceVideoEncodeQualityLevelInfoKHR pQualityLevelInfo)
+        int CalculateSize(PhysicalDeviceVideoEncodeQualityLevelInfoKHR pQualityLevelInfo, VideoEncodeQualityLevelPropertiesKHR pQualityLevelProperties)
         {
             int totalSize = 0;
             if (pQualityLevelInfo != null)
                 totalSize += pQualityLevelInfo.GetSize();
+            if (pQualityLevelProperties != null)
+                totalSize += pQualityLevelProperties.GetSize();
             return totalSize;
         }
 
-        var totalSize = CalculateSize(pQualityLevelInfo);
+        var totalSize = CalculateSize(pQualityLevelInfo, pQualityLevelProperties);
         byte[] rentedArray = null;
         var mainBuffer = totalSize <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc byte[totalSize] : (rentedArray = System.Buffers.ArrayPool<byte>.Shared.Rent(totalSize)).AsSpan(0, totalSize);
         fixed (byte* bufferPtr = mainBuffer)
@@ -3090,10 +3162,15 @@ public unsafe partial class PhysicalDevice : IUnmanagedWrapper<Adamantium.Vulkan
             {
                 ref System.Span<byte> currentCursor = ref mainBuffer;
                 var arg1 = QuantumBinding.Utils.MarshalContextUtils.MarshalStructToPointer<Adamantium.Vulkan.Core.PhysicalDeviceVideoEncodeQualityLevelInfoKHR, Adamantium.Vulkan.Core.Interop.VkPhysicalDeviceVideoEncodeQualityLevelInfoKHR>(pQualityLevelInfo, ref currentCursor);
-                Adamantium.Vulkan.Core.Interop.VkVideoEncodeQualityLevelPropertiesKHR arg2 = default;
-                arg2.sType = StructureType.VideoEncodeQualityLevelPropertiesKhr;
-                var result = Commands.vkGetPhysicalDeviceVideoEncodeQualityLevelPropertiesKHR(this, arg1, &arg2);
-                pQualityLevelProperties = new VideoEncodeQualityLevelPropertiesKHR(arg2);
+                var arg2 = QuantumBinding.Utils.MarshalContextUtils.MarshalStructToPointer<Adamantium.Vulkan.Core.VideoEncodeQualityLevelPropertiesKHR, Adamantium.Vulkan.Core.Interop.VkVideoEncodeQualityLevelPropertiesKHR>(pQualityLevelProperties, ref currentCursor);
+                var result = Commands.vkGetPhysicalDeviceVideoEncodeQualityLevelPropertiesKHR(this, arg1, arg2);
+                if (arg2 is not null)
+                {
+                    if (pQualityLevelProperties != null)
+                        pQualityLevelProperties.MarshalFrom(*arg2);
+                    else
+                        pQualityLevelProperties = new Adamantium.Vulkan.Core.VideoEncodeQualityLevelPropertiesKHR(*arg2);
+                }
                 return result;
             }
             finally

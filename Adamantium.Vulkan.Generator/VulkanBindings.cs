@@ -139,24 +139,6 @@ public static partial class VulkanBindings
             .InterpretAsPointerType(new BuiltinType(PrimitiveType.Void))
             .SetParameterKind(ParameterKind.Out);
         
-        api.Function("vkGetPhysicalDeviceFeatures2KHR").
-            WithParameterName("pFeatures").
-            InterpretAsIs().
-            SetParameterKind(ParameterKind.Ref);
-        
-        api.Function("vkGetPhysicalDeviceFeatures2").
-            WithParameterName("pFeatures").
-            InterpretAsIs().
-            SetParameterKind(ParameterKind.Ref);
-
-        // Ref rather than Out: the answer is not the top-level structure alone. Which scaling modes and which
-        // compatible present modes a surface offers arrive in structures the CALLER chains onto pSurfaceCapabilities,
-        // and an out parameter gives the caller no way to put them there.
-        api.Function("vkGetPhysicalDeviceSurfaceCapabilities2KHR").
-            WithParameterName("pSurfaceCapabilities").
-            InterpretAsIs().
-            SetParameterKind(ParameterKind.Ref);
-
         api.Function("vkGetInstanceProcAddr").WithReturnType(new PointerType() { Pointee = new BuiltinType(PrimitiveType.Void)});
         api.Function("vkGetDeviceProcAddr").WithReturnType(new PointerType() { Pointee = new BuiltinType(PrimitiveType.Void)});
         
@@ -328,11 +310,6 @@ public static partial class VulkanBindings
             .WithParameterName("pImageIndex")
             .InterpretAsIs()
             .SetParameterKind(ParameterKind.Ref);
-        
-        api.Function("vkGetPhysicalDeviceProperties2").
-            WithParameterName("pProperties").
-            InterpretAsIs().
-            SetParameterKind(ParameterKind.Ref);
         
         api.Delegate("PFN_vkCreateShadersEXT").
             WithParameterName("pShaders").

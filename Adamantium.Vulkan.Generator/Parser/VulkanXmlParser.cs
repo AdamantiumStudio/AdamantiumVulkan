@@ -31,6 +31,7 @@ public class VulkanXmlParser : IMetadataProvider
     private readonly string _commonPlatformName = "core";
     private string _currentFileName;
     private HashSet<string> _requiredNames;
+    private HashSet<string> _extendedStructs;
 
     public VulkanXmlParser(VulkanParserSettings settings)
     {
@@ -656,9 +657,10 @@ public class VulkanXmlParser : IMetadataProvider
             var s = new VkStruct
             {
                 Name = name, 
-                IsUnion = isUnion, 
-                LineInfo = lineInfo, 
-                CurrentFileName = _currentFileName
+                IsUnion = isUnion,
+                LineInfo = lineInfo,
+                CurrentFileName = _currentFileName,
+                StructExtend = sNode.Attribute("structextends")?.Value
             };
 
             foreach (var mNode in sNode.Elements("member"))
@@ -1760,25 +1762,9 @@ public class VulkanXmlParser : IMetadataProvider
                     Name = param.Name,
                     Type = GetBindingType(param),
                     IsOptional = param.IsOptional,
+                    ParameterKind = KindOf(param)
                 };
 
-                if (param.IsConst)
-                {
-                    parameter.ParameterKind = ParameterKind.Readonly;
-                }
-                else if (parameter.IsOptional && param.IsPointer)
-                {
-                    parameter.ParameterKind = ParameterKind.Ref;
-                }
-                else if (param.IsPointer && !param.IsConst)
-                {
-                    parameter.ParameterKind = ParameterKind.Out;
-                }
-                else
-                {
-                    parameter.ParameterKind = ParameterKind.In;
-                }
-                
                 func.AddParameter(parameter);
             }
 
@@ -1804,31 +1790,39 @@ public class VulkanXmlParser : IMetadataProvider
                     Name = param.Name,
                     Type = GetBindingType(param),
                     IsOptional = param.IsOptional,
+                    ParameterKind = KindOf(param)
                 };
-                
-                if (param.IsConst)
-                {
-                    parameter.ParameterKind = ParameterKind.Readonly;
-                }
-                else if (parameter.IsOptional && param.IsPointer)
-                {
-                    parameter.ParameterKind = ParameterKind.Ref;
-                }
-                else if (param.IsPointer && !param.IsConst)
-                {
-                    parameter.ParameterKind = ParameterKind.Out;
-                }
-                else
-                {
-                    parameter.ParameterKind = ParameterKind.In;
-                }
-                
+
                 @delegate.AddParameter(parameter);
             }
 
             AddDeclaration(@delegate);
             UpdateLineInfo(@delegate, vkDelegate.Value);
         }
+    }
+
+    private ParameterKind KindOf(VkParameter param)
+    {
+        if (param.IsConst)
+        {
+            return ParameterKind.Readonly;
+        }
+
+        if (!param.IsPointer)
+        {
+            return ParameterKind.In;
+        }
+
+        return param.IsOptional || (!param.IsArray && IsExtended(param.Type)) ? ParameterKind.Ref : ParameterKind.Out;
+    }
+
+    private bool IsExtended(string type)
+    {
+        _extendedStructs ??= _registry.Structs.Values
+            .Where(s => !string.IsNullOrEmpty(s.StructExtend))
+            .SelectMany(s => s.StructExtend.Split(','))
+            .ToHashSet();
+        return _extendedStructs.Contains(ResolveAlias(type));
     }
 
     private void GenerateGlobalUsings()
