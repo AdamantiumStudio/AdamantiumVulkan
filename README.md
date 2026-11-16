@@ -32,7 +32,8 @@ dotnet add package Adamantium.Vulkan.Loader
 
 ## Requirements
 
-- **.NET 10** or later. The shader packages also target `netstandard2.0`.
+- **.NET 11** or later. The shader packages target `netstandard2.0` only: the engine's source generators load them to
+  compile shaders inside the C# compiler, which takes `netstandard2.0` alone.
 - **x64.** The projects build for that platform only; other architectures have not been tried.
 - **A Vulkan driver** on the machine at run time. No SDK is needed to build: the loader resolves the driver's own
   library, and the Slang package carries the shader compiler with it - and `slangd`, which an editor starts from the
