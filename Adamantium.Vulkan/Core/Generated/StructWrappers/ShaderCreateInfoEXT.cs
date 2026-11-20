@@ -53,7 +53,7 @@ public unsafe partial class ShaderCreateInfoEXT : IMarshallableObject, IMarshall
         }
         if (!PCode.IsEmpty)
             size += PCode.Span.Length * QuantumBinding.Utils.SizeOfCache<System.Byte>.Size;
-        if (!string.IsNullOrEmpty(PName))
+        if (PName != null)
             size += System.Text.Encoding.UTF8.GetByteCount(PName) + 1;
         if (!PSetLayouts.IsEmpty)
             size += PSetLayouts.Span.Length * QuantumBinding.Utils.SizeOfCache<Adamantium.Vulkan.Core.Interop.VkDescriptorSetLayout_T>.Size;

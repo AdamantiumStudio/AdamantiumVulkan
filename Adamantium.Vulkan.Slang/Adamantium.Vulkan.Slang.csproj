@@ -12,7 +12,7 @@
   <PropertyGroup>
     <IsPackable>true</IsPackable>
     <PackageId>Adamantium.Vulkan.Slang</PackageId>
-    <Version>1.1.1</Version>
+    <Version>1.1.2</Version>
     <Description>C# bindings to the Slang shader compiler, shipping the compiler itself so that building shaders needs no Vulkan SDK installed, and Slang's language server, slangd, for editors. Slang is Apache-2.0 with the LLVM exception and carries further projects inside its binaries - see THIRD-PARTY-NOTICES.md in the repository.</Description>
     <PackageTags>slang;shader;compiler;spirv;vulkan;hlsl;lsp</PackageTags>
   </PropertyGroup>

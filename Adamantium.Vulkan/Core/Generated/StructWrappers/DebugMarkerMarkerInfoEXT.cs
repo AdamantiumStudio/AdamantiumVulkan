@@ -41,7 +41,7 @@ public unsafe partial class DebugMarkerMarkerInfoEXT : IMarshallableObject, IMar
         {
             size += marshallable.GetSize();
         }
-        if (!string.IsNullOrEmpty(PMarkerName))
+        if (PMarkerName != null)
             size += System.Text.Encoding.UTF8.GetByteCount(PMarkerName) + 1;
         return size;
     }

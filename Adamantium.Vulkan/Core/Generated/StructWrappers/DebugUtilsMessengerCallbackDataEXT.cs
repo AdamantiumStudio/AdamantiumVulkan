@@ -49,9 +49,9 @@ public unsafe partial class DebugUtilsMessengerCallbackDataEXT : IMarshallableOb
         {
             size += marshallable.GetSize();
         }
-        if (!string.IsNullOrEmpty(PMessageIdName))
+        if (PMessageIdName != null)
             size += System.Text.Encoding.UTF8.GetByteCount(PMessageIdName) + 1;
-        if (!string.IsNullOrEmpty(PMessage))
+        if (PMessage != null)
             size += System.Text.Encoding.UTF8.GetByteCount(PMessage) + 1;
         if (!PQueueLabels.IsEmpty)
         {

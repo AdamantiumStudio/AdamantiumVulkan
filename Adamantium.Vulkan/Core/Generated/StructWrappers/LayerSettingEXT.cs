@@ -38,9 +38,9 @@ public unsafe partial class LayerSettingEXT : IMarshallableObject, IMarshallable
     public int GetSize()
     {
         var size = QuantumBinding.Utils.SizeOfCache<Adamantium.Vulkan.Core.Interop.VkLayerSettingEXT>.Size;
-        if (!string.IsNullOrEmpty(PLayerName))
+        if (PLayerName != null)
             size += System.Text.Encoding.UTF8.GetByteCount(PLayerName) + 1;
-        if (!string.IsNullOrEmpty(PSettingName))
+        if (PSettingName != null)
             size += System.Text.Encoding.UTF8.GetByteCount(PSettingName) + 1;
         if (!PValues.IsEmpty)
             size += PValues.Span.Length * QuantumBinding.Utils.SizeOfCache<System.Byte>.Size;

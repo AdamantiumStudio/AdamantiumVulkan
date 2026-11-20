@@ -44,9 +44,9 @@ public unsafe partial class ApplicationInfo : IMarshallableObject, IMarshallable
         {
             size += marshallable.GetSize();
         }
-        if (!string.IsNullOrEmpty(PApplicationName))
+        if (PApplicationName != null)
             size += System.Text.Encoding.UTF8.GetByteCount(PApplicationName) + 1;
-        if (!string.IsNullOrEmpty(PEngineName))
+        if (PEngineName != null)
             size += System.Text.Encoding.UTF8.GetByteCount(PEngineName) + 1;
         return size;
     }

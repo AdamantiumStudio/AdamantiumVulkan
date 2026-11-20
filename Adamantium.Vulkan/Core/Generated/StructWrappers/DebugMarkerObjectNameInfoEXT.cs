@@ -42,7 +42,7 @@ public unsafe partial class DebugMarkerObjectNameInfoEXT : IMarshallableObject, 
         {
             size += marshallable.GetSize();
         }
-        if (!string.IsNullOrEmpty(PObjectName))
+        if (PObjectName != null)
             size += System.Text.Encoding.UTF8.GetByteCount(PObjectName) + 1;
         return size;
     }
