@@ -64,7 +64,8 @@ dotnet build AdamantiumVulkan.sln -c Release
 ```
 
 **Regenerating the bindings** is only needed when the Vulkan registry moves. `Adamantium.Vulkan.Generator` takes
-QuantumBinding from the `QuantumBinding.Generator` package and the SPIR-V headers from the Vulkan SDK that
+QuantumBinding from its source when it is checked out beside this repository (`../QuantumBinding`), otherwise from
+the `QuantumBinding.Generator` package, and the SPIR-V headers from the Vulkan SDK that
 `VULKAN_SDK` points at. It reads `vk.xml` and `video.xml` from the current directory, so run it from its own:
 
 ```

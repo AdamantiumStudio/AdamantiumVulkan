@@ -25,6 +25,13 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
+      # QuantumBinding beside it, for the binding generator: a generator change is built here once it is merged.
+      - name: QuantumBinding
+        shell: bash
+        run: |
+          git clone --depth 1 --branch master https://github.com/AdamantiumStudio/QuantumBinding.git ../QuantumBinding
+          git -C ../QuantumBinding log -1 --format='QuantumBinding at %h: %s'
+
       - uses: actions/setup-dotnet@v6
         with:
           global-json-file: global.json

@@ -16,6 +16,15 @@
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
+  <!-- QuantumBinding, the binding generator: from its source when it is checked out beside this repository, so a
+       generator change needs no package; from its package of this version when it is not.
+       -p:UseQuantumBindingSource=false takes the package even with the source beside. -->
+  <PropertyGroup>
+    <QuantumBindingDir>$(MSBuildThisFileDirectory)..\QuantumBinding\</QuantumBindingDir>
+    <UseQuantumBindingSource Condition="'$(UseQuantumBindingSource)' == ''">$([System.IO.Directory]::Exists('$(QuantumBindingDir)'))</UseQuantumBindingSource>
+    <QuantumBindingVersion>3.3.0</QuantumBindingVersion>
+  </PropertyGroup>
+
   <!-- Off by default, on per project. Demos, sandboxes and the binding generator are not products, and a package
        published by accident cannot be taken back - nuget.org lets a version be unlisted, never deleted. -->
   <PropertyGroup>
