@@ -39,7 +39,7 @@ public unsafe partial class SpvcEntryPoint : IMarshallable<Adamantium.Vulkan.Spi
     public int GetSize()
     {
         var size = QuantumBinding.Utils.SizeOfCache<Adamantium.Vulkan.Spirv.Cross.Interop.SpvcEntryPoint>.Size;
-        if (!string.IsNullOrEmpty(Name))
+        if (Name != null)
             size += System.Text.Encoding.UTF8.GetByteCount(Name) + 1;
         return size;
     }

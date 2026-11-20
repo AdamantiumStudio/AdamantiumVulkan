@@ -44,7 +44,7 @@ public unsafe partial class DataGraphPipelineShaderModuleCreateInfoARM : IMarsha
         {
             size += marshallable.GetSize();
         }
-        if (!string.IsNullOrEmpty(PName))
+        if (PName != null)
             size += System.Text.Encoding.UTF8.GetByteCount(PName) + 1;
         if (PSpecializationInfo != default)
         {

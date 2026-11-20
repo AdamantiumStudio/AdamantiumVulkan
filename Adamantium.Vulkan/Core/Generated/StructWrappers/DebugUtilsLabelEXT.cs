@@ -41,7 +41,7 @@ public unsafe partial class DebugUtilsLabelEXT : IMarshallableObject, IMarshalla
         {
             size += marshallable.GetSize();
         }
-        if (!string.IsNullOrEmpty(PLabelName))
+        if (PLabelName != null)
             size += System.Text.Encoding.UTF8.GetByteCount(PLabelName) + 1;
         return size;
     }

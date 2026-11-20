@@ -41,7 +41,7 @@ public unsafe partial class CuFunctionCreateInfoNVX : IMarshallableObject, IMars
         {
             size += marshallable.GetSize();
         }
-        if (!string.IsNullOrEmpty(PName))
+        if (PName != null)
             size += System.Text.Encoding.UTF8.GetByteCount(PName) + 1;
         return size;
     }

@@ -40,7 +40,7 @@ public unsafe partial class DataGraphPipelineCompilerControlCreateInfoARM : IMar
         {
             size += marshallable.GetSize();
         }
-        if (!string.IsNullOrEmpty(PVendorOptions))
+        if (PVendorOptions != null)
             size += System.Text.Encoding.UTF8.GetByteCount(PVendorOptions) + 1;
         return size;
     }
