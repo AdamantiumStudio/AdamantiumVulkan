@@ -93,7 +93,7 @@ jobs:
         with:
           user: ${{ secrets.NUGET_USER }}   # nuget.org profile name, not the e-mail address
 
-      # Adamantium.Vulkan depends on QuantumBinding.Utils, which is already published, so order does not matter here.
+      # Packed against QuantumBinding.Utils of QuantumBindingUtilsVersion (Directory.Build.props): publish that first.
       - name: Push
         if: ${{ !inputs.dry_run }}
         run: >

@@ -52,11 +52,7 @@ public unsafe partial class PipelineCacheHeaderVersionDataGraphQCOM : IMarshalla
         HeaderVersion = native.headerVersion;
         CacheType = native.cacheType;
         CacheVersion = native.cacheVersion;
-        var tmpToolchainVersion = new uint[3];
-        var toolchainVersionp = native.toolchainVersion[0];
-        var pToolchainVersion = (uint*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in toolchainVersionp ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pToolchainVersion, 3, tmpToolchainVersion);
-        ToolchainVersion = tmpToolchainVersion;
+        ToolchainVersion = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.toolchainVersion[0], new uint[3]);
 
     }
     public void* GetNativePointer<TContext>(ref TContext context) where TContext : IMarshallingContext, allows ref struct

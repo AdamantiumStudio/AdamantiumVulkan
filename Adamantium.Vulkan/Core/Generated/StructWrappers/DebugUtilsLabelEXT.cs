@@ -62,11 +62,7 @@ public unsafe partial class DebugUtilsLabelEXT : IMarshallableObject, IMarshalla
             PNext = (System.IntPtr)native.pNext;
         }
         PLabelName = new string(native.pLabelName);
-        var tmpColor = new float[4];
-        var colorp = native.color[0];
-        var pColor = (float*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in colorp ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pColor, 4, tmpColor);
-        Color = tmpColor;
+        Color = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.color[0], new float[4]);
 
     }
     public void* GetNativePointer<TContext>(ref TContext context) where TContext : IMarshallingContext, allows ref struct

@@ -69,16 +69,8 @@ public unsafe partial class StdVideoH265ShortTermRefPicSet : IMarshallableObject
         Reserved3 = native.reserved3;
         Num_negative_pics = native.num_negative_pics;
         Num_positive_pics = native.num_positive_pics;
-        var tmpDelta_poc_s0_minus1 = new ushort[16];
-        var delta_poc_s0_minus1p = native.delta_poc_s0_minus1[0];
-        var pDelta_poc_s0_minus1 = (ushort*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in delta_poc_s0_minus1p ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pDelta_poc_s0_minus1, 16, tmpDelta_poc_s0_minus1);
-        Delta_poc_s0_minus1 = tmpDelta_poc_s0_minus1;
-        var tmpDelta_poc_s1_minus1 = new ushort[16];
-        var delta_poc_s1_minus1p = native.delta_poc_s1_minus1[0];
-        var pDelta_poc_s1_minus1 = (ushort*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in delta_poc_s1_minus1p ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pDelta_poc_s1_minus1, 16, tmpDelta_poc_s1_minus1);
-        Delta_poc_s1_minus1 = tmpDelta_poc_s1_minus1;
+        Delta_poc_s0_minus1 = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.delta_poc_s0_minus1[0], new ushort[16]);
+        Delta_poc_s1_minus1 = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.delta_poc_s1_minus1[0], new ushort[16]);
 
     }
     public void* GetNativePointer<TContext>(ref TContext context) where TContext : IMarshallingContext, allows ref struct

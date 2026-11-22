@@ -68,11 +68,7 @@ public unsafe partial class VideoDecodeVP9PictureInfoKHR : IMarshallableObject, 
         }
         PStdPictureInfo = new StdVideoDecodeVP9PictureInfo(in *native.pStdPictureInfo);
         NativeUtils.Free(native.pStdPictureInfo);
-        var tmpReferenceNameSlotIndices = new int[3];
-        var referenceNameSlotIndicesp = native.referenceNameSlotIndices[0];
-        var pReferenceNameSlotIndices = (int*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in referenceNameSlotIndicesp ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pReferenceNameSlotIndices, 3, tmpReferenceNameSlotIndices);
-        ReferenceNameSlotIndices = tmpReferenceNameSlotIndices;
+        ReferenceNameSlotIndices = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.referenceNameSlotIndices[0], new int[3]);
         UncompressedHeaderOffset = native.uncompressedHeaderOffset;
         CompressedHeaderOffset = native.compressedHeaderOffset;
         TilesOffset = native.tilesOffset;

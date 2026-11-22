@@ -59,11 +59,7 @@ public unsafe partial class DeviceFaultVendorBinaryHeaderVersionOneKHR : IMarsha
         VendorID = native.vendorID;
         DeviceID = native.deviceID;
         DriverVersion = native.driverVersion;
-        var tmpPipelineCacheUUID = new byte[16];
-        var pipelineCacheUUIDp = native.pipelineCacheUUID[0];
-        var pPipelineCacheUUID = (byte*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in pipelineCacheUUIDp ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pPipelineCacheUUID, 16, tmpPipelineCacheUUID);
-        PipelineCacheUUID = tmpPipelineCacheUUID;
+        PipelineCacheUUID = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.pipelineCacheUUID[0], new byte[16]);
         ApplicationNameOffset = native.applicationNameOffset;
         ApplicationVersion = native.applicationVersion;
         EngineNameOffset = native.engineNameOffset;

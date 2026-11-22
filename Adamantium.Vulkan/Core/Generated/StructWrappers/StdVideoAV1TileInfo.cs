@@ -66,11 +66,7 @@ public unsafe partial class StdVideoAV1TileInfo : IMarshallableObject, IMarshall
         TileRows = native.TileRows;
         Context_update_tile_id = native.context_update_tile_id;
         Tile_size_bytes_minus_1 = native.tile_size_bytes_minus_1;
-        var tmpReserved1 = new byte[7];
-        var reserved1p = native.reserved1[0];
-        var pReserved1 = (byte*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in reserved1p ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pReserved1, 7, tmpReserved1);
-        Reserved1 = tmpReserved1;
+        Reserved1 = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.reserved1[0], new byte[7]);
         var arrayLengthPMiColStarts = native.TileCols;
         var tmpPMiColStarts = new ushort[arrayLengthPMiColStarts];
         QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(native.pMiColStarts, arrayLengthPMiColStarts, tmpPMiColStarts);

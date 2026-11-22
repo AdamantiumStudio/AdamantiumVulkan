@@ -58,11 +58,7 @@ public unsafe partial class TensorRollingBackingCreateInfoARM : IMarshallableObj
         {
             PNext = (System.IntPtr)native.pNext;
         }
-        var tmpWraps = new uint[4];
-        var wrapsp = native.wraps[0];
-        var pWraps = (uint*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in wrapsp ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pWraps, 4, tmpWraps);
-        Wraps = tmpWraps;
+        Wraps = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.wraps[0], new uint[4]);
 
     }
     public void* GetNativePointer<TContext>(ref TContext context) where TContext : IMarshallingContext, allows ref struct

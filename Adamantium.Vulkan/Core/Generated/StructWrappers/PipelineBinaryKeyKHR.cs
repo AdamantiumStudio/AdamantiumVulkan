@@ -60,11 +60,7 @@ public unsafe partial class PipelineBinaryKeyKHR : IMarshallableObject, IMarshal
             PNext = (System.IntPtr)native.pNext;
         }
         KeySize = native.keySize;
-        var tmpKey = new byte[32];
-        var keyp = native.key[0];
-        var pKey = (byte*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in keyp ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pKey, 32, tmpKey);
-        Key = tmpKey;
+        Key = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.key[0], new byte[32]);
 
     }
     public void* GetNativePointer<TContext>(ref TContext context) where TContext : IMarshallingContext, allows ref struct

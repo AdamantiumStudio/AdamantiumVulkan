@@ -46,11 +46,7 @@ public unsafe partial class StdVideoH265LongTermRefPicsSps : IMarshallableObject
     public void MarshalFrom(in Adamantium.Vulkan.Core.Interop.StdVideoH265LongTermRefPicsSps native)
     {
         Used_by_curr_pic_lt_sps_flag = native.used_by_curr_pic_lt_sps_flag;
-        var tmpLt_ref_pic_poc_lsb_sps = new uint[32];
-        var lt_ref_pic_poc_lsb_spsp = native.lt_ref_pic_poc_lsb_sps[0];
-        var pLt_ref_pic_poc_lsb_sps = (uint*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in lt_ref_pic_poc_lsb_spsp ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pLt_ref_pic_poc_lsb_sps, 32, tmpLt_ref_pic_poc_lsb_sps);
-        Lt_ref_pic_poc_lsb_sps = tmpLt_ref_pic_poc_lsb_sps;
+        Lt_ref_pic_poc_lsb_sps = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.lt_ref_pic_poc_lsb_sps[0], new uint[32]);
 
     }
     public void* GetNativePointer<TContext>(ref TContext context) where TContext : IMarshallingContext, allows ref struct

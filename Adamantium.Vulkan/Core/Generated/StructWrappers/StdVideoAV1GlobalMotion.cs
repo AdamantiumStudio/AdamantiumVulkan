@@ -45,16 +45,8 @@ public unsafe partial class StdVideoAV1GlobalMotion : IMarshallableObject, IMars
 
     public void MarshalFrom(in Adamantium.Vulkan.Core.Interop.StdVideoAV1GlobalMotion native)
     {
-        var tmpGmType = new byte[8];
-        var GmTypep = native.GmType[0];
-        var pGmType = (byte*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in GmTypep ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pGmType, 8, tmpGmType);
-        GmType = tmpGmType;
-        var tmpGm_params = new int[48];
-        var gm_paramsp = native.gm_params[0];
-        var pGm_params = (int*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in gm_paramsp ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pGm_params, 48, tmpGm_params);
-        Gm_params = tmpGm_params;
+        GmType = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.GmType[0], new byte[8]);
+        Gm_params = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.gm_params[0], new int[48]);
 
     }
     public void* GetNativePointer<TContext>(ref TContext context) where TContext : IMarshallingContext, allows ref struct

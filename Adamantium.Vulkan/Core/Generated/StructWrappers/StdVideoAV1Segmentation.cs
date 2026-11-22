@@ -45,16 +45,8 @@ public unsafe partial class StdVideoAV1Segmentation : IMarshallableObject, IMars
 
     public void MarshalFrom(in Adamantium.Vulkan.Core.Interop.StdVideoAV1Segmentation native)
     {
-        var tmpFeatureEnabled = new byte[8];
-        var FeatureEnabledp = native.FeatureEnabled[0];
-        var pFeatureEnabled = (byte*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in FeatureEnabledp ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pFeatureEnabled, 8, tmpFeatureEnabled);
-        FeatureEnabled = tmpFeatureEnabled;
-        var tmpFeatureData = new short[64];
-        var FeatureDatap = native.FeatureData[0];
-        var pFeatureData = (short*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in FeatureDatap ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pFeatureData, 64, tmpFeatureData);
-        FeatureData = tmpFeatureData;
+        FeatureEnabled = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.FeatureEnabled[0], new byte[8]);
+        FeatureData = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.FeatureData[0], new short[64]);
 
     }
     public void* GetNativePointer<TContext>(ref TContext context) where TContext : IMarshallingContext, allows ref struct

@@ -58,11 +58,7 @@ public unsafe partial class StdVideoDecodeH264PictureInfo : IMarshallableObject,
         Reserved2 = native.reserved2;
         Frame_num = native.frame_num;
         Idr_pic_id = native.idr_pic_id;
-        var tmpPicOrderCnt = new int[2];
-        var PicOrderCntp = native.PicOrderCnt[0];
-        var pPicOrderCnt = (int*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in PicOrderCntp ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pPicOrderCnt, 2, tmpPicOrderCnt);
-        PicOrderCnt = tmpPicOrderCnt;
+        PicOrderCnt = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.PicOrderCnt[0], new int[2]);
 
     }
     public void* GetNativePointer<TContext>(ref TContext context) where TContext : IMarshallingContext, allows ref struct

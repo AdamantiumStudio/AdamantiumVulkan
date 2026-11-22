@@ -49,16 +49,8 @@ public unsafe partial class StdVideoH264ScalingLists : IMarshallableObject, IMar
     {
         Scaling_list_present_mask = native.scaling_list_present_mask;
         Use_default_scaling_matrix_mask = native.use_default_scaling_matrix_mask;
-        var tmpScalingList4x4 = new byte[96];
-        var ScalingList4x4p = native.ScalingList4x4[0];
-        var pScalingList4x4 = (byte*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in ScalingList4x4p ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pScalingList4x4, 96, tmpScalingList4x4);
-        ScalingList4x4 = tmpScalingList4x4;
-        var tmpScalingList8x8 = new byte[384];
-        var ScalingList8x8p = native.ScalingList8x8[0];
-        var pScalingList8x8 = (byte*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in ScalingList8x8p ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pScalingList8x8, 384, tmpScalingList8x8);
-        ScalingList8x8 = tmpScalingList8x8;
+        ScalingList4x4 = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.ScalingList4x4[0], new byte[96]);
+        ScalingList8x8 = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.ScalingList8x8[0], new byte[384]);
 
     }
     public void* GetNativePointer<TContext>(ref TContext context) where TContext : IMarshallingContext, allows ref struct

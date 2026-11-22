@@ -49,36 +49,12 @@ public unsafe partial class StdVideoH265ScalingLists : IMarshallableObject, IMar
 
     public void MarshalFrom(in Adamantium.Vulkan.Core.Interop.StdVideoH265ScalingLists native)
     {
-        var tmpScalingList4x4 = new byte[96];
-        var ScalingList4x4p = native.ScalingList4x4[0];
-        var pScalingList4x4 = (byte*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in ScalingList4x4p ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pScalingList4x4, 96, tmpScalingList4x4);
-        ScalingList4x4 = tmpScalingList4x4;
-        var tmpScalingList8x8 = new byte[384];
-        var ScalingList8x8p = native.ScalingList8x8[0];
-        var pScalingList8x8 = (byte*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in ScalingList8x8p ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pScalingList8x8, 384, tmpScalingList8x8);
-        ScalingList8x8 = tmpScalingList8x8;
-        var tmpScalingList16x16 = new byte[384];
-        var ScalingList16x16p = native.ScalingList16x16[0];
-        var pScalingList16x16 = (byte*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in ScalingList16x16p ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pScalingList16x16, 384, tmpScalingList16x16);
-        ScalingList16x16 = tmpScalingList16x16;
-        var tmpScalingList32x32 = new byte[128];
-        var ScalingList32x32p = native.ScalingList32x32[0];
-        var pScalingList32x32 = (byte*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in ScalingList32x32p ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pScalingList32x32, 128, tmpScalingList32x32);
-        ScalingList32x32 = tmpScalingList32x32;
-        var tmpScalingListDCCoef16x16 = new byte[6];
-        var ScalingListDCCoef16x16p = native.ScalingListDCCoef16x16[0];
-        var pScalingListDCCoef16x16 = (byte*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in ScalingListDCCoef16x16p ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pScalingListDCCoef16x16, 6, tmpScalingListDCCoef16x16);
-        ScalingListDCCoef16x16 = tmpScalingListDCCoef16x16;
-        var tmpScalingListDCCoef32x32 = new byte[2];
-        var ScalingListDCCoef32x32p = native.ScalingListDCCoef32x32[0];
-        var pScalingListDCCoef32x32 = (byte*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in ScalingListDCCoef32x32p ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pScalingListDCCoef32x32, 2, tmpScalingListDCCoef32x32);
-        ScalingListDCCoef32x32 = tmpScalingListDCCoef32x32;
+        ScalingList4x4 = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.ScalingList4x4[0], new byte[96]);
+        ScalingList8x8 = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.ScalingList8x8[0], new byte[384]);
+        ScalingList16x16 = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.ScalingList16x16[0], new byte[384]);
+        ScalingList32x32 = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.ScalingList32x32[0], new byte[128]);
+        ScalingListDCCoef16x16 = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.ScalingListDCCoef16x16[0], new byte[6]);
+        ScalingListDCCoef32x32 = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.ScalingListDCCoef32x32[0], new byte[2]);
 
     }
     public void* GetNativePointer<TContext>(ref TContext context) where TContext : IMarshallingContext, allows ref struct

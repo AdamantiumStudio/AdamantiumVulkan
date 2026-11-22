@@ -53,26 +53,10 @@ public unsafe partial class StdVideoEncodeH265ReferenceListsInfo : IMarshallable
         Flags = new StdVideoEncodeH265ReferenceListsInfoFlags(native.flags);
         Num_ref_idx_l0_active_minus1 = native.num_ref_idx_l0_active_minus1;
         Num_ref_idx_l1_active_minus1 = native.num_ref_idx_l1_active_minus1;
-        var tmpRefPicList0 = new byte[15];
-        var RefPicList0p = native.RefPicList0[0];
-        var pRefPicList0 = (byte*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in RefPicList0p ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pRefPicList0, 15, tmpRefPicList0);
-        RefPicList0 = tmpRefPicList0;
-        var tmpRefPicList1 = new byte[15];
-        var RefPicList1p = native.RefPicList1[0];
-        var pRefPicList1 = (byte*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in RefPicList1p ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pRefPicList1, 15, tmpRefPicList1);
-        RefPicList1 = tmpRefPicList1;
-        var tmpList_entry_l0 = new byte[15];
-        var list_entry_l0p = native.list_entry_l0[0];
-        var pList_entry_l0 = (byte*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in list_entry_l0p ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pList_entry_l0, 15, tmpList_entry_l0);
-        List_entry_l0 = tmpList_entry_l0;
-        var tmpList_entry_l1 = new byte[15];
-        var list_entry_l1p = native.list_entry_l1[0];
-        var pList_entry_l1 = (byte*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in list_entry_l1p ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pList_entry_l1, 15, tmpList_entry_l1);
-        List_entry_l1 = tmpList_entry_l1;
+        RefPicList0 = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.RefPicList0[0], new byte[15]);
+        RefPicList1 = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.RefPicList1[0], new byte[15]);
+        List_entry_l0 = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.list_entry_l0[0], new byte[15]);
+        List_entry_l1 = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.list_entry_l1[0], new byte[15]);
 
     }
     public void* GetNativePointer<TContext>(ref TContext context) where TContext : IMarshallingContext, allows ref struct

@@ -44,11 +44,7 @@ public unsafe partial class StdVideoH265PredictorPaletteEntries : IMarshallableO
 
     public void MarshalFrom(in Adamantium.Vulkan.Core.Interop.StdVideoH265PredictorPaletteEntries native)
     {
-        var tmpPredictorPaletteEntries = new ushort[384];
-        var PredictorPaletteEntriesp = native.PredictorPaletteEntries[0];
-        var pPredictorPaletteEntries = (ushort*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in PredictorPaletteEntriesp ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pPredictorPaletteEntries, 384, tmpPredictorPaletteEntries);
-        PredictorPaletteEntries = tmpPredictorPaletteEntries;
+        PredictorPaletteEntries = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.PredictorPaletteEntries[0], new ushort[384]);
 
     }
     public void* GetNativePointer<TContext>(ref TContext context) where TContext : IMarshallingContext, allows ref struct

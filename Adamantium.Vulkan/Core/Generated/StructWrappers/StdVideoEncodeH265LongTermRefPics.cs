@@ -52,27 +52,11 @@ public unsafe partial class StdVideoEncodeH265LongTermRefPics : IMarshallableObj
     {
         Num_long_term_sps = native.num_long_term_sps;
         Num_long_term_pics = native.num_long_term_pics;
-        var tmpLt_idx_sps = new byte[32];
-        var lt_idx_spsp = native.lt_idx_sps[0];
-        var pLt_idx_sps = (byte*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in lt_idx_spsp ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pLt_idx_sps, 32, tmpLt_idx_sps);
-        Lt_idx_sps = tmpLt_idx_sps;
-        var tmpPoc_lsb_lt = new byte[16];
-        var poc_lsb_ltp = native.poc_lsb_lt[0];
-        var pPoc_lsb_lt = (byte*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in poc_lsb_ltp ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pPoc_lsb_lt, 16, tmpPoc_lsb_lt);
-        Poc_lsb_lt = tmpPoc_lsb_lt;
+        Lt_idx_sps = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.lt_idx_sps[0], new byte[32]);
+        Poc_lsb_lt = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.poc_lsb_lt[0], new byte[16]);
         Used_by_curr_pic_lt_flag = native.used_by_curr_pic_lt_flag;
-        var tmpDelta_poc_msb_present_flag = new byte[48];
-        var delta_poc_msb_present_flagp = native.delta_poc_msb_present_flag[0];
-        var pDelta_poc_msb_present_flag = (byte*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in delta_poc_msb_present_flagp ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pDelta_poc_msb_present_flag, 48, tmpDelta_poc_msb_present_flag);
-        Delta_poc_msb_present_flag = tmpDelta_poc_msb_present_flag;
-        var tmpDelta_poc_msb_cycle_lt = new byte[48];
-        var delta_poc_msb_cycle_ltp = native.delta_poc_msb_cycle_lt[0];
-        var pDelta_poc_msb_cycle_lt = (byte*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in delta_poc_msb_cycle_ltp ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pDelta_poc_msb_cycle_lt, 48, tmpDelta_poc_msb_cycle_lt);
-        Delta_poc_msb_cycle_lt = tmpDelta_poc_msb_cycle_lt;
+        Delta_poc_msb_present_flag = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.delta_poc_msb_present_flag[0], new byte[48]);
+        Delta_poc_msb_cycle_lt = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.delta_poc_msb_cycle_lt[0], new byte[48]);
 
     }
     public void* GetNativePointer<TContext>(ref TContext context) where TContext : IMarshallingContext, allows ref struct

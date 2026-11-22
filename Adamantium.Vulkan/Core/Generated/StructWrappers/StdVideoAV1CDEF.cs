@@ -51,26 +51,10 @@ public unsafe partial class StdVideoAV1CDEF : IMarshallableObject, IMarshallable
     {
         Cdef_damping_minus_3 = native.cdef_damping_minus_3;
         Cdef_bits = native.cdef_bits;
-        var tmpCdef_y_pri_strength = new byte[8];
-        var cdef_y_pri_strengthp = native.cdef_y_pri_strength[0];
-        var pCdef_y_pri_strength = (byte*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in cdef_y_pri_strengthp ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pCdef_y_pri_strength, 8, tmpCdef_y_pri_strength);
-        Cdef_y_pri_strength = tmpCdef_y_pri_strength;
-        var tmpCdef_y_sec_strength = new byte[8];
-        var cdef_y_sec_strengthp = native.cdef_y_sec_strength[0];
-        var pCdef_y_sec_strength = (byte*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in cdef_y_sec_strengthp ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pCdef_y_sec_strength, 8, tmpCdef_y_sec_strength);
-        Cdef_y_sec_strength = tmpCdef_y_sec_strength;
-        var tmpCdef_uv_pri_strength = new byte[8];
-        var cdef_uv_pri_strengthp = native.cdef_uv_pri_strength[0];
-        var pCdef_uv_pri_strength = (byte*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in cdef_uv_pri_strengthp ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pCdef_uv_pri_strength, 8, tmpCdef_uv_pri_strength);
-        Cdef_uv_pri_strength = tmpCdef_uv_pri_strength;
-        var tmpCdef_uv_sec_strength = new byte[8];
-        var cdef_uv_sec_strengthp = native.cdef_uv_sec_strength[0];
-        var pCdef_uv_sec_strength = (byte*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in cdef_uv_sec_strengthp ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pCdef_uv_sec_strength, 8, tmpCdef_uv_sec_strength);
-        Cdef_uv_sec_strength = tmpCdef_uv_sec_strength;
+        Cdef_y_pri_strength = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.cdef_y_pri_strength[0], new byte[8]);
+        Cdef_y_sec_strength = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.cdef_y_sec_strength[0], new byte[8]);
+        Cdef_uv_pri_strength = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.cdef_uv_pri_strength[0], new byte[8]);
+        Cdef_uv_sec_strength = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.cdef_uv_sec_strength[0], new byte[8]);
 
     }
     public void* GetNativePointer<TContext>(ref TContext context) where TContext : IMarshallingContext, allows ref struct

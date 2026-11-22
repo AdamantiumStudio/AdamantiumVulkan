@@ -64,11 +64,7 @@ public unsafe partial class PerformanceCounterKHR : IMarshallableObject, IMarsha
         Unit = native.unit;
         Scope = native.scope;
         Storage = native.storage;
-        var tmpUuid = new byte[16];
-        var uuidp = native.uuid[0];
-        var pUuid = (byte*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in uuidp ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pUuid, 16, tmpUuid);
-        Uuid = tmpUuid;
+        Uuid = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.uuid[0], new byte[16]);
 
     }
     public void* GetNativePointer<TContext>(ref TContext context) where TContext : IMarshallingContext, allows ref struct

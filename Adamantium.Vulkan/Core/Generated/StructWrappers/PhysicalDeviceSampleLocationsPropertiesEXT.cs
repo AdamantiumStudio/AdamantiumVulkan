@@ -64,11 +64,7 @@ public unsafe partial class PhysicalDeviceSampleLocationsPropertiesEXT : IMarsha
         }
         SampleLocationSampleCounts = native.sampleLocationSampleCounts;
         MaxSampleLocationGridSize = new Extent2D(native.maxSampleLocationGridSize);
-        var tmpSampleLocationCoordinateRange = new float[2];
-        var sampleLocationCoordinateRangep = native.sampleLocationCoordinateRange[0];
-        var pSampleLocationCoordinateRange = (float*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in sampleLocationCoordinateRangep ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pSampleLocationCoordinateRange, 2, tmpSampleLocationCoordinateRange);
-        SampleLocationCoordinateRange = tmpSampleLocationCoordinateRange;
+        SampleLocationCoordinateRange = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.sampleLocationCoordinateRange[0], new float[2]);
         SampleLocationSubPixelBits = native.sampleLocationSubPixelBits;
         VariableSampleLocations = native.variableSampleLocations;
 

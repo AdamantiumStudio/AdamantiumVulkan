@@ -56,11 +56,7 @@ public unsafe partial class ShaderStatisticsInfoAMD : IMarshallableObject, IMars
         NumPhysicalSgprs = native.numPhysicalSgprs;
         NumAvailableVgprs = native.numAvailableVgprs;
         NumAvailableSgprs = native.numAvailableSgprs;
-        var tmpComputeWorkGroupSize = new uint[3];
-        var computeWorkGroupSizep = native.computeWorkGroupSize[0];
-        var pComputeWorkGroupSize = (uint*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in computeWorkGroupSizep ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pComputeWorkGroupSize, 3, tmpComputeWorkGroupSize);
-        ComputeWorkGroupSize = tmpComputeWorkGroupSize;
+        ComputeWorkGroupSize = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.computeWorkGroupSize[0], new uint[3]);
 
     }
     public void* GetNativePointer<TContext>(ref TContext context) where TContext : IMarshallingContext, allows ref struct

@@ -76,11 +76,7 @@ public unsafe partial class StdVideoAV1SequenceHeader : IMarshallableObject, IMa
         Order_hint_bits_minus_1 = native.order_hint_bits_minus_1;
         Seq_force_integer_mv = native.seq_force_integer_mv;
         Seq_force_screen_content_tools = native.seq_force_screen_content_tools;
-        var tmpReserved1 = new byte[5];
-        var reserved1p = native.reserved1[0];
-        var pReserved1 = (byte*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in reserved1p ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pReserved1, 5, tmpReserved1);
-        Reserved1 = tmpReserved1;
+        Reserved1 = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.reserved1[0], new byte[5]);
         PColorConfig = new StdVideoAV1ColorConfig(in *native.pColorConfig);
         NativeUtils.Free(native.pColorConfig);
         PTimingInfo = new StdVideoAV1TimingInfo(in *native.pTimingInfo);
