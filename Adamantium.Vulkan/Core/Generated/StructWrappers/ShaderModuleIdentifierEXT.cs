@@ -60,11 +60,7 @@ public unsafe partial class ShaderModuleIdentifierEXT : IMarshallableObject, IMa
             PNext = (System.IntPtr)native.pNext;
         }
         IdentifierSize = native.identifierSize;
-        var tmpIdentifier = new byte[32];
-        var identifierp = native.identifier[0];
-        var pIdentifier = (byte*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in identifierp ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pIdentifier, 32, tmpIdentifier);
-        Identifier = tmpIdentifier;
+        Identifier = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.identifier[0], new byte[32]);
 
     }
     public void* GetNativePointer<TContext>(ref TContext context) where TContext : IMarshallingContext, allows ref struct

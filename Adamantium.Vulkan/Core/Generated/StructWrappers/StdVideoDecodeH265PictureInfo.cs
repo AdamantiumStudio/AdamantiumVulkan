@@ -62,21 +62,9 @@ public unsafe partial class StdVideoDecodeH265PictureInfo : IMarshallableObject,
         PicOrderCntVal = native.PicOrderCntVal;
         NumBitsForSTRefPicSetInSlice = native.NumBitsForSTRefPicSetInSlice;
         Reserved = native.reserved;
-        var tmpRefPicSetStCurrBefore = new byte[8];
-        var RefPicSetStCurrBeforep = native.RefPicSetStCurrBefore[0];
-        var pRefPicSetStCurrBefore = (byte*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in RefPicSetStCurrBeforep ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pRefPicSetStCurrBefore, 8, tmpRefPicSetStCurrBefore);
-        RefPicSetStCurrBefore = tmpRefPicSetStCurrBefore;
-        var tmpRefPicSetStCurrAfter = new byte[8];
-        var RefPicSetStCurrAfterp = native.RefPicSetStCurrAfter[0];
-        var pRefPicSetStCurrAfter = (byte*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in RefPicSetStCurrAfterp ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pRefPicSetStCurrAfter, 8, tmpRefPicSetStCurrAfter);
-        RefPicSetStCurrAfter = tmpRefPicSetStCurrAfter;
-        var tmpRefPicSetLtCurr = new byte[8];
-        var RefPicSetLtCurrp = native.RefPicSetLtCurr[0];
-        var pRefPicSetLtCurr = (byte*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in RefPicSetLtCurrp ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pRefPicSetLtCurr, 8, tmpRefPicSetLtCurr);
-        RefPicSetLtCurr = tmpRefPicSetLtCurr;
+        RefPicSetStCurrBefore = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.RefPicSetStCurrBefore[0], new byte[8]);
+        RefPicSetStCurrAfter = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.RefPicSetStCurrAfter[0], new byte[8]);
+        RefPicSetLtCurr = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.RefPicSetLtCurr[0], new byte[8]);
 
     }
     public void* GetNativePointer<TContext>(ref TContext context) where TContext : IMarshallingContext, allows ref struct

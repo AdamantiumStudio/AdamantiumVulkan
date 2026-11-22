@@ -49,26 +49,10 @@ public unsafe partial class StdVideoVP9Segmentation : IMarshallableObject, IMars
     public void MarshalFrom(in Adamantium.Vulkan.Core.Interop.StdVideoVP9Segmentation native)
     {
         Flags = new StdVideoVP9SegmentationFlags(native.flags);
-        var tmpSegmentation_tree_probs = new byte[7];
-        var segmentation_tree_probsp = native.segmentation_tree_probs[0];
-        var pSegmentation_tree_probs = (byte*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in segmentation_tree_probsp ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pSegmentation_tree_probs, 7, tmpSegmentation_tree_probs);
-        Segmentation_tree_probs = tmpSegmentation_tree_probs;
-        var tmpSegmentation_pred_prob = new byte[3];
-        var segmentation_pred_probp = native.segmentation_pred_prob[0];
-        var pSegmentation_pred_prob = (byte*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in segmentation_pred_probp ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pSegmentation_pred_prob, 3, tmpSegmentation_pred_prob);
-        Segmentation_pred_prob = tmpSegmentation_pred_prob;
-        var tmpFeatureEnabled = new byte[8];
-        var FeatureEnabledp = native.FeatureEnabled[0];
-        var pFeatureEnabled = (byte*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in FeatureEnabledp ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pFeatureEnabled, 8, tmpFeatureEnabled);
-        FeatureEnabled = tmpFeatureEnabled;
-        var tmpFeatureData = new short[32];
-        var FeatureDatap = native.FeatureData[0];
-        var pFeatureData = (short*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in FeatureDatap ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pFeatureData, 32, tmpFeatureData);
-        FeatureData = tmpFeatureData;
+        Segmentation_tree_probs = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.segmentation_tree_probs[0], new byte[7]);
+        Segmentation_pred_prob = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.segmentation_pred_prob[0], new byte[3]);
+        FeatureEnabled = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.FeatureEnabled[0], new byte[8]);
+        FeatureData = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.FeatureData[0], new short[32]);
 
     }
     public void* GetNativePointer<TContext>(ref TContext context) where TContext : IMarshallingContext, allows ref struct

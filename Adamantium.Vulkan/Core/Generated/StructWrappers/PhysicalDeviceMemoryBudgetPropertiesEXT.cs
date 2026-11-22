@@ -59,16 +59,8 @@ public unsafe partial class PhysicalDeviceMemoryBudgetPropertiesEXT : IMarshalla
         {
             PNext = (System.IntPtr)native.pNext;
         }
-        var tmpHeapBudget = new VkDeviceSize[16];
-        var heapBudgetp = native.heapBudget[0];
-        var pHeapBudget = (VkDeviceSize*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in heapBudgetp ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pHeapBudget, 16, tmpHeapBudget);
-        HeapBudget = tmpHeapBudget;
-        var tmpHeapUsage = new VkDeviceSize[16];
-        var heapUsagep = native.heapUsage[0];
-        var pHeapUsage = (VkDeviceSize*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in heapUsagep ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pHeapUsage, 16, tmpHeapUsage);
-        HeapUsage = tmpHeapUsage;
+        HeapBudget = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.heapBudget.item0, new VkDeviceSize[16]);
+        HeapUsage = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.heapUsage.item0, new VkDeviceSize[16]);
 
     }
     public void* GetNativePointer<TContext>(ref TContext context) where TContext : IMarshallingContext, allows ref struct

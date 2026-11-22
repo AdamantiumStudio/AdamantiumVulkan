@@ -86,11 +86,7 @@ public unsafe partial class PipelineColorBlendStateCreateInfo : IMarshallableObj
             tmpPAttachments[i] = new PipelineColorBlendAttachmentState(in nativeTmpArray0[i]);
         }
         PAttachments = tmpPAttachments;
-        var tmpBlendConstants = new float[4];
-        var blendConstantsp = native.blendConstants[0];
-        var pBlendConstants = (float*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in blendConstantsp ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pBlendConstants, 4, tmpBlendConstants);
-        BlendConstants = tmpBlendConstants;
+        BlendConstants = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.blendConstants[0], new float[4]);
 
     }
     public void* GetNativePointer<TContext>(ref TContext context) where TContext : IMarshallingContext, allows ref struct

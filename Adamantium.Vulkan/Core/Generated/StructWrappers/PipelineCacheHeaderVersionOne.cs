@@ -52,11 +52,7 @@ public unsafe partial class PipelineCacheHeaderVersionOne : IMarshallableObject,
         HeaderVersion = native.headerVersion;
         VendorID = native.vendorID;
         DeviceID = native.deviceID;
-        var tmpPipelineCacheUUID = new byte[16];
-        var pipelineCacheUUIDp = native.pipelineCacheUUID[0];
-        var pPipelineCacheUUID = (byte*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in pipelineCacheUUIDp ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pPipelineCacheUUID, 16, tmpPipelineCacheUUID);
-        PipelineCacheUUID = tmpPipelineCacheUUID;
+        PipelineCacheUUID = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.pipelineCacheUUID[0], new byte[16]);
 
     }
     public void* GetNativePointer<TContext>(ref TContext context) where TContext : IMarshallingContext, allows ref struct

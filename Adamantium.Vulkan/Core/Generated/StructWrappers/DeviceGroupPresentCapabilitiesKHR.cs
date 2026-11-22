@@ -59,11 +59,7 @@ public unsafe partial class DeviceGroupPresentCapabilitiesKHR : IMarshallableObj
         {
             PNext = (System.IntPtr)native.pNext;
         }
-        var tmpPresentMask = new uint[32];
-        var presentMaskp = native.presentMask[0];
-        var pPresentMask = (uint*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in presentMaskp ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pPresentMask, 32, tmpPresentMask);
-        PresentMask = tmpPresentMask;
+        PresentMask = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.presentMask[0], new uint[32]);
         Modes = native.modes;
 
     }

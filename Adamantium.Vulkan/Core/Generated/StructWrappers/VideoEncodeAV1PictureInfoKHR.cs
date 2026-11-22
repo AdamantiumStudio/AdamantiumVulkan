@@ -73,11 +73,7 @@ public unsafe partial class VideoEncodeAV1PictureInfoKHR : IMarshallableObject, 
         ConstantQIndex = native.constantQIndex;
         PStdPictureInfo = new StdVideoEncodeAV1PictureInfo(in *native.pStdPictureInfo);
         NativeUtils.Free(native.pStdPictureInfo);
-        var tmpReferenceNameSlotIndices = new int[7];
-        var referenceNameSlotIndicesp = native.referenceNameSlotIndices[0];
-        var pReferenceNameSlotIndices = (int*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in referenceNameSlotIndicesp ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pReferenceNameSlotIndices, 7, tmpReferenceNameSlotIndices);
-        ReferenceNameSlotIndices = tmpReferenceNameSlotIndices;
+        ReferenceNameSlotIndices = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.referenceNameSlotIndices[0], new int[7]);
         PrimaryReferenceCdfOnly = native.primaryReferenceCdfOnly;
         GenerateObuExtensionHeader = native.generateObuExtensionHeader;
 

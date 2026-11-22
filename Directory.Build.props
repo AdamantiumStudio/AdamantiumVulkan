@@ -22,7 +22,9 @@
   <PropertyGroup>
     <QuantumBindingDir>$(MSBuildThisFileDirectory)..\QuantumBinding\</QuantumBindingDir>
     <UseQuantumBindingSource Condition="'$(UseQuantumBindingSource)' == ''">$([System.IO.Directory]::Exists('$(QuantumBindingDir)'))</UseQuantumBindingSource>
-    <QuantumBindingVersion>3.3.0</QuantumBindingVersion>
+    <QuantumBindingVersion>3.4.0</QuantumBindingVersion>
+    <!-- The Utils the generated bindings call, the same way: see Directory.Build.targets. -->
+    <QuantumBindingUtilsVersion>3.2.0</QuantumBindingUtilsVersion>
   </PropertyGroup>
 
   <!-- Off by default, on per project. Demos, sandboxes and the binding generator are not products, and a package

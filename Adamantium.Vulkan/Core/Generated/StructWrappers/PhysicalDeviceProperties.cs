@@ -61,11 +61,7 @@ public unsafe partial class PhysicalDeviceProperties : IMarshallableObject, IMar
         {
             DeviceName = QuantumBinding.Utils.MarshalingUtils.MarshalFixedByteArrayToString(pSource, 256);
         }
-        var tmpPipelineCacheUUID = new byte[16];
-        var pipelineCacheUUIDp = native.pipelineCacheUUID[0];
-        var pPipelineCacheUUID = (byte*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in pipelineCacheUUIDp ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pPipelineCacheUUID, 16, tmpPipelineCacheUUID);
-        PipelineCacheUUID = tmpPipelineCacheUUID;
+        PipelineCacheUUID = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.pipelineCacheUUID[0], new byte[16]);
         Limits = new PhysicalDeviceLimits(native.limits);
         SparseProperties = new PhysicalDeviceSparseProperties(native.sparseProperties);
 

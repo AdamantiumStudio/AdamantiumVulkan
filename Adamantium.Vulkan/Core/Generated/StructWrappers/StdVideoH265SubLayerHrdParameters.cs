@@ -48,26 +48,10 @@ public unsafe partial class StdVideoH265SubLayerHrdParameters : IMarshallableObj
 
     public void MarshalFrom(in Adamantium.Vulkan.Core.Interop.StdVideoH265SubLayerHrdParameters native)
     {
-        var tmpBit_rate_value_minus1 = new uint[32];
-        var bit_rate_value_minus1p = native.bit_rate_value_minus1[0];
-        var pBit_rate_value_minus1 = (uint*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in bit_rate_value_minus1p ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pBit_rate_value_minus1, 32, tmpBit_rate_value_minus1);
-        Bit_rate_value_minus1 = tmpBit_rate_value_minus1;
-        var tmpCpb_size_value_minus1 = new uint[32];
-        var cpb_size_value_minus1p = native.cpb_size_value_minus1[0];
-        var pCpb_size_value_minus1 = (uint*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in cpb_size_value_minus1p ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pCpb_size_value_minus1, 32, tmpCpb_size_value_minus1);
-        Cpb_size_value_minus1 = tmpCpb_size_value_minus1;
-        var tmpCpb_size_du_value_minus1 = new uint[32];
-        var cpb_size_du_value_minus1p = native.cpb_size_du_value_minus1[0];
-        var pCpb_size_du_value_minus1 = (uint*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in cpb_size_du_value_minus1p ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pCpb_size_du_value_minus1, 32, tmpCpb_size_du_value_minus1);
-        Cpb_size_du_value_minus1 = tmpCpb_size_du_value_minus1;
-        var tmpBit_rate_du_value_minus1 = new uint[32];
-        var bit_rate_du_value_minus1p = native.bit_rate_du_value_minus1[0];
-        var pBit_rate_du_value_minus1 = (uint*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in bit_rate_du_value_minus1p ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pBit_rate_du_value_minus1, 32, tmpBit_rate_du_value_minus1);
-        Bit_rate_du_value_minus1 = tmpBit_rate_du_value_minus1;
+        Bit_rate_value_minus1 = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.bit_rate_value_minus1[0], new uint[32]);
+        Cpb_size_value_minus1 = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.cpb_size_value_minus1[0], new uint[32]);
+        Cpb_size_du_value_minus1 = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.cpb_size_du_value_minus1[0], new uint[32]);
+        Bit_rate_du_value_minus1 = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.bit_rate_du_value_minus1[0], new uint[32]);
         Cbr_flag = native.cbr_flag;
 
     }

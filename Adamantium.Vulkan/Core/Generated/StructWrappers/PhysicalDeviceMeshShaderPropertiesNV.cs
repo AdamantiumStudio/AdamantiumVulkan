@@ -72,19 +72,11 @@ public unsafe partial class PhysicalDeviceMeshShaderPropertiesNV : IMarshallable
         }
         MaxDrawMeshTasksCount = native.maxDrawMeshTasksCount;
         MaxTaskWorkGroupInvocations = native.maxTaskWorkGroupInvocations;
-        var tmpMaxTaskWorkGroupSize = new uint[3];
-        var maxTaskWorkGroupSizep = native.maxTaskWorkGroupSize[0];
-        var pMaxTaskWorkGroupSize = (uint*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in maxTaskWorkGroupSizep ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pMaxTaskWorkGroupSize, 3, tmpMaxTaskWorkGroupSize);
-        MaxTaskWorkGroupSize = tmpMaxTaskWorkGroupSize;
+        MaxTaskWorkGroupSize = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.maxTaskWorkGroupSize[0], new uint[3]);
         MaxTaskTotalMemorySize = native.maxTaskTotalMemorySize;
         MaxTaskOutputCount = native.maxTaskOutputCount;
         MaxMeshWorkGroupInvocations = native.maxMeshWorkGroupInvocations;
-        var tmpMaxMeshWorkGroupSize = new uint[3];
-        var maxMeshWorkGroupSizep = native.maxMeshWorkGroupSize[0];
-        var pMaxMeshWorkGroupSize = (uint*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in maxMeshWorkGroupSizep ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pMaxMeshWorkGroupSize, 3, tmpMaxMeshWorkGroupSize);
-        MaxMeshWorkGroupSize = tmpMaxMeshWorkGroupSize;
+        MaxMeshWorkGroupSize = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.maxMeshWorkGroupSize[0], new uint[3]);
         MaxMeshTotalMemorySize = native.maxMeshTotalMemorySize;
         MaxMeshOutputVertices = native.maxMeshOutputVertices;
         MaxMeshOutputPrimitives = native.maxMeshOutputPrimitives;

@@ -87,11 +87,7 @@ public unsafe partial class StdVideoDecodeVP9PictureInfo : IMarshallableObject, 
         Delta_q_uv_ac = native.delta_q_uv_ac;
         Tile_cols_log2 = native.tile_cols_log2;
         Tile_rows_log2 = native.tile_rows_log2;
-        var tmpReserved1 = new ushort[3];
-        var reserved1p = native.reserved1[0];
-        var pReserved1 = (ushort*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in reserved1p ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pReserved1, 3, tmpReserved1);
-        Reserved1 = tmpReserved1;
+        Reserved1 = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.reserved1[0], new ushort[3]);
         PColorConfig = new StdVideoVP9ColorConfig(in *native.pColorConfig);
         NativeUtils.Free(native.pColorConfig);
         PLoopFilter = new StdVideoVP9LoopFilter(in *native.pLoopFilter);

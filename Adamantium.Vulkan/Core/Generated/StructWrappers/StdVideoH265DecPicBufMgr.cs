@@ -46,21 +46,9 @@ public unsafe partial class StdVideoH265DecPicBufMgr : IMarshallableObject, IMar
 
     public void MarshalFrom(in Adamantium.Vulkan.Core.Interop.StdVideoH265DecPicBufMgr native)
     {
-        var tmpMax_latency_increase_plus1 = new uint[7];
-        var max_latency_increase_plus1p = native.max_latency_increase_plus1[0];
-        var pMax_latency_increase_plus1 = (uint*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in max_latency_increase_plus1p ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pMax_latency_increase_plus1, 7, tmpMax_latency_increase_plus1);
-        Max_latency_increase_plus1 = tmpMax_latency_increase_plus1;
-        var tmpMax_dec_pic_buffering_minus1 = new byte[7];
-        var max_dec_pic_buffering_minus1p = native.max_dec_pic_buffering_minus1[0];
-        var pMax_dec_pic_buffering_minus1 = (byte*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in max_dec_pic_buffering_minus1p ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pMax_dec_pic_buffering_minus1, 7, tmpMax_dec_pic_buffering_minus1);
-        Max_dec_pic_buffering_minus1 = tmpMax_dec_pic_buffering_minus1;
-        var tmpMax_num_reorder_pics = new byte[7];
-        var max_num_reorder_picsp = native.max_num_reorder_pics[0];
-        var pMax_num_reorder_pics = (byte*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in max_num_reorder_picsp ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pMax_num_reorder_pics, 7, tmpMax_num_reorder_pics);
-        Max_num_reorder_pics = tmpMax_num_reorder_pics;
+        Max_latency_increase_plus1 = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.max_latency_increase_plus1[0], new uint[7]);
+        Max_dec_pic_buffering_minus1 = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.max_dec_pic_buffering_minus1[0], new byte[7]);
+        Max_num_reorder_pics = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.max_num_reorder_pics[0], new byte[7]);
 
     }
     public void* GetNativePointer<TContext>(ref TContext context) where TContext : IMarshallingContext, allows ref struct

@@ -1,0 +1,13 @@
+<Project>
+
+  <!-- QuantumBinding.Utils, named once as a QuantumBindingUtilsReference: its project when QuantumBinding's source is
+       beside, as the generator is; its package of QuantumBindingUtilsVersion when it is not. -->
+  <ItemGroup Condition="'$(UseQuantumBindingSource)' == 'true'">
+    <ProjectReference Include="@(QuantumBindingUtilsReference->'$(QuantumBindingDir)%(Identity)\%(Identity).csproj')" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(UseQuantumBindingSource)' != 'true'">
+    <PackageReference Include="@(QuantumBindingUtilsReference)" Version="$(QuantumBindingUtilsVersion)" />
+  </ItemGroup>
+
+</Project>

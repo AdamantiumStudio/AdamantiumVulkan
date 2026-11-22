@@ -58,11 +58,7 @@ public unsafe partial class PipelinePropertiesIdentifierEXT : IMarshallableObjec
         {
             PNext = (System.IntPtr)native.pNext;
         }
-        var tmpPipelineIdentifier = new byte[16];
-        var pipelineIdentifierp = native.pipelineIdentifier[0];
-        var pPipelineIdentifier = (byte*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in pipelineIdentifierp ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pPipelineIdentifier, 16, tmpPipelineIdentifier);
-        PipelineIdentifier = tmpPipelineIdentifier;
+        PipelineIdentifier = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.pipelineIdentifier[0], new byte[16]);
 
     }
     public void* GetNativePointer<TContext>(ref TContext context) where TContext : IMarshallingContext, allows ref struct

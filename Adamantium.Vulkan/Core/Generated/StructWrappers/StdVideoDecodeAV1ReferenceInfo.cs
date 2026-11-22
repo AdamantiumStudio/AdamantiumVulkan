@@ -52,11 +52,7 @@ public unsafe partial class StdVideoDecodeAV1ReferenceInfo : IMarshallableObject
         Frame_type = native.frame_type;
         RefFrameSignBias = native.RefFrameSignBias;
         OrderHint = native.OrderHint;
-        var tmpSavedOrderHints = new byte[8];
-        var SavedOrderHintsp = native.SavedOrderHints[0];
-        var pSavedOrderHints = (byte*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in SavedOrderHintsp ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pSavedOrderHints, 8, tmpSavedOrderHints);
-        SavedOrderHints = tmpSavedOrderHints;
+        SavedOrderHints = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.SavedOrderHints[0], new byte[8]);
 
     }
     public void* GetNativePointer<TContext>(ref TContext context) where TContext : IMarshallingContext, allows ref struct

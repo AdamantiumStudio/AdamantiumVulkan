@@ -51,24 +51,12 @@ public unsafe partial class StdVideoAV1LoopFilter : IMarshallableObject, IMarsha
     public void MarshalFrom(in Adamantium.Vulkan.Core.Interop.StdVideoAV1LoopFilter native)
     {
         Flags = new StdVideoAV1LoopFilterFlags(native.flags);
-        var tmpLoop_filter_level = new byte[4];
-        var loop_filter_levelp = native.loop_filter_level[0];
-        var pLoop_filter_level = (byte*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in loop_filter_levelp ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pLoop_filter_level, 4, tmpLoop_filter_level);
-        Loop_filter_level = tmpLoop_filter_level;
+        Loop_filter_level = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.loop_filter_level[0], new byte[4]);
         Loop_filter_sharpness = native.loop_filter_sharpness;
         Update_ref_delta = native.update_ref_delta;
-        var tmpLoop_filter_ref_deltas = new sbyte[8];
-        var loop_filter_ref_deltasp = native.loop_filter_ref_deltas[0];
-        var pLoop_filter_ref_deltas = (sbyte*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in loop_filter_ref_deltasp ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pLoop_filter_ref_deltas, 8, tmpLoop_filter_ref_deltas);
-        Loop_filter_ref_deltas = tmpLoop_filter_ref_deltas;
+        Loop_filter_ref_deltas = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.loop_filter_ref_deltas[0], new sbyte[8]);
         Update_mode_delta = native.update_mode_delta;
-        var tmpLoop_filter_mode_deltas = new sbyte[2];
-        var loop_filter_mode_deltasp = native.loop_filter_mode_deltas[0];
-        var pLoop_filter_mode_deltas = (sbyte*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in loop_filter_mode_deltasp ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pLoop_filter_mode_deltas, 2, tmpLoop_filter_mode_deltas);
-        Loop_filter_mode_deltas = tmpLoop_filter_mode_deltas;
+        Loop_filter_mode_deltas = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.loop_filter_mode_deltas[0], new sbyte[2]);
 
     }
     public void* GetNativePointer<TContext>(ref TContext context) where TContext : IMarshallingContext, allows ref struct

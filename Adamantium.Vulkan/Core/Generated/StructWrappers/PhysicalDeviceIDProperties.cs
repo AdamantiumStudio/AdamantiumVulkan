@@ -62,21 +62,9 @@ public unsafe partial class PhysicalDeviceIDProperties : IMarshallableObject, IM
         {
             PNext = (System.IntPtr)native.pNext;
         }
-        var tmpDeviceUUID = new byte[16];
-        var deviceUUIDp = native.deviceUUID[0];
-        var pDeviceUUID = (byte*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in deviceUUIDp ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pDeviceUUID, 16, tmpDeviceUUID);
-        DeviceUUID = tmpDeviceUUID;
-        var tmpDriverUUID = new byte[16];
-        var driverUUIDp = native.driverUUID[0];
-        var pDriverUUID = (byte*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in driverUUIDp ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pDriverUUID, 16, tmpDriverUUID);
-        DriverUUID = tmpDriverUUID;
-        var tmpDeviceLUID = new byte[8];
-        var deviceLUIDp = native.deviceLUID[0];
-        var pDeviceLUID = (byte*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in deviceLUIDp ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pDeviceLUID, 8, tmpDeviceLUID);
-        DeviceLUID = tmpDeviceLUID;
+        DeviceUUID = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.deviceUUID[0], new byte[16]);
+        DriverUUID = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.driverUUID[0], new byte[16]);
+        DeviceLUID = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.deviceLUID[0], new byte[8]);
         DeviceNodeMask = native.deviceNodeMask;
         DeviceLUIDValid = native.deviceLUIDValid;
 

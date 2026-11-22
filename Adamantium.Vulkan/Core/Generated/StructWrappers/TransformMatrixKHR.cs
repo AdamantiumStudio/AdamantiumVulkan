@@ -44,11 +44,7 @@ public unsafe partial class TransformMatrixKHR : IMarshallableObject, IMarshalla
 
     public void MarshalFrom(in Adamantium.Vulkan.Core.Interop.VkTransformMatrixKHR native)
     {
-        var tmpMatrix = new float[12];
-        var matrixp = native.matrix[0];
-        var pMatrix = (float*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in matrixp ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pMatrix, 12, tmpMatrix);
-        Matrix = tmpMatrix;
+        Matrix = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.matrix[0], new float[12]);
 
     }
     public void* GetNativePointer<TContext>(ref TContext context) where TContext : IMarshallingContext, allows ref struct

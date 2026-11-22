@@ -89,21 +89,9 @@ public unsafe partial class StdVideoH265HrdParameters : IMarshallableObject, IMa
         Initial_cpb_removal_delay_length_minus1 = native.initial_cpb_removal_delay_length_minus1;
         Au_cpb_removal_delay_length_minus1 = native.au_cpb_removal_delay_length_minus1;
         Dpb_output_delay_length_minus1 = native.dpb_output_delay_length_minus1;
-        var tmpCpb_cnt_minus1 = new byte[7];
-        var cpb_cnt_minus1p = native.cpb_cnt_minus1[0];
-        var pCpb_cnt_minus1 = (byte*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in cpb_cnt_minus1p ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pCpb_cnt_minus1, 7, tmpCpb_cnt_minus1);
-        Cpb_cnt_minus1 = tmpCpb_cnt_minus1;
-        var tmpElemental_duration_in_tc_minus1 = new ushort[7];
-        var elemental_duration_in_tc_minus1p = native.elemental_duration_in_tc_minus1[0];
-        var pElemental_duration_in_tc_minus1 = (ushort*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in elemental_duration_in_tc_minus1p ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pElemental_duration_in_tc_minus1, 7, tmpElemental_duration_in_tc_minus1);
-        Elemental_duration_in_tc_minus1 = tmpElemental_duration_in_tc_minus1;
-        var tmpReserved = new ushort[3];
-        var reservedp = native.reserved[0];
-        var pReserved = (ushort*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in reservedp ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pReserved, 3, tmpReserved);
-        Reserved = tmpReserved;
+        Cpb_cnt_minus1 = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.cpb_cnt_minus1[0], new byte[7]);
+        Elemental_duration_in_tc_minus1 = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.elemental_duration_in_tc_minus1[0], new ushort[7]);
+        Reserved = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.reserved[0], new ushort[3]);
 
     }
     public void* GetNativePointer<TContext>(ref TContext context) where TContext : IMarshallingContext, allows ref struct

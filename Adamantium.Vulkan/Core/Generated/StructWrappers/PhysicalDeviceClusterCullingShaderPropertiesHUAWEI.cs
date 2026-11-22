@@ -61,16 +61,8 @@ public unsafe partial class PhysicalDeviceClusterCullingShaderPropertiesHUAWEI :
         {
             PNext = (System.IntPtr)native.pNext;
         }
-        var tmpMaxWorkGroupCount = new uint[3];
-        var maxWorkGroupCountp = native.maxWorkGroupCount[0];
-        var pMaxWorkGroupCount = (uint*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in maxWorkGroupCountp ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pMaxWorkGroupCount, 3, tmpMaxWorkGroupCount);
-        MaxWorkGroupCount = tmpMaxWorkGroupCount;
-        var tmpMaxWorkGroupSize = new uint[3];
-        var maxWorkGroupSizep = native.maxWorkGroupSize[0];
-        var pMaxWorkGroupSize = (uint*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in maxWorkGroupSizep ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pMaxWorkGroupSize, 3, tmpMaxWorkGroupSize);
-        MaxWorkGroupSize = tmpMaxWorkGroupSize;
+        MaxWorkGroupCount = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.maxWorkGroupCount[0], new uint[3]);
+        MaxWorkGroupSize = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.maxWorkGroupSize[0], new uint[3]);
         MaxOutputClusterCount = native.maxOutputClusterCount;
         IndirectBufferOffsetAlignment = native.indirectBufferOffsetAlignment;
 

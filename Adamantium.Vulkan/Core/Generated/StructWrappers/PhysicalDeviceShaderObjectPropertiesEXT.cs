@@ -59,11 +59,7 @@ public unsafe partial class PhysicalDeviceShaderObjectPropertiesEXT : IMarshalla
         {
             PNext = (System.IntPtr)native.pNext;
         }
-        var tmpShaderBinaryUUID = new byte[16];
-        var shaderBinaryUUIDp = native.shaderBinaryUUID[0];
-        var pShaderBinaryUUID = (byte*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in shaderBinaryUUIDp ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pShaderBinaryUUID, 16, tmpShaderBinaryUUID);
-        ShaderBinaryUUID = tmpShaderBinaryUUID;
+        ShaderBinaryUUID = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.shaderBinaryUUID[0], new byte[16]);
         ShaderBinaryVersion = native.shaderBinaryVersion;
 
     }

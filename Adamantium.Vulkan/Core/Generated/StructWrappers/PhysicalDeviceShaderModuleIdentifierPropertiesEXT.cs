@@ -58,11 +58,7 @@ public unsafe partial class PhysicalDeviceShaderModuleIdentifierPropertiesEXT : 
         {
             PNext = (System.IntPtr)native.pNext;
         }
-        var tmpShaderModuleIdentifierAlgorithmUUID = new byte[16];
-        var shaderModuleIdentifierAlgorithmUUIDp = native.shaderModuleIdentifierAlgorithmUUID[0];
-        var pShaderModuleIdentifierAlgorithmUUID = (byte*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in shaderModuleIdentifierAlgorithmUUIDp ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pShaderModuleIdentifierAlgorithmUUID, 16, tmpShaderModuleIdentifierAlgorithmUUID);
-        ShaderModuleIdentifierAlgorithmUUID = tmpShaderModuleIdentifierAlgorithmUUID;
+        ShaderModuleIdentifierAlgorithmUUID = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.shaderModuleIdentifierAlgorithmUUID[0], new byte[16]);
 
     }
     public void* GetNativePointer<TContext>(ref TContext context) where TContext : IMarshallingContext, allows ref struct

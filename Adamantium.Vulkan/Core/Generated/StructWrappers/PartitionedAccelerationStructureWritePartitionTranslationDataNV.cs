@@ -46,11 +46,7 @@ public unsafe partial class PartitionedAccelerationStructureWritePartitionTransl
     public void MarshalFrom(in Adamantium.Vulkan.Core.Interop.VkPartitionedAccelerationStructureWritePartitionTranslationDataNV native)
     {
         PartitionIndex = native.partitionIndex;
-        var tmpPartitionTranslation = new float[3];
-        var partitionTranslationp = native.partitionTranslation[0];
-        var pPartitionTranslation = (float*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in partitionTranslationp ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pPartitionTranslation, 3, tmpPartitionTranslation);
-        PartitionTranslation = tmpPartitionTranslation;
+        PartitionTranslation = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.partitionTranslation[0], new float[3]);
 
     }
     public void* GetNativePointer<TContext>(ref TContext context) where TContext : IMarshallingContext, allows ref struct

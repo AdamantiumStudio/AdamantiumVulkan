@@ -77,11 +77,7 @@ public unsafe partial class PhysicalDeviceHostImageCopyProperties : IMarshallabl
         var tmpPCopyDstLayouts = new ImageLayout[arrayLengthPCopyDstLayouts];
         QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(native.pCopyDstLayouts, arrayLengthPCopyDstLayouts, tmpPCopyDstLayouts);
         PCopyDstLayouts = tmpPCopyDstLayouts;
-        var tmpOptimalTilingLayoutUUID = new byte[16];
-        var optimalTilingLayoutUUIDp = native.optimalTilingLayoutUUID[0];
-        var pOptimalTilingLayoutUUID = (byte*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in optimalTilingLayoutUUIDp ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pOptimalTilingLayoutUUID, 16, tmpOptimalTilingLayoutUUID);
-        OptimalTilingLayoutUUID = tmpOptimalTilingLayoutUUID;
+        OptimalTilingLayoutUUID = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.optimalTilingLayoutUUID[0], new byte[16]);
         IdenticalMemoryTypeRequirements = native.identicalMemoryTypeRequirements;
 
     }

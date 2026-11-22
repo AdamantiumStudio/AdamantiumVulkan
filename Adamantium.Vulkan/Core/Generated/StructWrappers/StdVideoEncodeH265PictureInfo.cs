@@ -75,11 +75,7 @@ public unsafe partial class StdVideoEncodeH265PictureInfo : IMarshallableObject,
         Short_term_ref_pic_set_idx = native.short_term_ref_pic_set_idx;
         PicOrderCntVal = native.PicOrderCntVal;
         TemporalId = native.TemporalId;
-        var tmpReserved1 = new byte[7];
-        var reserved1p = native.reserved1[0];
-        var pReserved1 = (byte*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in reserved1p ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pReserved1, 7, tmpReserved1);
-        Reserved1 = tmpReserved1;
+        Reserved1 = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.reserved1[0], new byte[7]);
         PRefLists = new StdVideoEncodeH265ReferenceListsInfo(in *native.pRefLists);
         NativeUtils.Free(native.pRefLists);
         PShortTermRefPicSet = new StdVideoH265ShortTermRefPicSet(in *native.pShortTermRefPicSet);

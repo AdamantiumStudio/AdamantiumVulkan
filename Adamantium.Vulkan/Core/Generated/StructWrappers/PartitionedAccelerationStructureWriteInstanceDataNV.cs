@@ -53,11 +53,7 @@ public unsafe partial class PartitionedAccelerationStructureWriteInstanceDataNV 
     public void MarshalFrom(in Adamantium.Vulkan.Core.Interop.VkPartitionedAccelerationStructureWriteInstanceDataNV native)
     {
         Transform = new TransformMatrixKHR(native.transform);
-        var tmpExplicitAABB = new float[6];
-        var explicitAABBp = native.explicitAABB[0];
-        var pExplicitAABB = (float*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in explicitAABBp ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pExplicitAABB, 6, tmpExplicitAABB);
-        ExplicitAABB = tmpExplicitAABB;
+        ExplicitAABB = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.explicitAABB[0], new float[6]);
         InstanceID = native.instanceID;
         InstanceMask = native.instanceMask;
         InstanceContributionToHitGroupIndex = native.instanceContributionToHitGroupIndex;

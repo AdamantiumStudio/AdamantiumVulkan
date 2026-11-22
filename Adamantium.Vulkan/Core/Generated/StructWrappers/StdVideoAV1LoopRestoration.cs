@@ -51,11 +51,7 @@ public unsafe partial class StdVideoAV1LoopRestoration : IMarshallableObject, IM
             tmpFrameRestorationType[i] = (StdVideoAV1FrameRestorationType)(native.FrameRestorationType[i]);
         }
         FrameRestorationType = tmpFrameRestorationType;
-        var tmpLoopRestorationSize = new ushort[3];
-        var LoopRestorationSizep = native.LoopRestorationSize[0];
-        var pLoopRestorationSize = (ushort*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AsRef(in LoopRestorationSizep ));
-        QuantumBinding.Utils.MarshalingUtils.MarshalFromPointerToArray(pLoopRestorationSize, 3, tmpLoopRestorationSize);
-        LoopRestorationSize = tmpLoopRestorationSize;
+        LoopRestorationSize = QuantumBinding.Utils.MarshalingUtils.CopyFixedArray(in native.LoopRestorationSize[0], new ushort[3]);
 
     }
     public void* GetNativePointer<TContext>(ref TContext context) where TContext : IMarshallingContext, allows ref struct
