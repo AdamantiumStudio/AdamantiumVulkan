@@ -54,7 +54,9 @@ public unsafe partial class Queue : IUnmanagedWrapper<Adamantium.Vulkan.Core.Int
                 ref System.Span<byte> currentCursor = ref mainBuffer;
                 Adamantium.Vulkan.Core.Interop.VkCheckpointData2NV[] arg2Rented = null;
                 var arg2Length = (int)pCheckpointData.Length;
-                var arg2Buffer = arg2Length * sizeof(Adamantium.Vulkan.Core.Interop.VkCheckpointData2NV) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkCheckpointData2NV[arg2Length] : (arg2Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkCheckpointData2NV>.Shared.Rent(arg2Length)).AsSpan(0, arg2Length);
+                var arg2Buffer = (long)arg2Length * sizeof(Adamantium.Vulkan.Core.Interop.VkCheckpointData2NV) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkCheckpointData2NV[arg2Length] : (arg2Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkCheckpointData2NV>.Shared.Rent(arg2Length)).AsSpan(0, arg2Length);
+                if (arg2Rented != null)
+                    arg2Buffer.Clear();
                 fixed (Adamantium.Vulkan.Core.Interop.VkCheckpointData2NV* arg2 = arg2Buffer)
                 {
                     try
@@ -145,7 +147,9 @@ public unsafe partial class Queue : IUnmanagedWrapper<Adamantium.Vulkan.Core.Int
                 ref System.Span<byte> currentCursor = ref mainBuffer;
                 Adamantium.Vulkan.Core.Interop.VkCheckpointDataNV[] arg2Rented = null;
                 var arg2Length = (int)pCheckpointData.Length;
-                var arg2Buffer = arg2Length * sizeof(Adamantium.Vulkan.Core.Interop.VkCheckpointDataNV) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkCheckpointDataNV[arg2Length] : (arg2Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkCheckpointDataNV>.Shared.Rent(arg2Length)).AsSpan(0, arg2Length);
+                var arg2Buffer = (long)arg2Length * sizeof(Adamantium.Vulkan.Core.Interop.VkCheckpointDataNV) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkCheckpointDataNV[arg2Length] : (arg2Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkCheckpointDataNV>.Shared.Rent(arg2Length)).AsSpan(0, arg2Length);
+                if (arg2Rented != null)
+                    arg2Buffer.Clear();
                 fixed (Adamantium.Vulkan.Core.Interop.VkCheckpointDataNV* arg2 = arg2Buffer)
                 {
                     try

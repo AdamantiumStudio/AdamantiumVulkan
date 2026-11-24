@@ -80,7 +80,9 @@ public unsafe static class VulkanNative
                 ref System.Span<byte> currentCursor = ref mainBuffer;
                 Adamantium.Vulkan.Core.Interop.VkLayerProperties[] arg1Rented = null;
                 var arg1Length = (int)pProperties.Length;
-                var arg1Buffer = arg1Length * sizeof(Adamantium.Vulkan.Core.Interop.VkLayerProperties) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkLayerProperties[arg1Length] : (arg1Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkLayerProperties>.Shared.Rent(arg1Length)).AsSpan(0, arg1Length);
+                var arg1Buffer = (long)arg1Length * sizeof(Adamantium.Vulkan.Core.Interop.VkLayerProperties) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkLayerProperties[arg1Length] : (arg1Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkLayerProperties>.Shared.Rent(arg1Length)).AsSpan(0, arg1Length);
+                if (arg1Rented != null)
+                    arg1Buffer.Clear();
                 fixed (Adamantium.Vulkan.Core.Interop.VkLayerProperties* arg1 = arg1Buffer)
                 {
                     try
@@ -135,7 +137,9 @@ public unsafe static class VulkanNative
                 var arg0 = QuantumBinding.Utils.MarshalContextUtils.MarshalString(pLayerName, ref currentCursor);
                 Adamantium.Vulkan.Core.Interop.VkExtensionProperties[] arg2Rented = null;
                 var arg2Length = (int)pProperties.Length;
-                var arg2Buffer = arg2Length * sizeof(Adamantium.Vulkan.Core.Interop.VkExtensionProperties) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkExtensionProperties[arg2Length] : (arg2Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkExtensionProperties>.Shared.Rent(arg2Length)).AsSpan(0, arg2Length);
+                var arg2Buffer = (long)arg2Length * sizeof(Adamantium.Vulkan.Core.Interop.VkExtensionProperties) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkExtensionProperties[arg2Length] : (arg2Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkExtensionProperties>.Shared.Rent(arg2Length)).AsSpan(0, arg2Length);
+                if (arg2Rented != null)
+                    arg2Buffer.Clear();
                 fixed (Adamantium.Vulkan.Core.Interop.VkExtensionProperties* arg2 = arg2Buffer)
                 {
                     try

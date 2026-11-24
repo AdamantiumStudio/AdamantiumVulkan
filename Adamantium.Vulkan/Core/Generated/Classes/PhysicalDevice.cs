@@ -134,7 +134,9 @@ public unsafe partial class PhysicalDevice : IUnmanagedWrapper<Adamantium.Vulkan
                 var arg1 = QuantumBinding.Utils.MarshalContextUtils.MarshalString(pLayerName, ref currentCursor);
                 Adamantium.Vulkan.Core.Interop.VkExtensionProperties[] arg3Rented = null;
                 var arg3Length = (int)pProperties.Length;
-                var arg3Buffer = arg3Length * sizeof(Adamantium.Vulkan.Core.Interop.VkExtensionProperties) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkExtensionProperties[arg3Length] : (arg3Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkExtensionProperties>.Shared.Rent(arg3Length)).AsSpan(0, arg3Length);
+                var arg3Buffer = (long)arg3Length * sizeof(Adamantium.Vulkan.Core.Interop.VkExtensionProperties) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkExtensionProperties[arg3Length] : (arg3Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkExtensionProperties>.Shared.Rent(arg3Length)).AsSpan(0, arg3Length);
+                if (arg3Rented != null)
+                    arg3Buffer.Clear();
                 fixed (Adamantium.Vulkan.Core.Interop.VkExtensionProperties* arg3 = arg3Buffer)
                 {
                     try
@@ -186,7 +188,9 @@ public unsafe partial class PhysicalDevice : IUnmanagedWrapper<Adamantium.Vulkan
                 ref System.Span<byte> currentCursor = ref mainBuffer;
                 Adamantium.Vulkan.Core.Interop.VkLayerProperties[] arg2Rented = null;
                 var arg2Length = (int)pProperties.Length;
-                var arg2Buffer = arg2Length * sizeof(Adamantium.Vulkan.Core.Interop.VkLayerProperties) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkLayerProperties[arg2Length] : (arg2Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkLayerProperties>.Shared.Rent(arg2Length)).AsSpan(0, arg2Length);
+                var arg2Buffer = (long)arg2Length * sizeof(Adamantium.Vulkan.Core.Interop.VkLayerProperties) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkLayerProperties[arg2Length] : (arg2Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkLayerProperties>.Shared.Rent(arg2Length)).AsSpan(0, arg2Length);
+                if (arg2Rented != null)
+                    arg2Buffer.Clear();
                 fixed (Adamantium.Vulkan.Core.Interop.VkLayerProperties* arg2 = arg2Buffer)
                 {
                     try
@@ -282,7 +286,9 @@ public unsafe partial class PhysicalDevice : IUnmanagedWrapper<Adamantium.Vulkan
                 ref System.Span<byte> currentCursor = ref mainBuffer;
                 Adamantium.Vulkan.Core.Interop.VkPerformanceCounterARM[] arg3Rented = null;
                 var arg3Length = (int)pCounters.Length;
-                var arg3Buffer = arg3Length * sizeof(Adamantium.Vulkan.Core.Interop.VkPerformanceCounterARM) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkPerformanceCounterARM[arg3Length] : (arg3Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkPerformanceCounterARM>.Shared.Rent(arg3Length)).AsSpan(0, arg3Length);
+                var arg3Buffer = (long)arg3Length * sizeof(Adamantium.Vulkan.Core.Interop.VkPerformanceCounterARM) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkPerformanceCounterARM[arg3Length] : (arg3Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkPerformanceCounterARM>.Shared.Rent(arg3Length)).AsSpan(0, arg3Length);
+                if (arg3Rented != null)
+                    arg3Buffer.Clear();
                 fixed (Adamantium.Vulkan.Core.Interop.VkPerformanceCounterARM* arg3 = arg3Buffer)
                 {
                     try
@@ -293,7 +299,9 @@ public unsafe partial class PhysicalDevice : IUnmanagedWrapper<Adamantium.Vulkan
                         }
                         Adamantium.Vulkan.Core.Interop.VkPerformanceCounterDescriptionARM[] arg4Rented = null;
                         var arg4Length = (int)pCounterDescriptions.Length;
-                        var arg4Buffer = arg4Length * sizeof(Adamantium.Vulkan.Core.Interop.VkPerformanceCounterDescriptionARM) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkPerformanceCounterDescriptionARM[arg4Length] : (arg4Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkPerformanceCounterDescriptionARM>.Shared.Rent(arg4Length)).AsSpan(0, arg4Length);
+                        var arg4Buffer = (long)arg4Length * sizeof(Adamantium.Vulkan.Core.Interop.VkPerformanceCounterDescriptionARM) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkPerformanceCounterDescriptionARM[arg4Length] : (arg4Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkPerformanceCounterDescriptionARM>.Shared.Rent(arg4Length)).AsSpan(0, arg4Length);
+                        if (arg4Rented != null)
+                            arg4Buffer.Clear();
                         fixed (Adamantium.Vulkan.Core.Interop.VkPerformanceCounterDescriptionARM* arg4 = arg4Buffer)
                         {
                             try
@@ -363,7 +371,9 @@ public unsafe partial class PhysicalDevice : IUnmanagedWrapper<Adamantium.Vulkan
                 var arg3 = QuantumBinding.Utils.MarshalContextUtils.MarshalStructToPointer<Adamantium.Vulkan.Core.PerformanceCounterARM, Adamantium.Vulkan.Core.Interop.VkPerformanceCounterARM>(pCounters, ref currentCursor);
                 Adamantium.Vulkan.Core.Interop.VkPerformanceCounterDescriptionARM[] arg4Rented = null;
                 var arg4Length = (int)pCounterDescriptions.Length;
-                var arg4Buffer = arg4Length * sizeof(Adamantium.Vulkan.Core.Interop.VkPerformanceCounterDescriptionARM) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkPerformanceCounterDescriptionARM[arg4Length] : (arg4Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkPerformanceCounterDescriptionARM>.Shared.Rent(arg4Length)).AsSpan(0, arg4Length);
+                var arg4Buffer = (long)arg4Length * sizeof(Adamantium.Vulkan.Core.Interop.VkPerformanceCounterDescriptionARM) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkPerformanceCounterDescriptionARM[arg4Length] : (arg4Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkPerformanceCounterDescriptionARM>.Shared.Rent(arg4Length)).AsSpan(0, arg4Length);
+                if (arg4Rented != null)
+                    arg4Buffer.Clear();
                 fixed (Adamantium.Vulkan.Core.Interop.VkPerformanceCounterDescriptionARM* arg4 = arg4Buffer)
                 {
                     try
@@ -428,7 +438,9 @@ public unsafe partial class PhysicalDevice : IUnmanagedWrapper<Adamantium.Vulkan
                 ref System.Span<byte> currentCursor = ref mainBuffer;
                 Adamantium.Vulkan.Core.Interop.VkPerformanceCounterARM[] arg3Rented = null;
                 var arg3Length = (int)pCounters.Length;
-                var arg3Buffer = arg3Length * sizeof(Adamantium.Vulkan.Core.Interop.VkPerformanceCounterARM) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkPerformanceCounterARM[arg3Length] : (arg3Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkPerformanceCounterARM>.Shared.Rent(arg3Length)).AsSpan(0, arg3Length);
+                var arg3Buffer = (long)arg3Length * sizeof(Adamantium.Vulkan.Core.Interop.VkPerformanceCounterARM) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkPerformanceCounterARM[arg3Length] : (arg3Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkPerformanceCounterARM>.Shared.Rent(arg3Length)).AsSpan(0, arg3Length);
+                if (arg3Rented != null)
+                    arg3Buffer.Clear();
                 fixed (Adamantium.Vulkan.Core.Interop.VkPerformanceCounterARM* arg3 = arg3Buffer)
                 {
                     try
@@ -546,7 +558,9 @@ public unsafe partial class PhysicalDevice : IUnmanagedWrapper<Adamantium.Vulkan
                 ref System.Span<byte> currentCursor = ref mainBuffer;
                 Adamantium.Vulkan.Core.Interop.VkPerformanceCounterKHR[] arg3Rented = null;
                 var arg3Length = (int)pCounters.Length;
-                var arg3Buffer = arg3Length * sizeof(Adamantium.Vulkan.Core.Interop.VkPerformanceCounterKHR) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkPerformanceCounterKHR[arg3Length] : (arg3Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkPerformanceCounterKHR>.Shared.Rent(arg3Length)).AsSpan(0, arg3Length);
+                var arg3Buffer = (long)arg3Length * sizeof(Adamantium.Vulkan.Core.Interop.VkPerformanceCounterKHR) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkPerformanceCounterKHR[arg3Length] : (arg3Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkPerformanceCounterKHR>.Shared.Rent(arg3Length)).AsSpan(0, arg3Length);
+                if (arg3Rented != null)
+                    arg3Buffer.Clear();
                 fixed (Adamantium.Vulkan.Core.Interop.VkPerformanceCounterKHR* arg3 = arg3Buffer)
                 {
                     try
@@ -557,7 +571,9 @@ public unsafe partial class PhysicalDevice : IUnmanagedWrapper<Adamantium.Vulkan
                         }
                         Adamantium.Vulkan.Core.Interop.VkPerformanceCounterDescriptionKHR[] arg4Rented = null;
                         var arg4Length = (int)pCounterDescriptions.Length;
-                        var arg4Buffer = arg4Length * sizeof(Adamantium.Vulkan.Core.Interop.VkPerformanceCounterDescriptionKHR) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkPerformanceCounterDescriptionKHR[arg4Length] : (arg4Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkPerformanceCounterDescriptionKHR>.Shared.Rent(arg4Length)).AsSpan(0, arg4Length);
+                        var arg4Buffer = (long)arg4Length * sizeof(Adamantium.Vulkan.Core.Interop.VkPerformanceCounterDescriptionKHR) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkPerformanceCounterDescriptionKHR[arg4Length] : (arg4Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkPerformanceCounterDescriptionKHR>.Shared.Rent(arg4Length)).AsSpan(0, arg4Length);
+                        if (arg4Rented != null)
+                            arg4Buffer.Clear();
                         fixed (Adamantium.Vulkan.Core.Interop.VkPerformanceCounterDescriptionKHR* arg4 = arg4Buffer)
                         {
                             try
@@ -627,7 +643,9 @@ public unsafe partial class PhysicalDevice : IUnmanagedWrapper<Adamantium.Vulkan
                 var arg3 = QuantumBinding.Utils.MarshalContextUtils.MarshalStructToPointer<Adamantium.Vulkan.Core.PerformanceCounterKHR, Adamantium.Vulkan.Core.Interop.VkPerformanceCounterKHR>(pCounters, ref currentCursor);
                 Adamantium.Vulkan.Core.Interop.VkPerformanceCounterDescriptionKHR[] arg4Rented = null;
                 var arg4Length = (int)pCounterDescriptions.Length;
-                var arg4Buffer = arg4Length * sizeof(Adamantium.Vulkan.Core.Interop.VkPerformanceCounterDescriptionKHR) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkPerformanceCounterDescriptionKHR[arg4Length] : (arg4Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkPerformanceCounterDescriptionKHR>.Shared.Rent(arg4Length)).AsSpan(0, arg4Length);
+                var arg4Buffer = (long)arg4Length * sizeof(Adamantium.Vulkan.Core.Interop.VkPerformanceCounterDescriptionKHR) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkPerformanceCounterDescriptionKHR[arg4Length] : (arg4Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkPerformanceCounterDescriptionKHR>.Shared.Rent(arg4Length)).AsSpan(0, arg4Length);
+                if (arg4Rented != null)
+                    arg4Buffer.Clear();
                 fixed (Adamantium.Vulkan.Core.Interop.VkPerformanceCounterDescriptionKHR* arg4 = arg4Buffer)
                 {
                     try
@@ -692,7 +710,9 @@ public unsafe partial class PhysicalDevice : IUnmanagedWrapper<Adamantium.Vulkan
                 ref System.Span<byte> currentCursor = ref mainBuffer;
                 Adamantium.Vulkan.Core.Interop.VkPerformanceCounterKHR[] arg3Rented = null;
                 var arg3Length = (int)pCounters.Length;
-                var arg3Buffer = arg3Length * sizeof(Adamantium.Vulkan.Core.Interop.VkPerformanceCounterKHR) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkPerformanceCounterKHR[arg3Length] : (arg3Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkPerformanceCounterKHR>.Shared.Rent(arg3Length)).AsSpan(0, arg3Length);
+                var arg3Buffer = (long)arg3Length * sizeof(Adamantium.Vulkan.Core.Interop.VkPerformanceCounterKHR) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkPerformanceCounterKHR[arg3Length] : (arg3Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkPerformanceCounterKHR>.Shared.Rent(arg3Length)).AsSpan(0, arg3Length);
+                if (arg3Rented != null)
+                    arg3Buffer.Clear();
                 fixed (Adamantium.Vulkan.Core.Interop.VkPerformanceCounterKHR* arg3 = arg3Buffer)
                 {
                     try
@@ -803,7 +823,9 @@ public unsafe partial class PhysicalDevice : IUnmanagedWrapper<Adamantium.Vulkan
                 ref System.Span<byte> currentCursor = ref mainBuffer;
                 Adamantium.Vulkan.Core.Interop.VkShaderInstrumentationMetricDescriptionARM[] arg2Rented = null;
                 var arg2Length = (int)pDescriptions.Length;
-                var arg2Buffer = arg2Length * sizeof(Adamantium.Vulkan.Core.Interop.VkShaderInstrumentationMetricDescriptionARM) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkShaderInstrumentationMetricDescriptionARM[arg2Length] : (arg2Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkShaderInstrumentationMetricDescriptionARM>.Shared.Rent(arg2Length)).AsSpan(0, arg2Length);
+                var arg2Buffer = (long)arg2Length * sizeof(Adamantium.Vulkan.Core.Interop.VkShaderInstrumentationMetricDescriptionARM) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkShaderInstrumentationMetricDescriptionARM[arg2Length] : (arg2Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkShaderInstrumentationMetricDescriptionARM>.Shared.Rent(arg2Length)).AsSpan(0, arg2Length);
+                if (arg2Rented != null)
+                    arg2Buffer.Clear();
                 fixed (Adamantium.Vulkan.Core.Interop.VkShaderInstrumentationMetricDescriptionARM* arg2 = arg2Buffer)
                 {
                     try
@@ -897,7 +919,9 @@ public unsafe partial class PhysicalDevice : IUnmanagedWrapper<Adamantium.Vulkan
                 var arg1 = display == null ? new VkDisplayKHR_T() : (VkDisplayKHR_T)display;
                 Adamantium.Vulkan.Core.Interop.VkDisplayModeProperties2KHR[] arg3Rented = null;
                 var arg3Length = (int)pProperties.Length;
-                var arg3Buffer = arg3Length * sizeof(Adamantium.Vulkan.Core.Interop.VkDisplayModeProperties2KHR) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkDisplayModeProperties2KHR[arg3Length] : (arg3Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkDisplayModeProperties2KHR>.Shared.Rent(arg3Length)).AsSpan(0, arg3Length);
+                var arg3Buffer = (long)arg3Length * sizeof(Adamantium.Vulkan.Core.Interop.VkDisplayModeProperties2KHR) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkDisplayModeProperties2KHR[arg3Length] : (arg3Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkDisplayModeProperties2KHR>.Shared.Rent(arg3Length)).AsSpan(0, arg3Length);
+                if (arg3Rented != null)
+                    arg3Buffer.Clear();
                 fixed (Adamantium.Vulkan.Core.Interop.VkDisplayModeProperties2KHR* arg3 = arg3Buffer)
                 {
                     try
@@ -992,7 +1016,9 @@ public unsafe partial class PhysicalDevice : IUnmanagedWrapper<Adamantium.Vulkan
                 var arg1 = display == null ? new VkDisplayKHR_T() : (VkDisplayKHR_T)display;
                 Adamantium.Vulkan.Core.Interop.VkDisplayModePropertiesKHR[] arg3Rented = null;
                 var arg3Length = (int)pProperties.Length;
-                var arg3Buffer = arg3Length * sizeof(Adamantium.Vulkan.Core.Interop.VkDisplayModePropertiesKHR) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkDisplayModePropertiesKHR[arg3Length] : (arg3Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkDisplayModePropertiesKHR>.Shared.Rent(arg3Length)).AsSpan(0, arg3Length);
+                var arg3Buffer = (long)arg3Length * sizeof(Adamantium.Vulkan.Core.Interop.VkDisplayModePropertiesKHR) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkDisplayModePropertiesKHR[arg3Length] : (arg3Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkDisplayModePropertiesKHR>.Shared.Rent(arg3Length)).AsSpan(0, arg3Length);
+                if (arg3Rented != null)
+                    arg3Buffer.Clear();
                 fixed (Adamantium.Vulkan.Core.Interop.VkDisplayModePropertiesKHR* arg3 = arg3Buffer)
                 {
                     try
@@ -1188,7 +1214,9 @@ public unsafe partial class PhysicalDevice : IUnmanagedWrapper<Adamantium.Vulkan
                 ref System.Span<byte> currentCursor = ref mainBuffer;
                 Adamantium.Vulkan.Core.Interop.VkCooperativeMatrixFlexibleDimensionsPropertiesNV[] arg2Rented = null;
                 var arg2Length = (int)pProperties.Length;
-                var arg2Buffer = arg2Length * sizeof(Adamantium.Vulkan.Core.Interop.VkCooperativeMatrixFlexibleDimensionsPropertiesNV) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkCooperativeMatrixFlexibleDimensionsPropertiesNV[arg2Length] : (arg2Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkCooperativeMatrixFlexibleDimensionsPropertiesNV>.Shared.Rent(arg2Length)).AsSpan(0, arg2Length);
+                var arg2Buffer = (long)arg2Length * sizeof(Adamantium.Vulkan.Core.Interop.VkCooperativeMatrixFlexibleDimensionsPropertiesNV) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkCooperativeMatrixFlexibleDimensionsPropertiesNV[arg2Length] : (arg2Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkCooperativeMatrixFlexibleDimensionsPropertiesNV>.Shared.Rent(arg2Length)).AsSpan(0, arg2Length);
+                if (arg2Rented != null)
+                    arg2Buffer.Clear();
                 fixed (Adamantium.Vulkan.Core.Interop.VkCooperativeMatrixFlexibleDimensionsPropertiesNV* arg2 = arg2Buffer)
                 {
                     try
@@ -1281,7 +1309,9 @@ public unsafe partial class PhysicalDevice : IUnmanagedWrapper<Adamantium.Vulkan
                 ref System.Span<byte> currentCursor = ref mainBuffer;
                 Adamantium.Vulkan.Core.Interop.VkCooperativeMatrixPropertiesKHR[] arg2Rented = null;
                 var arg2Length = (int)pProperties.Length;
-                var arg2Buffer = arg2Length * sizeof(Adamantium.Vulkan.Core.Interop.VkCooperativeMatrixPropertiesKHR) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkCooperativeMatrixPropertiesKHR[arg2Length] : (arg2Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkCooperativeMatrixPropertiesKHR>.Shared.Rent(arg2Length)).AsSpan(0, arg2Length);
+                var arg2Buffer = (long)arg2Length * sizeof(Adamantium.Vulkan.Core.Interop.VkCooperativeMatrixPropertiesKHR) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkCooperativeMatrixPropertiesKHR[arg2Length] : (arg2Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkCooperativeMatrixPropertiesKHR>.Shared.Rent(arg2Length)).AsSpan(0, arg2Length);
+                if (arg2Rented != null)
+                    arg2Buffer.Clear();
                 fixed (Adamantium.Vulkan.Core.Interop.VkCooperativeMatrixPropertiesKHR* arg2 = arg2Buffer)
                 {
                     try
@@ -1374,7 +1404,9 @@ public unsafe partial class PhysicalDevice : IUnmanagedWrapper<Adamantium.Vulkan
                 ref System.Span<byte> currentCursor = ref mainBuffer;
                 Adamantium.Vulkan.Core.Interop.VkCooperativeMatrixPropertiesNV[] arg2Rented = null;
                 var arg2Length = (int)pProperties.Length;
-                var arg2Buffer = arg2Length * sizeof(Adamantium.Vulkan.Core.Interop.VkCooperativeMatrixPropertiesNV) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkCooperativeMatrixPropertiesNV[arg2Length] : (arg2Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkCooperativeMatrixPropertiesNV>.Shared.Rent(arg2Length)).AsSpan(0, arg2Length);
+                var arg2Buffer = (long)arg2Length * sizeof(Adamantium.Vulkan.Core.Interop.VkCooperativeMatrixPropertiesNV) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkCooperativeMatrixPropertiesNV[arg2Length] : (arg2Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkCooperativeMatrixPropertiesNV>.Shared.Rent(arg2Length)).AsSpan(0, arg2Length);
+                if (arg2Rented != null)
+                    arg2Buffer.Clear();
                 fixed (Adamantium.Vulkan.Core.Interop.VkCooperativeMatrixPropertiesNV* arg2 = arg2Buffer)
                 {
                     try
@@ -1467,7 +1499,9 @@ public unsafe partial class PhysicalDevice : IUnmanagedWrapper<Adamantium.Vulkan
                 ref System.Span<byte> currentCursor = ref mainBuffer;
                 Adamantium.Vulkan.Core.Interop.VkCooperativeVectorPropertiesNV[] arg2Rented = null;
                 var arg2Length = (int)pProperties.Length;
-                var arg2Buffer = arg2Length * sizeof(Adamantium.Vulkan.Core.Interop.VkCooperativeVectorPropertiesNV) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkCooperativeVectorPropertiesNV[arg2Length] : (arg2Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkCooperativeVectorPropertiesNV>.Shared.Rent(arg2Length)).AsSpan(0, arg2Length);
+                var arg2Buffer = (long)arg2Length * sizeof(Adamantium.Vulkan.Core.Interop.VkCooperativeVectorPropertiesNV) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkCooperativeVectorPropertiesNV[arg2Length] : (arg2Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkCooperativeVectorPropertiesNV>.Shared.Rent(arg2Length)).AsSpan(0, arg2Length);
+                if (arg2Rented != null)
+                    arg2Buffer.Clear();
                 fixed (Adamantium.Vulkan.Core.Interop.VkCooperativeVectorPropertiesNV* arg2 = arg2Buffer)
                 {
                     try
@@ -1565,7 +1599,9 @@ public unsafe partial class PhysicalDevice : IUnmanagedWrapper<Adamantium.Vulkan
                 ref System.Span<byte> currentCursor = ref mainBuffer;
                 Adamantium.Vulkan.Core.Interop.VkDisplayPlaneProperties2KHR[] arg2Rented = null;
                 var arg2Length = (int)pProperties.Length;
-                var arg2Buffer = arg2Length * sizeof(Adamantium.Vulkan.Core.Interop.VkDisplayPlaneProperties2KHR) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkDisplayPlaneProperties2KHR[arg2Length] : (arg2Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkDisplayPlaneProperties2KHR>.Shared.Rent(arg2Length)).AsSpan(0, arg2Length);
+                var arg2Buffer = (long)arg2Length * sizeof(Adamantium.Vulkan.Core.Interop.VkDisplayPlaneProperties2KHR) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkDisplayPlaneProperties2KHR[arg2Length] : (arg2Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkDisplayPlaneProperties2KHR>.Shared.Rent(arg2Length)).AsSpan(0, arg2Length);
+                if (arg2Rented != null)
+                    arg2Buffer.Clear();
                 fixed (Adamantium.Vulkan.Core.Interop.VkDisplayPlaneProperties2KHR* arg2 = arg2Buffer)
                 {
                     try
@@ -1670,7 +1706,9 @@ public unsafe partial class PhysicalDevice : IUnmanagedWrapper<Adamantium.Vulkan
                 ref System.Span<byte> currentCursor = ref mainBuffer;
                 Adamantium.Vulkan.Core.Interop.VkDisplayProperties2KHR[] arg2Rented = null;
                 var arg2Length = (int)pProperties.Length;
-                var arg2Buffer = arg2Length * sizeof(Adamantium.Vulkan.Core.Interop.VkDisplayProperties2KHR) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkDisplayProperties2KHR[arg2Length] : (arg2Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkDisplayProperties2KHR>.Shared.Rent(arg2Length)).AsSpan(0, arg2Length);
+                var arg2Buffer = (long)arg2Length * sizeof(Adamantium.Vulkan.Core.Interop.VkDisplayProperties2KHR) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkDisplayProperties2KHR[arg2Length] : (arg2Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkDisplayProperties2KHR>.Shared.Rent(arg2Length)).AsSpan(0, arg2Length);
+                if (arg2Rented != null)
+                    arg2Buffer.Clear();
                 fixed (Adamantium.Vulkan.Core.Interop.VkDisplayProperties2KHR* arg2 = arg2Buffer)
                 {
                     try
@@ -1763,7 +1801,9 @@ public unsafe partial class PhysicalDevice : IUnmanagedWrapper<Adamantium.Vulkan
                 ref System.Span<byte> currentCursor = ref mainBuffer;
                 Adamantium.Vulkan.Core.Interop.VkDisplayPropertiesKHR[] arg2Rented = null;
                 var arg2Length = (int)pProperties.Length;
-                var arg2Buffer = arg2Length * sizeof(Adamantium.Vulkan.Core.Interop.VkDisplayPropertiesKHR) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkDisplayPropertiesKHR[arg2Length] : (arg2Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkDisplayPropertiesKHR>.Shared.Rent(arg2Length)).AsSpan(0, arg2Length);
+                var arg2Buffer = (long)arg2Length * sizeof(Adamantium.Vulkan.Core.Interop.VkDisplayPropertiesKHR) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkDisplayPropertiesKHR[arg2Length] : (arg2Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkDisplayPropertiesKHR>.Shared.Rent(arg2Length)).AsSpan(0, arg2Length);
+                if (arg2Rented != null)
+                    arg2Buffer.Clear();
                 fixed (Adamantium.Vulkan.Core.Interop.VkDisplayPropertiesKHR* arg2 = arg2Buffer)
                 {
                     try
@@ -2074,7 +2114,9 @@ public unsafe partial class PhysicalDevice : IUnmanagedWrapper<Adamantium.Vulkan
                 ref System.Span<byte> currentCursor = ref mainBuffer;
                 Adamantium.Vulkan.Core.Interop.VkPhysicalDeviceFragmentShadingRateKHR[] arg2Rented = null;
                 var arg2Length = (int)pFragmentShadingRates.Length;
-                var arg2Buffer = arg2Length * sizeof(Adamantium.Vulkan.Core.Interop.VkPhysicalDeviceFragmentShadingRateKHR) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkPhysicalDeviceFragmentShadingRateKHR[arg2Length] : (arg2Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkPhysicalDeviceFragmentShadingRateKHR>.Shared.Rent(arg2Length)).AsSpan(0, arg2Length);
+                var arg2Buffer = (long)arg2Length * sizeof(Adamantium.Vulkan.Core.Interop.VkPhysicalDeviceFragmentShadingRateKHR) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkPhysicalDeviceFragmentShadingRateKHR[arg2Length] : (arg2Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkPhysicalDeviceFragmentShadingRateKHR>.Shared.Rent(arg2Length)).AsSpan(0, arg2Length);
+                if (arg2Rented != null)
+                    arg2Buffer.Clear();
                 fixed (Adamantium.Vulkan.Core.Interop.VkPhysicalDeviceFragmentShadingRateKHR* arg2 = arg2Buffer)
                 {
                     try
@@ -2269,7 +2311,9 @@ public unsafe partial class PhysicalDevice : IUnmanagedWrapper<Adamantium.Vulkan
                 var arg1 = QuantumBinding.Utils.MarshalContextUtils.MarshalStructToPointer<Adamantium.Vulkan.Core.OpticalFlowImageFormatInfoNV, Adamantium.Vulkan.Core.Interop.VkOpticalFlowImageFormatInfoNV>(pOpticalFlowImageFormatInfo, ref currentCursor);
                 Adamantium.Vulkan.Core.Interop.VkOpticalFlowImageFormatPropertiesNV[] arg3Rented = null;
                 var arg3Length = (int)pImageFormatProperties.Length;
-                var arg3Buffer = arg3Length * sizeof(Adamantium.Vulkan.Core.Interop.VkOpticalFlowImageFormatPropertiesNV) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkOpticalFlowImageFormatPropertiesNV[arg3Length] : (arg3Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkOpticalFlowImageFormatPropertiesNV>.Shared.Rent(arg3Length)).AsSpan(0, arg3Length);
+                var arg3Buffer = (long)arg3Length * sizeof(Adamantium.Vulkan.Core.Interop.VkOpticalFlowImageFormatPropertiesNV) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkOpticalFlowImageFormatPropertiesNV[arg3Length] : (arg3Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkOpticalFlowImageFormatPropertiesNV>.Shared.Rent(arg3Length)).AsSpan(0, arg3Length);
+                if (arg3Rented != null)
+                    arg3Buffer.Clear();
                 fixed (Adamantium.Vulkan.Core.Interop.VkOpticalFlowImageFormatPropertiesNV* arg3 = arg3Buffer)
                 {
                     try
@@ -2366,7 +2410,9 @@ public unsafe partial class PhysicalDevice : IUnmanagedWrapper<Adamantium.Vulkan
                 var arg1 = surface == null ? new VkSurfaceKHR_T() : (VkSurfaceKHR_T)surface;
                 Adamantium.Vulkan.Core.Interop.VkRect2D[] arg3Rented = null;
                 var arg3Length = (int)pRects.Length;
-                var arg3Buffer = arg3Length * sizeof(Adamantium.Vulkan.Core.Interop.VkRect2D) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkRect2D[arg3Length] : (arg3Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkRect2D>.Shared.Rent(arg3Length)).AsSpan(0, arg3Length);
+                var arg3Buffer = (long)arg3Length * sizeof(Adamantium.Vulkan.Core.Interop.VkRect2D) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkRect2D[arg3Length] : (arg3Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkRect2D>.Shared.Rent(arg3Length)).AsSpan(0, arg3Length);
+                if (arg3Rented != null)
+                    arg3Buffer.Clear();
                 fixed (Adamantium.Vulkan.Core.Interop.VkRect2D* arg3 = arg3Buffer)
                 {
                     try
@@ -2537,7 +2583,9 @@ public unsafe partial class PhysicalDevice : IUnmanagedWrapper<Adamantium.Vulkan
                 var arg3 = QuantumBinding.Utils.MarshalContextUtils.MarshalStructToPointer<Adamantium.Vulkan.Core.DataGraphOpticalFlowImageFormatInfoARM, Adamantium.Vulkan.Core.Interop.VkDataGraphOpticalFlowImageFormatInfoARM>(pOpticalFlowImageFormatInfo, ref currentCursor);
                 Adamantium.Vulkan.Core.Interop.VkDataGraphOpticalFlowImageFormatPropertiesARM[] arg5Rented = null;
                 var arg5Length = (int)pImageFormatProperties.Length;
-                var arg5Buffer = arg5Length * sizeof(Adamantium.Vulkan.Core.Interop.VkDataGraphOpticalFlowImageFormatPropertiesARM) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkDataGraphOpticalFlowImageFormatPropertiesARM[arg5Length] : (arg5Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkDataGraphOpticalFlowImageFormatPropertiesARM>.Shared.Rent(arg5Length)).AsSpan(0, arg5Length);
+                var arg5Buffer = (long)arg5Length * sizeof(Adamantium.Vulkan.Core.Interop.VkDataGraphOpticalFlowImageFormatPropertiesARM) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkDataGraphOpticalFlowImageFormatPropertiesARM[arg5Length] : (arg5Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkDataGraphOpticalFlowImageFormatPropertiesARM>.Shared.Rent(arg5Length)).AsSpan(0, arg5Length);
+                if (arg5Rented != null)
+                    arg5Buffer.Clear();
                 fixed (Adamantium.Vulkan.Core.Interop.VkDataGraphOpticalFlowImageFormatPropertiesARM* arg5 = arg5Buffer)
                 {
                     try
@@ -2668,7 +2716,9 @@ public unsafe partial class PhysicalDevice : IUnmanagedWrapper<Adamantium.Vulkan
                 ref System.Span<byte> currentCursor = ref mainBuffer;
                 Adamantium.Vulkan.Core.Interop.VkQueueFamilyDataGraphPropertiesARM[] arg3Rented = null;
                 var arg3Length = (int)pQueueFamilyDataGraphProperties.Length;
-                var arg3Buffer = arg3Length * sizeof(Adamantium.Vulkan.Core.Interop.VkQueueFamilyDataGraphPropertiesARM) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkQueueFamilyDataGraphPropertiesARM[arg3Length] : (arg3Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkQueueFamilyDataGraphPropertiesARM>.Shared.Rent(arg3Length)).AsSpan(0, arg3Length);
+                var arg3Buffer = (long)arg3Length * sizeof(Adamantium.Vulkan.Core.Interop.VkQueueFamilyDataGraphPropertiesARM) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkQueueFamilyDataGraphPropertiesARM[arg3Length] : (arg3Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkQueueFamilyDataGraphPropertiesARM>.Shared.Rent(arg3Length)).AsSpan(0, arg3Length);
+                if (arg3Rented != null)
+                    arg3Buffer.Clear();
                 fixed (Adamantium.Vulkan.Core.Interop.VkQueueFamilyDataGraphPropertiesARM* arg3 = arg3Buffer)
                 {
                     try
@@ -2790,7 +2840,9 @@ public unsafe partial class PhysicalDevice : IUnmanagedWrapper<Adamantium.Vulkan
                 ref System.Span<byte> currentCursor = ref mainBuffer;
                 Adamantium.Vulkan.Core.Interop.VkQueueFamilyProperties[] arg2Rented = null;
                 var arg2Length = (int)pQueueFamilyProperties.Length;
-                var arg2Buffer = arg2Length * sizeof(Adamantium.Vulkan.Core.Interop.VkQueueFamilyProperties) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkQueueFamilyProperties[arg2Length] : (arg2Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkQueueFamilyProperties>.Shared.Rent(arg2Length)).AsSpan(0, arg2Length);
+                var arg2Buffer = (long)arg2Length * sizeof(Adamantium.Vulkan.Core.Interop.VkQueueFamilyProperties) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkQueueFamilyProperties[arg2Length] : (arg2Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkQueueFamilyProperties>.Shared.Rent(arg2Length)).AsSpan(0, arg2Length);
+                if (arg2Rented != null)
+                    arg2Buffer.Clear();
                 fixed (Adamantium.Vulkan.Core.Interop.VkQueueFamilyProperties* arg2 = arg2Buffer)
                 {
                     try
@@ -2841,7 +2893,9 @@ public unsafe partial class PhysicalDevice : IUnmanagedWrapper<Adamantium.Vulkan
                 ref System.Span<byte> currentCursor = ref mainBuffer;
                 Adamantium.Vulkan.Core.Interop.VkQueueFamilyProperties2[] arg2Rented = null;
                 var arg2Length = (int)pQueueFamilyProperties.Length;
-                var arg2Buffer = arg2Length * sizeof(Adamantium.Vulkan.Core.Interop.VkQueueFamilyProperties2) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkQueueFamilyProperties2[arg2Length] : (arg2Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkQueueFamilyProperties2>.Shared.Rent(arg2Length)).AsSpan(0, arg2Length);
+                var arg2Buffer = (long)arg2Length * sizeof(Adamantium.Vulkan.Core.Interop.VkQueueFamilyProperties2) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkQueueFamilyProperties2[arg2Length] : (arg2Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkQueueFamilyProperties2>.Shared.Rent(arg2Length)).AsSpan(0, arg2Length);
+                if (arg2Rented != null)
+                    arg2Buffer.Clear();
                 fixed (Adamantium.Vulkan.Core.Interop.VkQueueFamilyProperties2* arg2 = arg2Buffer)
                 {
                     try
@@ -2932,7 +2986,9 @@ public unsafe partial class PhysicalDevice : IUnmanagedWrapper<Adamantium.Vulkan
                 ref System.Span<byte> currentCursor = ref mainBuffer;
                 Adamantium.Vulkan.Core.Interop.VkSparseImageFormatProperties[] arg7Rented = null;
                 var arg7Length = (int)pProperties.Length;
-                var arg7Buffer = arg7Length * sizeof(Adamantium.Vulkan.Core.Interop.VkSparseImageFormatProperties) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkSparseImageFormatProperties[arg7Length] : (arg7Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkSparseImageFormatProperties>.Shared.Rent(arg7Length)).AsSpan(0, arg7Length);
+                var arg7Buffer = (long)arg7Length * sizeof(Adamantium.Vulkan.Core.Interop.VkSparseImageFormatProperties) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkSparseImageFormatProperties[arg7Length] : (arg7Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkSparseImageFormatProperties>.Shared.Rent(arg7Length)).AsSpan(0, arg7Length);
+                if (arg7Rented != null)
+                    arg7Buffer.Clear();
                 fixed (Adamantium.Vulkan.Core.Interop.VkSparseImageFormatProperties* arg7 = arg7Buffer)
                 {
                     try
@@ -3022,7 +3078,9 @@ public unsafe partial class PhysicalDevice : IUnmanagedWrapper<Adamantium.Vulkan
                 var arg1 = QuantumBinding.Utils.MarshalContextUtils.MarshalStructToPointer<Adamantium.Vulkan.Core.PhysicalDeviceSparseImageFormatInfo2, Adamantium.Vulkan.Core.Interop.VkPhysicalDeviceSparseImageFormatInfo2>(pFormatInfo, ref currentCursor);
                 Adamantium.Vulkan.Core.Interop.VkSparseImageFormatProperties2[] arg3Rented = null;
                 var arg3Length = (int)pProperties.Length;
-                var arg3Buffer = arg3Length * sizeof(Adamantium.Vulkan.Core.Interop.VkSparseImageFormatProperties2) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkSparseImageFormatProperties2[arg3Length] : (arg3Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkSparseImageFormatProperties2>.Shared.Rent(arg3Length)).AsSpan(0, arg3Length);
+                var arg3Buffer = (long)arg3Length * sizeof(Adamantium.Vulkan.Core.Interop.VkSparseImageFormatProperties2) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkSparseImageFormatProperties2[arg3Length] : (arg3Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkSparseImageFormatProperties2>.Shared.Rent(arg3Length)).AsSpan(0, arg3Length);
+                if (arg3Rented != null)
+                    arg3Buffer.Clear();
                 fixed (Adamantium.Vulkan.Core.Interop.VkSparseImageFormatProperties2* arg3 = arg3Buffer)
                 {
                     try
@@ -3116,7 +3174,9 @@ public unsafe partial class PhysicalDevice : IUnmanagedWrapper<Adamantium.Vulkan
                 ref System.Span<byte> currentCursor = ref mainBuffer;
                 Adamantium.Vulkan.Core.Interop.VkFramebufferMixedSamplesCombinationNV[] arg2Rented = null;
                 var arg2Length = (int)pCombinations.Length;
-                var arg2Buffer = arg2Length * sizeof(Adamantium.Vulkan.Core.Interop.VkFramebufferMixedSamplesCombinationNV) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkFramebufferMixedSamplesCombinationNV[arg2Length] : (arg2Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkFramebufferMixedSamplesCombinationNV>.Shared.Rent(arg2Length)).AsSpan(0, arg2Length);
+                var arg2Buffer = (long)arg2Length * sizeof(Adamantium.Vulkan.Core.Interop.VkFramebufferMixedSamplesCombinationNV) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkFramebufferMixedSamplesCombinationNV[arg2Length] : (arg2Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkFramebufferMixedSamplesCombinationNV>.Shared.Rent(arg2Length)).AsSpan(0, arg2Length);
+                if (arg2Rented != null)
+                    arg2Buffer.Clear();
                 fixed (Adamantium.Vulkan.Core.Interop.VkFramebufferMixedSamplesCombinationNV* arg2 = arg2Buffer)
                 {
                     try
@@ -3271,7 +3331,9 @@ public unsafe partial class PhysicalDevice : IUnmanagedWrapper<Adamantium.Vulkan
                 var arg1 = QuantumBinding.Utils.MarshalContextUtils.MarshalStructToPointer<Adamantium.Vulkan.Core.PhysicalDeviceSurfaceInfo2KHR, Adamantium.Vulkan.Core.Interop.VkPhysicalDeviceSurfaceInfo2KHR>(pSurfaceInfo, ref currentCursor);
                 Adamantium.Vulkan.Core.Interop.VkSurfaceFormat2KHR[] arg3Rented = null;
                 var arg3Length = (int)pSurfaceFormats.Length;
-                var arg3Buffer = arg3Length * sizeof(Adamantium.Vulkan.Core.Interop.VkSurfaceFormat2KHR) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkSurfaceFormat2KHR[arg3Length] : (arg3Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkSurfaceFormat2KHR>.Shared.Rent(arg3Length)).AsSpan(0, arg3Length);
+                var arg3Buffer = (long)arg3Length * sizeof(Adamantium.Vulkan.Core.Interop.VkSurfaceFormat2KHR) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkSurfaceFormat2KHR[arg3Length] : (arg3Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkSurfaceFormat2KHR>.Shared.Rent(arg3Length)).AsSpan(0, arg3Length);
+                if (arg3Rented != null)
+                    arg3Buffer.Clear();
                 fixed (Adamantium.Vulkan.Core.Interop.VkSurfaceFormat2KHR* arg3 = arg3Buffer)
                 {
                     try
@@ -3368,7 +3430,9 @@ public unsafe partial class PhysicalDevice : IUnmanagedWrapper<Adamantium.Vulkan
                 var arg1 = surface == null ? new VkSurfaceKHR_T() : (VkSurfaceKHR_T)surface;
                 Adamantium.Vulkan.Core.Interop.VkSurfaceFormatKHR[] arg3Rented = null;
                 var arg3Length = (int)pSurfaceFormats.Length;
-                var arg3Buffer = arg3Length * sizeof(Adamantium.Vulkan.Core.Interop.VkSurfaceFormatKHR) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkSurfaceFormatKHR[arg3Length] : (arg3Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkSurfaceFormatKHR>.Shared.Rent(arg3Length)).AsSpan(0, arg3Length);
+                var arg3Buffer = (long)arg3Length * sizeof(Adamantium.Vulkan.Core.Interop.VkSurfaceFormatKHR) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkSurfaceFormatKHR[arg3Length] : (arg3Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkSurfaceFormatKHR>.Shared.Rent(arg3Length)).AsSpan(0, arg3Length);
+                if (arg3Rented != null)
+                    arg3Buffer.Clear();
                 fixed (Adamantium.Vulkan.Core.Interop.VkSurfaceFormatKHR* arg3 = arg3Buffer)
                 {
                     try
@@ -3462,7 +3526,9 @@ public unsafe partial class PhysicalDevice : IUnmanagedWrapper<Adamantium.Vulkan
                 ref System.Span<byte> currentCursor = ref mainBuffer;
                 Adamantium.Vulkan.Core.Interop.VkPhysicalDeviceToolProperties[] arg2Rented = null;
                 var arg2Length = (int)pToolProperties.Length;
-                var arg2Buffer = arg2Length * sizeof(Adamantium.Vulkan.Core.Interop.VkPhysicalDeviceToolProperties) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkPhysicalDeviceToolProperties[arg2Length] : (arg2Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkPhysicalDeviceToolProperties>.Shared.Rent(arg2Length)).AsSpan(0, arg2Length);
+                var arg2Buffer = (long)arg2Length * sizeof(Adamantium.Vulkan.Core.Interop.VkPhysicalDeviceToolProperties) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkPhysicalDeviceToolProperties[arg2Length] : (arg2Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkPhysicalDeviceToolProperties>.Shared.Rent(arg2Length)).AsSpan(0, arg2Length);
+                if (arg2Rented != null)
+                    arg2Buffer.Clear();
                 fixed (Adamantium.Vulkan.Core.Interop.VkPhysicalDeviceToolProperties* arg2 = arg2Buffer)
                 {
                     try
@@ -3638,7 +3704,9 @@ public unsafe partial class PhysicalDevice : IUnmanagedWrapper<Adamantium.Vulkan
                 var arg1 = QuantumBinding.Utils.MarshalContextUtils.MarshalStructToPointer<Adamantium.Vulkan.Core.PhysicalDeviceVideoFormatInfoKHR, Adamantium.Vulkan.Core.Interop.VkPhysicalDeviceVideoFormatInfoKHR>(pVideoFormatInfo, ref currentCursor);
                 Adamantium.Vulkan.Core.Interop.VkVideoFormatPropertiesKHR[] arg3Rented = null;
                 var arg3Length = (int)pVideoFormatProperties.Length;
-                var arg3Buffer = arg3Length * sizeof(Adamantium.Vulkan.Core.Interop.VkVideoFormatPropertiesKHR) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkVideoFormatPropertiesKHR[arg3Length] : (arg3Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkVideoFormatPropertiesKHR>.Shared.Rent(arg3Length)).AsSpan(0, arg3Length);
+                var arg3Buffer = (long)arg3Length * sizeof(Adamantium.Vulkan.Core.Interop.VkVideoFormatPropertiesKHR) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkVideoFormatPropertiesKHR[arg3Length] : (arg3Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkVideoFormatPropertiesKHR>.Shared.Rent(arg3Length)).AsSpan(0, arg3Length);
+                if (arg3Rented != null)
+                    arg3Buffer.Clear();
                 fixed (Adamantium.Vulkan.Core.Interop.VkVideoFormatPropertiesKHR* arg3 = arg3Buffer)
                 {
                     try
