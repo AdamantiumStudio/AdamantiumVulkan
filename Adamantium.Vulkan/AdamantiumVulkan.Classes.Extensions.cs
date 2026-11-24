@@ -610,128 +610,179 @@ namespace Adamantium.Vulkan.Core
         /// </summary>
         public Result CreateShaderFromBinary(ShaderCreateInfoEXT info, out ShaderEXT shader)
         {
-            shader = null;
-            var code = info.PCode.Span;
-            void* alignedCode = NativeMemory.AlignedAlloc((nuint)code.Length, 16);
-            sbyte* namePtr = null;
-            VkDescriptorSetLayout_T* setLayouts = null;
+            var result = CreateShadersFromBinary([info], out var shaders);
+            shader = shaders[0];
+            return result;
+        }
+
+        /// <summary>
+        /// As <see cref="CreateShaderFromBinary"/>, for several shaders in one call - the way linked shaders
+        /// (VK_SHADER_CREATE_LINK_STAGE_BIT_EXT) must be made. When one fails, those the driver did create stay in
+        /// <paramref name="shaders"/>, and the caller destroys them.
+        /// </summary>
+        public Result CreateShadersFromBinary(ReadOnlySpan<ShaderCreateInfoEXT> infos, out ShaderEXT[] shaders)
+        {
+            var count = infos.Length;
+            shaders = new ShaderEXT[count];
+            var natives = (VkShaderCreateInfoEXT*)NativeMemory.AllocZeroed((nuint)(count * sizeof(VkShaderCreateInfoEXT)));
+            var created = new VkShaderEXT_T[count];
             try
             {
-                code.CopyTo(new Span<byte>(alignedCode, code.Length));
-
-                if (!string.IsNullOrEmpty(info.PName))
+                for (var i = 0; i < count; i++)
                 {
-                    var byteCount = System.Text.Encoding.UTF8.GetByteCount(info.PName);
-                    namePtr = (sbyte*)NativeMemory.Alloc((nuint)(byteCount + 1));
-                    var nameSpan = new Span<byte>(namePtr, byteCount + 1);
-                    System.Text.Encoding.UTF8.GetBytes(info.PName, nameSpan);
-                    nameSpan[byteCount] = 0;
+                    natives[i] = ToNativeBinary(infos[i]);
                 }
 
-                var setLayoutCount = info.SetLayoutCount;
-                if (setLayoutCount > 0 && !info.PSetLayouts.IsEmpty)
+                Result result;
+                fixed (VkShaderEXT_T* pointer = created)
                 {
-                    setLayouts = (VkDescriptorSetLayout_T*)NativeMemory.Alloc((nuint)((int)setLayoutCount * sizeof(VkDescriptorSetLayout_T)));
-                    var src = info.PSetLayouts.Span;
-                    for (int i = 0; i < (int)setLayoutCount; i++) setLayouts[i] = src[i];
+                    result = Commands.vkCreateShadersEXT(this, (uint)count, natives, null, pointer);
                 }
 
-                var native = new VkShaderCreateInfoEXT
+                for (var i = 0; i < count; i++)
                 {
-                    sType = StructureType.ShaderCreateInfoExt,
-                    pNext = null,
-                    flags = info.Flags,
-                    stage = info.Stage,
-                    nextStage = info.NextStage,
-                    codeType = info.CodeType,
-                    codeSize = (nuint)code.Length,
-                    pCode = (byte*)alignedCode,
-                    pName = namePtr,
-                    setLayoutCount = setLayoutCount,
-                    pSetLayouts = setLayouts,
-                    pushConstantRangeCount = 0,
-                    pPushConstantRanges = null,
-                    pSpecializationInfo = null
-                };
+                    if (created[i].pointer != null)
+                        shaders[i] = created[i];
+                }
 
-                var outShader = stackalloc VkShaderEXT_T[1];
-                var result = Commands.vkCreateShadersEXT(this, 1, &native, null, outShader);
-                if (result == Result.Success) shader = outShader[0];
                 return result;
             }
             finally
             {
-                NativeMemory.AlignedFree(alignedCode);
-                if (namePtr != null) NativeMemory.Free(namePtr);
-                if (setLayouts != null) NativeMemory.Free(setLayouts);
+                for (var i = 0; i < count; i++)
+                {
+                    NativeMemory.AlignedFree(natives[i].pCode);
+                    NativeMemory.Free(natives[i].pName);
+                    NativeMemory.Free(natives[i].pSetLayouts);
+                }
+
+                NativeMemory.Free(natives);
             }
+        }
+
+        private static VkShaderCreateInfoEXT ToNativeBinary(ShaderCreateInfoEXT info)
+        {
+            var code = info.PCode.Span;
+            var native = new VkShaderCreateInfoEXT
+            {
+                sType = StructureType.ShaderCreateInfoExt,
+                flags = info.Flags,
+                stage = info.Stage,
+                nextStage = info.NextStage,
+                codeType = info.CodeType,
+                codeSize = (nuint)code.Length,
+                pCode = (byte*)NativeMemory.AlignedAlloc((nuint)code.Length, 16)
+            };
+            code.CopyTo(new Span<byte>(native.pCode, code.Length));
+
+            if (!string.IsNullOrEmpty(info.PName))
+            {
+                var byteCount = System.Text.Encoding.UTF8.GetByteCount(info.PName);
+                native.pName = (sbyte*)NativeMemory.Alloc((nuint)(byteCount + 1));
+                var nameSpan = new Span<byte>(native.pName, byteCount + 1);
+                System.Text.Encoding.UTF8.GetBytes(info.PName, nameSpan);
+                nameSpan[byteCount] = 0;
+            }
+
+            var setLayoutCount = info.SetLayoutCount;
+            if (setLayoutCount > 0 && !info.PSetLayouts.IsEmpty)
+            {
+                native.setLayoutCount = setLayoutCount;
+                native.pSetLayouts = (VkDescriptorSetLayout_T*)NativeMemory.Alloc((nuint)((int)setLayoutCount * sizeof(VkDescriptorSetLayout_T)));
+                var source = info.PSetLayouts.Span;
+                for (var i = 0; i < (int)setLayoutCount; i++)
+                {
+                    native.pSetLayouts[i] = source[i];
+                }
+            }
+
+            return native;
         }
     }
 
     public unsafe partial class CommandBuffer
     {
-        public void PipelineBarrier(PipelineStageFlagBits srcStageMask, PipelineStageFlagBits dstStageMask, DependencyFlagBits dependencyFlags, uint memoryBarrierCount, in ReadOnlySpan<MemoryBarrier> pMemoryBarriers, uint bufferMemoryBarrierCount, in ReadOnlySpan<BufferMemoryBarrier> pBufferMemoryBarriers, uint imageMemoryBarrierCount, in ImageMemoryBarrier pImageMemoryBarriers)
-    {
-        int CalculateSize(ReadOnlySpan<MemoryBarrier> pMemoryBarriers, ReadOnlySpan<BufferMemoryBarrier> pBufferMemoryBarriers, ImageMemoryBarrier pImageMemoryBarriers)
+        public void PipelineBarrier(PipelineStageFlagBits srcStageMask, PipelineStageFlagBits dstStageMask,
+            DependencyFlagBits dependencyFlags, uint memoryBarrierCount, in ReadOnlySpan<MemoryBarrier> pMemoryBarriers,
+            uint bufferMemoryBarrierCount, in ReadOnlySpan<BufferMemoryBarrier> pBufferMemoryBarriers,
+            uint imageMemoryBarrierCount, in ImageMemoryBarrier pImageMemoryBarriers)
         {
-            int totalSize = 0;
-            for (var i = 0U; i < pMemoryBarriers.Length; i++)
+            int CalculateSize(ReadOnlySpan<MemoryBarrier> pMemoryBarriers,
+                ReadOnlySpan<BufferMemoryBarrier> pBufferMemoryBarriers, ImageMemoryBarrier pImageMemoryBarriers)
             {
-                if(pMemoryBarriers[(int)i] == null)
-                    totalSize += Marshal.SizeOf<Adamantium.Vulkan.Core.Interop.VkMemoryBarrier>();
-                else
-                    totalSize += pMemoryBarriers[(int)i].GetSize();
-            }
-            for (var i = 0U; i < pBufferMemoryBarriers.Length; i++)
-            {
-                if(pBufferMemoryBarriers[(int)i] == null)
-                    totalSize += Marshal.SizeOf<Adamantium.Vulkan.Core.Interop.VkBufferMemoryBarrier>();
-                else
-                    totalSize += pBufferMemoryBarriers[(int)i].GetSize();
-            }
-
-            if (pImageMemoryBarriers != null)
-            {
-                totalSize += pImageMemoryBarriers.GetSize();
-            }
-            
-            return totalSize;
-        }
-
-        var totalSize = CalculateSize(pMemoryBarriers, pBufferMemoryBarriers, pImageMemoryBarriers);
-        byte[] rentedArray = null;
-        var mainBuffer = totalSize <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc byte[totalSize] : (rentedArray = System.Buffers.ArrayPool<byte>.Shared.Rent(totalSize)).AsSpan(0, totalSize);
-        // PINNED, as every generated call site is: above the threshold this buffer is a managed array, and the native
-        // pointers below point INTO it - a collection moving it mid-call would hand the driver a stale address.
-        fixed (byte* bufferPtr = mainBuffer)
-        {
-            try
-            {
-                ref System.Span<byte> currentCursor = ref mainBuffer;
-                Adamantium.Vulkan.Core.Interop.VkMemoryBarrier* arg5 = null;
-                if (!pMemoryBarriers.IsEmpty)
+                int totalSize = 0;
+                for (var i = 0U; i < pMemoryBarriers.Length; i++)
                 {
-                    arg5 = QuantumBinding.Utils.MarshalContextUtils.MarshalArrayOfWrappers<Adamantium.Vulkan.Core.MemoryBarrier, Adamantium.Vulkan.Core.Interop.VkMemoryBarrier>(pMemoryBarriers, ref currentCursor);
+                    if (pMemoryBarriers[(int)i] == null)
+                        totalSize += Marshal.SizeOf<Adamantium.Vulkan.Core.Interop.VkMemoryBarrier>();
+                    else
+                        totalSize += pMemoryBarriers[(int)i].GetSize();
                 }
-                Adamantium.Vulkan.Core.Interop.VkBufferMemoryBarrier* arg7 = null;
-                if (!pBufferMemoryBarriers.IsEmpty)
+
+                for (var i = 0U; i < pBufferMemoryBarriers.Length; i++)
                 {
-                    arg7 = QuantumBinding.Utils.MarshalContextUtils.MarshalArrayOfWrappers<Adamantium.Vulkan.Core.BufferMemoryBarrier, Adamantium.Vulkan.Core.Interop.VkBufferMemoryBarrier>(pBufferMemoryBarriers, ref currentCursor);
+                    if (pBufferMemoryBarriers[(int)i] == null)
+                        totalSize += Marshal.SizeOf<Adamantium.Vulkan.Core.Interop.VkBufferMemoryBarrier>();
+                    else
+                        totalSize += pBufferMemoryBarriers[(int)i].GetSize();
                 }
-                Adamantium.Vulkan.Core.Interop.VkImageMemoryBarrier* arg9 = null;
+
                 if (pImageMemoryBarriers != null)
                 {
-                    arg9 = QuantumBinding.Utils.MarshalContextUtils.MarshalStructToPointer<ImageMemoryBarrier, Adamantium.Vulkan.Core.Interop.VkImageMemoryBarrier>(pImageMemoryBarriers, ref currentCursor);
+                    totalSize += pImageMemoryBarriers.GetSize();
                 }
-                Commands.vkCmdPipelineBarrier(this, srcStageMask, dstStageMask, dependencyFlags, memoryBarrierCount, arg5, bufferMemoryBarrierCount, arg7, imageMemoryBarrierCount, arg9);
+
+                return totalSize;
             }
-            finally
+
+            var totalSize = CalculateSize(pMemoryBarriers, pBufferMemoryBarriers, pImageMemoryBarriers);
+            byte[] rentedArray = null;
+            var mainBuffer = totalSize <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold
+                ? stackalloc byte[totalSize]
+                : (rentedArray = System.Buffers.ArrayPool<byte>.Shared.Rent(totalSize)).AsSpan(0, totalSize);
+            // PINNED, as every generated call site is: above the threshold this buffer is a managed array, and the native
+            // pointers below point INTO it - a collection moving it mid-call would hand the driver a stale address.
+            fixed (byte* bufferPtr = mainBuffer)
             {
-                if (rentedArray != null)
-                    System.Buffers.ArrayPool<byte>.Shared.Return(rentedArray);
+                try
+                {
+                    ref System.Span<byte> currentCursor = ref mainBuffer;
+                    Adamantium.Vulkan.Core.Interop.VkMemoryBarrier* arg5 = null;
+                    if (!pMemoryBarriers.IsEmpty)
+                    {
+                        arg5 = QuantumBinding.Utils.MarshalContextUtils
+                            .MarshalArrayOfWrappers<Adamantium.Vulkan.Core.MemoryBarrier,
+                                Adamantium.Vulkan.Core.Interop.VkMemoryBarrier>(pMemoryBarriers, ref currentCursor);
+                    }
+
+                    Adamantium.Vulkan.Core.Interop.VkBufferMemoryBarrier* arg7 = null;
+                    if (!pBufferMemoryBarriers.IsEmpty)
+                    {
+                        arg7 = QuantumBinding.Utils.MarshalContextUtils
+                            .MarshalArrayOfWrappers<Adamantium.Vulkan.Core.BufferMemoryBarrier,
+                                Adamantium.Vulkan.Core.Interop.VkBufferMemoryBarrier>(pBufferMemoryBarriers,
+                                ref currentCursor);
+                    }
+
+                    Adamantium.Vulkan.Core.Interop.VkImageMemoryBarrier* arg9 = null;
+                    if (pImageMemoryBarriers != null)
+                    {
+                        arg9 = QuantumBinding.Utils.MarshalContextUtils
+                            .MarshalStructToPointer<ImageMemoryBarrier,
+                                Adamantium.Vulkan.Core.Interop.VkImageMemoryBarrier>(pImageMemoryBarriers,
+                                ref currentCursor);
+                    }
+
+                    Commands.vkCmdPipelineBarrier(this, srcStageMask, dstStageMask, dependencyFlags, memoryBarrierCount,
+                        arg5, bufferMemoryBarrierCount, arg7, imageMemoryBarrierCount, arg9);
+                }
+                finally
+                {
+                    if (rentedArray != null)
+                        System.Buffers.ArrayPool<byte>.Shared.Return(rentedArray);
+                }
             }
         }
-    }
     }
 
     public unsafe partial class Framebuffer
