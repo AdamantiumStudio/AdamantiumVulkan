@@ -344,17 +344,30 @@ public unsafe partial class Instance : IUnmanagedWrapper<Adamantium.Vulkan.Core.
             try
             {
                 ref System.Span<byte> currentCursor = ref mainBuffer;
-                var arg2 = stackalloc Adamantium.Vulkan.Core.Interop.VkPhysicalDeviceGroupProperties[(int)pPhysicalDeviceGroupProperties.Length];
-                for (var i = 0; i < (int)pPhysicalDeviceGroupProperties.Length; ++i)
+                Adamantium.Vulkan.Core.Interop.VkPhysicalDeviceGroupProperties[] arg2Rented = null;
+                var arg2Length = (int)pPhysicalDeviceGroupProperties.Length;
+                var arg2Buffer = arg2Length * sizeof(Adamantium.Vulkan.Core.Interop.VkPhysicalDeviceGroupProperties) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkPhysicalDeviceGroupProperties[arg2Length] : (arg2Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkPhysicalDeviceGroupProperties>.Shared.Rent(arg2Length)).AsSpan(0, arg2Length);
+                fixed (Adamantium.Vulkan.Core.Interop.VkPhysicalDeviceGroupProperties* arg2 = arg2Buffer)
                 {
-                    arg2[i].sType = StructureType.PhysicalDeviceGroupProperties;
+                    try
+                    {
+                        for (var i = 0; i < (int)pPhysicalDeviceGroupProperties.Length; ++i)
+                        {
+                            arg2[i].sType = StructureType.PhysicalDeviceGroupProperties;
+                        }
+                        var result = Commands.vkEnumeratePhysicalDeviceGroups(this, ref pPhysicalDeviceGroupCount, arg2);
+                        for (var i = 0; i < pPhysicalDeviceGroupProperties.Length; ++i)
+                        {
+                            pPhysicalDeviceGroupProperties[i] = new PhysicalDeviceGroupProperties(arg2[i]);
+                        }
+                        return result;
+                    }
+                    finally
+                    {
+                        if (arg2Rented != null)
+                            System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkPhysicalDeviceGroupProperties>.Shared.Return(arg2Rented);
+                    }
                 }
-                var result = Commands.vkEnumeratePhysicalDeviceGroups(this, ref pPhysicalDeviceGroupCount, arg2);
-                for (var i = 0; i < pPhysicalDeviceGroupProperties.Length; ++i)
-                {
-                    pPhysicalDeviceGroupProperties[i] = new PhysicalDeviceGroupProperties(arg2[i]);
-                }
-                return result;
             }
             finally
             {
@@ -403,14 +416,27 @@ public unsafe partial class Instance : IUnmanagedWrapper<Adamantium.Vulkan.Core.
 
     public Result EnumeratePhysicalDevices(ref uint pPhysicalDeviceCount, System.Span<Adamantium.Vulkan.Core.PhysicalDevice> pPhysicalDevices)
     {
-        var arg2 = stackalloc Adamantium.Vulkan.Core.Interop.VkPhysicalDevice_T[(int)pPhysicalDevices.Length];
-        var result = Commands.vkEnumeratePhysicalDevices(this, ref pPhysicalDeviceCount, arg2);
-        for (var i = 0; i < pPhysicalDevices.Length; ++i)
+        Adamantium.Vulkan.Core.Interop.VkPhysicalDevice_T[] arg2Rented = null;
+        var arg2Length = (int)pPhysicalDevices.Length;
+        var arg2Buffer = arg2Length * sizeof(Adamantium.Vulkan.Core.Interop.VkPhysicalDevice_T) <= QuantumBinding.Utils.MarshalingUtils.StackAllocThreshold ? stackalloc Adamantium.Vulkan.Core.Interop.VkPhysicalDevice_T[arg2Length] : (arg2Rented = System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkPhysicalDevice_T>.Shared.Rent(arg2Length)).AsSpan(0, arg2Length);
+        fixed (Adamantium.Vulkan.Core.Interop.VkPhysicalDevice_T* arg2 = arg2Buffer)
         {
-            pPhysicalDevices[i] = arg2[i];
-            pPhysicalDevices[i].Commands = this.Commands;
+            try
+            {
+                var result = Commands.vkEnumeratePhysicalDevices(this, ref pPhysicalDeviceCount, arg2);
+                for (var i = 0; i < pPhysicalDevices.Length; ++i)
+                {
+                    pPhysicalDevices[i] = arg2[i];
+                    pPhysicalDevices[i].Commands = this.Commands;
+                }
+                return result;
+            }
+            finally
+            {
+                if (arg2Rented != null)
+                    System.Buffers.ArrayPool<Adamantium.Vulkan.Core.Interop.VkPhysicalDevice_T>.Shared.Return(arg2Rented);
+            }
         }
-        return result;
     }
 
     public nuint GetInstanceProcAddr(in string pName)
