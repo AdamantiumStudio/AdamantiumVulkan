@@ -1,9 +1,10 @@
 Adamantium change to Vulkan-ExtensionLayer (Apache-2.0), applied by build.sh and build.ps1 before building.
 
 The layer chains a VkShaderDescriptorSetAndBindingMappingInfoEXT into every pipeline stage it creates, even when the
-shader has no mappings. Mesa then lowers the shader as a descriptor-heap one and, for any sampler, dereferences the
-mapping it does not find - KosmicKrisp crashes compiling every shader that samples. The mapping info is now chained
-only when the shader has mappings.
+shader has no mappings. That is valid - the structure is ignored for a pipeline made with a pipeline layout - but Mesa's
+common pipeline code lowers the shader as a descriptor-heap one whenever the structure is present and, for any sampler,
+dereferences the mapping it does not find: KosmicKrisp crashes compiling every shader that samples. The mapping info
+is now chained only when the shader has mappings, so a shader on descriptor sets never shows Mesa the structure.
 
 diff --git a/layers/shader_object/shader_object.cpp b/layers/shader_object/shader_object.cpp
 index 6103fa2..8ee0410 100644
