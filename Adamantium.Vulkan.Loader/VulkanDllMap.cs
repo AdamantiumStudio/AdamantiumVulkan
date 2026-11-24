@@ -21,7 +21,7 @@ namespace Adamantium.Vulkan.Loader
             // libvulkan.so.1, not libvulkan.so: the unversioned name comes only with the -devel package, the loader itself
             // installs the versioned one.
             var coreResolver = new LibraryNameResolver("Adamantium.Vulkan") { WindowsLibraryName = "vulkan-1", OSXLibraryName = "libvulkan.1.dylib", LinuxLibraryName = "libvulkan.so.1" };
-            var spirvCrossResolver = new LibraryNameResolver("Adamantium.Vulkan.Spirv") { WindowsLibraryName = "spirv-cross-c-shared", OSXLibraryName = "libspirv-cross-c-shared", LinuxLibraryName = "libspirv-cross-c-shared" };
+            var spirvCrossResolver = new LibraryNameResolver("Adamantium.Vulkan.Spirv") { WindowsLibraryName = "spirv-cross-c-shared", OSXLibraryName = "libspirv-cross-c-shared.dylib", LinuxLibraryName = "libspirv-cross-c-shared" };
             RegisterAssembly(coreResolver);
             RegisterAssembly(spirvCrossResolver);
         }

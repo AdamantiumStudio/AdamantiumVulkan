@@ -50,7 +50,10 @@ server="$(find "$SLANG" -maxdepth 2 -name 'slangd' -type f | head -n1)"
 
 # The macOS SDK ships universal binaries; only Apple Silicon is supported, so the package keeps the arm64 slice.
 if [ "$RID" = "osx-arm64" ]; then
-    for file in "$STAGE"/*; do
+    staged=("$(basename "$shim")" "${copied[@]}")
+    [ -n "$server" ] && staged+=("slangd")
+    for name in "${staged[@]}"; do
+        file="$STAGE/$name"
         if [ "$(lipo -archs "$file")" != "arm64" ]; then
             lipo -thin arm64 "$file" -output "$file"
         fi
