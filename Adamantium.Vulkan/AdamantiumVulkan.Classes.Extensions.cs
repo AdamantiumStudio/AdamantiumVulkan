@@ -698,6 +698,32 @@ namespace Adamantium.Vulkan.Core
 
             return native;
         }
+
+        /// <summary>
+        /// The driver binary of <paramref name="shader"/> (vkGetShaderBinaryDataEXT), read into a managed array: the
+        /// binaries of Khronos' shader object layer run to megabytes, more than the stack holds. Empty when the
+        /// driver gives none.
+        /// </summary>
+        public Result GetShaderBinaryData(ShaderEXT shader, out byte[] data)
+        {
+            data = [];
+            var handle = (VkShaderEXT_T)shader;
+            nuint size = 0;
+            var result = Commands.vkGetShaderBinaryDataEXT(this, handle, &size, null);
+            if (result != Result.Success || size == 0)
+                return result;
+
+            var bytes = new byte[size];
+            fixed (byte* pointer = bytes)
+            {
+                result = Commands.vkGetShaderBinaryDataEXT(this, handle, &size, pointer);
+            }
+
+            if (result == Result.Success)
+                data = size == (nuint)bytes.Length ? bytes : bytes[..(int)size];
+
+            return result;
+        }
     }
 
     public unsafe partial class CommandBuffer
