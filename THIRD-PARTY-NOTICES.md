@@ -17,8 +17,10 @@ whatever build is committed. This is worth fixing — see the note at the end.
 
 **Where:** `Adamantium.Vulkan.Slang/runtimes/` — `win-x64/native/`: `slang.dll`, `slang-compiler.dll`,
 `slang-glslang.dll`, `slangd.exe`; `linux-x64/native/`: `libslang-compiler.so.0.2026.17`, `libslang-glslang-2026.17.so`,
-`slangd`. Slang 2026.17, from Vulkan SDK 1.4.363.0 (its build `2026.17-25-gc7954ebd1`). `slang-c-shared.dll` and
-`libslang-c-shared.so` beside them are this repository's own shim (`native/`), not Slang's.
+`slangd`; `osx-arm64/native/`: `libslang-compiler.0.2026.17.dylib`, `libslang-glslang-2026.17.dylib`, `slangd`.
+Slang 2026.17, build `2026.17-25-gc7954ebd1`, from Vulkan SDK 1.4.363.0 (Windows, Linux) and 1.4.363.1 (macOS, the
+arm64 slice of its universal binaries). `slang-c-shared.dll`, `libslang-c-shared.so` and `libslang-c-shared.dylib`
+beside them are this repository's own shim (`native/`), not Slang's.
 
 The compiler that turns this engine's shaders into SPIR-V. Shipped so that building shaders needs no Vulkan SDK
 installed.
@@ -57,7 +59,8 @@ Upstream: https://github.com/shader-slang/slang
 
 **Where:** `Adamantium.Vulkan.Spirv/runtimes/` — `win-x64/native/spirv-cross-c-shared.dll` and
 `linux-x64/native/libspirv-cross-c-shared.so`, both from Vulkan SDK 1.4.363.0 (the Linux build names version 0.68.0);
-`osx-x64/native/libspirv-cross-c-shared.dylib`, of a release not recorded
+`osx-arm64/native/libspirv-cross-c-shared.dylib`, version 0.68.0 from Vulkan SDK 1.4.363.1 (the arm64 slice of its
+universal binary)
 
 Used to read back what a compiled shader declares, so the engine can bind resources by what the shader actually asks
 for rather than by a hand-kept table.

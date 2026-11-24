@@ -12,7 +12,7 @@
   <PropertyGroup>
     <IsPackable>true</IsPackable>
     <PackageId>Adamantium.Vulkan.Spirv</PackageId>
-    <Version>2.0.2</Version>
+    <Version>2.1.0</Version>
     <Description>C# bindings to SPIRV-Cross, shipping its native library. Reads back what a compiled shader declares, so resources can be bound by what the shader actually asks for rather than by a hand-kept table. SPIRV-Cross is a Khronos project under Apache-2.0 - see THIRD-PARTY-NOTICES.md in the repository.</Description>
     <PackageTags>spirv;spirv-cross;reflection;shader;vulkan</PackageTags>
   </PropertyGroup>
@@ -32,7 +32,7 @@
   <ItemGroup>
     <None Update="runtimes\win-x64\native\*" Condition="$([MSBuild]::IsOSPlatform('Windows'))" Link="%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
     <None Update="runtimes\linux-x64\native\*" Condition="$([MSBuild]::IsOSPlatform('Linux'))" Link="%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
-    <None Update="runtimes\osx-x64\native\*" Condition="$([MSBuild]::IsOSPlatform('OSX'))" Link="%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="runtimes\osx-arm64\native\*" Condition="$([MSBuild]::IsOSPlatform('OSX'))" Link="%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
   <ItemGroup>
