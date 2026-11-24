@@ -92,6 +92,10 @@ Upstream: https://github.com/KhronosGroup/SPIRV-Tools
 manifest `VkLayer_khronos_shader_object.json`. Not committed: CI builds them from the tag `vulkan-sdk-1.4.363.0`
 (`native/build.sh`, `native/build.ps1`) and the publish workflow packs what it built.
 
+**Modified:** the build applies `native/*.patch` to the source first. `shader-object-empty-mapping.patch` changes
+`layers/shader_object/shader_object.cpp` so that a pipeline stage carries the descriptor-heap mapping info only when the
+shader has mappings; each patch's header says what it changes and why.
+
 Gives `VK_EXT_shader_object` to a driver that does not have it - Intel Arc on Windows, KosmicKrisp on macOS - by making
 the pipelines itself; on a driver that has it, the layer stands aside.
 

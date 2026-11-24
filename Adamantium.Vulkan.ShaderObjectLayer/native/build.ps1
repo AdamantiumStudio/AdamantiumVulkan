@@ -17,6 +17,15 @@ if (-not (Test-Path $source)) {
     if ($LASTEXITCODE -ne 0) { throw "git clone failed" }
 }
 
+# Our fixes to the layer (see each patch's header); a source tree that already has one is left as it is.
+foreach ($patch in Get-ChildItem $native -Filter "*.patch") {
+    git -C $source apply --reverse --check $patch.FullName 2>$null
+    if ($LASTEXITCODE -ne 0) {
+        git -C $source apply $patch.FullName
+        if ($LASTEXITCODE -ne 0) { throw "git apply $($patch.Name) failed" }
+    }
+}
+
 $out = Join-Path $work "out"
 cmake -S $source -B $out -A x64 -D UPDATE_DEPS=ON -D CMAKE_BUILD_TYPE=Release
 if ($LASTEXITCODE -ne 0) { throw "cmake configure failed" }

@@ -23,6 +23,11 @@ if [ ! -d "$SOURCE" ]; then
     git clone --depth 1 --branch "$TAG" https://github.com/KhronosGroup/Vulkan-ExtensionLayer.git "$SOURCE"
 fi
 
+# Our fixes to the layer (see each patch's header); a source tree that already has one is left as it is.
+for patch in "$NATIVE"/*.patch; do
+    git -C "$SOURCE" apply --reverse --check "$patch" 2>/dev/null || git -C "$SOURCE" apply "$patch"
+done
+
 # No window system: the layer only passes WSI calls through, and the X11/Wayland headers would be one more thing the
 # build machine needs.
 cmake -S "$SOURCE" -B "$WORK/out" -D CMAKE_BUILD_TYPE=Release -D UPDATE_DEPS=ON \

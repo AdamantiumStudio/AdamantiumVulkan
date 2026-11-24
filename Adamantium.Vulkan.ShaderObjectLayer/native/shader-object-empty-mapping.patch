@@ -1,0 +1,47 @@
+Adamantium change to Vulkan-ExtensionLayer (Apache-2.0), applied by build.sh and build.ps1 before building.
+
+The layer chains a VkShaderDescriptorSetAndBindingMappingInfoEXT into every pipeline stage it creates, even when the
+shader has no mappings. Mesa then lowers the shader as a descriptor-heap one and, for any sampler, dereferences the
+mapping it does not find - KosmicKrisp crashes compiling every shader that samples. The mapping info is now chained
+only when the shader has mappings.
+
+diff --git a/layers/shader_object/shader_object.cpp b/layers/shader_object/shader_object.cpp
+index 6103fa2..8ee0410 100644
+--- a/layers/shader_object/shader_object.cpp
++++ b/layers/shader_object/shader_object.cpp
+@@ -637,7 +637,7 @@ VkResult Shader::Create(DeviceData const& deviceData, VkShaderCreateInfoEXT cons
+ 
+         VkPipelineShaderStageCreateInfo compute_stage{
+             VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO,
+-            &mapping,
++            shader->num_descriptor_set_and_binding_mappings ? &mapping : nullptr,
+             shader->flags,
+             shader->stage,
+             shader->shader_module,
+@@ -1074,7 +1074,7 @@ static VkPipeline CreateGraphicsPipelineForCommandBufferState(CommandBufferData&
+ 
+         VkPipelineShaderStageCreateInfo stage = {};
+         stage.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
+-        stage.pNext = &binding_mappings[num_stages];
++        stage.pNext = shader->num_descriptor_set_and_binding_mappings ? &binding_mappings[num_stages] : nullptr;
+         stage.flags = shader->flags;
+         stage.module = shader->shader_module;
+         stage.pName = shader->name;
+@@ -1645,7 +1645,7 @@ PartialPipeline CreatePartiallyCompiledPipeline(DeviceData const& deviceData, Vk
+         auto shader = ppShaders[i];
+         stages[i] = {
+             VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO,
+-            &binding_mappings[i],
++            shader->num_descriptor_set_and_binding_mappings ? &binding_mappings[i] : nullptr,
+             shader->flags,
+             shader->stage,
+             shader->shader_module,
+@@ -1956,7 +1956,7 @@ static VkResult PopulateCachesForShaders(DeviceData const& deviceData, VkAllocat
+ 
+             stages[graphics_shader_count++] = {
+                 VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO,
+-                &binding_mappings[i],
++                shader->num_descriptor_set_and_binding_mappings ? &binding_mappings[i] : nullptr,
+                 shader->flags,
+                 shader->stage,
+                 shader->shader_module,
