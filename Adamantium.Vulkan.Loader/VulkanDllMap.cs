@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
@@ -19,7 +20,7 @@ namespace Adamantium.Vulkan.Loader
         {
             // libvulkan.so.1, not libvulkan.so: the unversioned name comes only with the -devel package, the loader itself
             // installs the versioned one.
-            var coreResolver = new LibraryNameResolver("Adamantium.Vulkan") { WindowsLibraryName = "vulkan-1", OSXLibraryName = "libvulkan", LinuxLibraryName = "libvulkan.so.1" };
+            var coreResolver = new LibraryNameResolver("Adamantium.Vulkan") { WindowsLibraryName = "vulkan-1", OSXLibraryName = "libvulkan.1.dylib", LinuxLibraryName = "libvulkan.so.1" };
             var spirvCrossResolver = new LibraryNameResolver("Adamantium.Vulkan.Spirv") { WindowsLibraryName = "spirv-cross-c-shared", OSXLibraryName = "libspirv-cross-c-shared", LinuxLibraryName = "libspirv-cross-c-shared" };
             RegisterAssembly(coreResolver);
             RegisterAssembly(spirvCrossResolver);
@@ -58,7 +59,29 @@ namespace Adamantium.Vulkan.Loader
                 mappedName = resolver.LibraryNameForCurrentPlatform;
             }
 
+            if (NativeLibrary.TryLoad(mappedName, assembly, dllImportSearchPath, out var handle))
+                return handle;
+
+            foreach (var directory in GetMacLibraryDirectories())
+            {
+                if (NativeLibrary.TryLoad(Path.Combine(directory, mappedName), out handle))
+                    return handle;
+            }
+
             return NativeLibrary.Load(mappedName, assembly, dllImportSearchPath);
+        }
+
+        private static IEnumerable<string> GetMacLibraryDirectories()
+        {
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                yield break;
+
+            var sdk = Environment.GetEnvironmentVariable("VULKAN_SDK");
+            if (!string.IsNullOrEmpty(sdk))
+                yield return Path.Combine(sdk, "lib");
+
+            yield return "/usr/local/lib";
+            yield return "/opt/homebrew/lib";
         }
     }
 }
