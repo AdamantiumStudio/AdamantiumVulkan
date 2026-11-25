@@ -19,7 +19,6 @@ fi
 
 case "$(uname -s)-$(uname -m)" in
     Linux-x86_64)  RID=linux-x64;  EXT=so ;;
-    Darwin-x86_64) RID=osx-x64;    EXT=dylib ;;
     Darwin-arm64)  RID=osx-arm64;  EXT=dylib ;;
     *) echo "No runtime identifier for $(uname -s) $(uname -m)." >&2; exit 1 ;;
 esac
@@ -48,5 +47,17 @@ done
 # Slang's language server from the same SDK.
 server="$(find "$SLANG" -maxdepth 2 -name 'slangd' -type f | head -n1)"
 [ -n "$server" ] && cp "$server" "$STAGE/"
+
+# The macOS SDK ships universal binaries; only Apple Silicon is supported, so the package keeps the arm64 slice.
+if [ "$RID" = "osx-arm64" ]; then
+    staged=("$(basename "$shim")" "${copied[@]}")
+    [ -n "$server" ] && staged+=("slangd")
+    for name in "${staged[@]}"; do
+        file="$STAGE/$name"
+        if [ "$(lipo -archs "$file")" != "arm64" ]; then
+            lipo -thin arm64 "$file" -output "$file"
+        fi
+    done
+fi
 
 echo "OK: $(basename "$shim") ${copied[*]} ${server:+slangd} -> $STAGE"
