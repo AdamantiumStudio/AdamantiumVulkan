@@ -660,6 +660,77 @@ namespace Adamantium.Vulkan.Core
             }
         }
 
+        /// <summary>
+        /// The driver binary of <paramref name="shader"/>, empty when the driver gives none. Read into memory on the
+        /// 16-byte boundary vkGetShaderBinaryDataEXT requires, which the generated call's buffer does not have.
+        /// </summary>
+        public Result GetShaderBinaryData(ShaderEXT shader, out byte[] data)
+        {
+            data = [];
+            nuint size = 0;
+            var result = Commands.vkGetShaderBinaryDataEXT(this, shader, &size, null);
+            if (result != Result.Success || size == 0)
+                return result;
+
+            var buffer = (byte*)NativeMemory.AlignedAlloc(size, 16);
+            try
+            {
+                result = Commands.vkGetShaderBinaryDataEXT(this, shader, &size, buffer);
+                if (result == Result.Success)
+                    data = new ReadOnlySpan<byte>(buffer, (int)size).ToArray();
+
+                return result;
+            }
+            finally
+            {
+                NativeMemory.AlignedFree(buffer);
+            }
+        }
+
+        /// <summary>
+        /// Creates shaders in one call, each one's code aligned: the generated call packs them one after another, so the
+        /// code of every one but the first lies wherever the entry point's name before it ends. When one fails, those the
+        /// driver did create stay in <paramref name="shaders"/>, and the caller destroys them.
+        /// </summary>
+        public Result CreateShaders(ReadOnlySpan<ShaderCreateInfoEXT> infos, out ShaderEXT[] shaders)
+        {
+            var count = infos.Length;
+            shaders = new ShaderEXT[count];
+            var natives = new VkShaderCreateInfoEXT[count];
+            var created = new VkShaderEXT_T[count];
+            var buffers = new nint[count];
+            try
+            {
+                for (var i = 0; i < count; i++)
+                {
+                    var size = infos[i].GetSize();
+                    buffers[i] = (nint)NativeMemory.AlignedAlloc((nuint)size, 16);
+                    var cursor = new Span<byte>((void*)buffers[i], size);
+                    natives[i] = *MarshalContextUtils.MarshalStructToPointer<ShaderCreateInfoEXT, VkShaderCreateInfoEXT>(infos[i], ref cursor);
+                }
+
+                Result result;
+                fixed (VkShaderCreateInfoEXT* nativesPointer = natives)
+                fixed (VkShaderEXT_T* createdPointer = created)
+                {
+                    result = Commands.vkCreateShadersEXT(this, (uint)count, nativesPointer, null, createdPointer);
+                }
+
+                for (var i = 0; i < count; i++)
+                {
+                    if (created[i].pointer != null)
+                        shaders[i] = created[i];
+                }
+
+                return result;
+            }
+            finally
+            {
+                foreach (var buffer in buffers)
+                    NativeMemory.AlignedFree((void*)buffer);
+            }
+        }
+
         private static VkShaderCreateInfoEXT ToNativeBinary(ShaderCreateInfoEXT info)
         {
             var code = info.PCode.Span;
