@@ -296,10 +296,10 @@ namespace Adamantium.Vulkan.Generator
             macroAction.IgnoreList.Add("VK_HEADER_VERSION_COMPLETE");
             
             macroAction.SubstitutionList.Add("VK_MAKE_API_VERSION", VulkanBindings.MacroFunctions.CreateMakeApiVersionFunction());
-            macroAction.SubstitutionList.Add("VK_API_VERSION_VARIANT", VulkanBindings.MacroFunctions.CreateApiVersionFor("variant"));
-            macroAction.SubstitutionList.Add("VK_API_VERSION_MAJOR", VulkanBindings.MacroFunctions.CreateApiVersionFor("major"));
-            macroAction.SubstitutionList.Add("VK_API_VERSION_MINOR", VulkanBindings.MacroFunctions.CreateApiVersionFor("minor"));
-            macroAction.SubstitutionList.Add("VK_API_VERSION_PATCH", VulkanBindings.MacroFunctions.CreateApiVersionFor("patch"));
+            macroAction.SubstitutionList.Add("VK_API_VERSION_VARIANT", VulkanBindings.MacroFunctions.CreateApiVersionPart("variant"));
+            macroAction.SubstitutionList.Add("VK_API_VERSION_MAJOR", VulkanBindings.MacroFunctions.CreateApiVersionPart("major"));
+            macroAction.SubstitutionList.Add("VK_API_VERSION_MINOR", VulkanBindings.MacroFunctions.CreateApiVersionPart("minor"));
+            macroAction.SubstitutionList.Add("VK_API_VERSION_PATCH", VulkanBindings.MacroFunctions.CreateApiVersionPart("patch"));
             macroAction.SubstitutionList.Add("VK_API_VERSION_1_0", VulkanBindings.MacroFunctions.CreateApiVersion());
             macroAction.SubstitutionList.Add("VK_API_VERSION_1_1", VulkanBindings.MacroFunctions.CreateApiVersion());
             macroAction.SubstitutionList.Add("VK_QUEUE_FAMILY_EXTERNAL_KHR", VulkanBindings.MacroFunctions.CreateApiVersion());

@@ -67,28 +67,21 @@ public partial class VulkanBindings
             return function;
         }
 
-        public static MacroFunction CreateApiVersionFor(string paramName)
+        /// <summary>VK_API_VERSION_VARIANT/MAJOR/MINOR/PATCH: that part of a packed version, as vulkan_core.h takes it out.
+        /// </summary>
+        public static MacroFunction CreateApiVersionPart(string part)
         {
             var function = new MacroFunction();
-            var param = new Parameter() { Type = new BuiltinType(PrimitiveType.Byte), Name = paramName };
-            function.Parameters.Add(param);
-            switch (paramName)
+            function.Parameters.Add(new Parameter
+                { Type = new BuiltinType(PrimitiveType.UInt32), Name = "version", ParameterKind = ParameterKind.In });
+            function.FunctionBody = part switch
             {
-                case "variant":
-                    function.FunctionBody = $"return (uint)({paramName}>>29);";
-                    break;
-                case "major":
-                    function.FunctionBody = $"return ((uint)({paramName}>>22) & 0x7FU);";
-                    break;
-                case "minor":
-                    function.FunctionBody = $"return ((uint)({paramName}>>12) & 0x3FFU);";
-                    break;
-                case "patch":
-                    function.FunctionBody = $"return (uint)({paramName} & 0xFFFU);";
-                    break;
-            }
-
-            function.FunctionBody = $"return (uint)({paramName}>>22);";
+                "variant" => "return version >> 29;",
+                "major" => "return (version >> 22) & 0x7FU;",
+                "minor" => "return (version >> 12) & 0x3FFU;",
+                "patch" => "return version & 0xFFFU;",
+                _ => throw new ArgumentOutOfRangeException(nameof(part), part, "a part of a Vulkan version")
+            };
             function.ReturnType = new BuiltinType(PrimitiveType.UInt32);
 
             return function;

@@ -6367,24 +6367,24 @@ public static class Constants
         return (uint)version;
     }
 
-    public static uint VK_API_VERSION_VARIANT(byte variant)
+    public static uint VK_API_VERSION_VARIANT(uint version)
     {
-        return (uint)(variant>>22);
+        return version >> 29;
     }
 
-    public static uint VK_API_VERSION_MAJOR(byte major)
+    public static uint VK_API_VERSION_MAJOR(uint version)
     {
-        return (uint)(major>>22);
+        return (version >> 22) & 0x7FU;
     }
 
-    public static uint VK_API_VERSION_MINOR(byte minor)
+    public static uint VK_API_VERSION_MINOR(uint version)
     {
-        return (uint)(minor>>22);
+        return (version >> 12) & 0x3FFU;
     }
 
-    public static uint VK_API_VERSION_PATCH(byte patch)
+    public static uint VK_API_VERSION_PATCH(uint version)
     {
-        return (uint)(patch>>22);
+        return version & 0xFFFU;
     }
 
     public static int VKSC_API_VARIANT => 1;
