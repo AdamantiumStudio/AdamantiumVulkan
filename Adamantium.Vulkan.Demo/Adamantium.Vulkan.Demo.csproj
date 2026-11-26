@@ -4,6 +4,8 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net11.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
+    <!-- WinForms and a Win32 surface: it runs on Windows, and builds on every system with the rest. -->
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
     <LangVersion>latest</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>

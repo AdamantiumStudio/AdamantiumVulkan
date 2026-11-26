@@ -36,9 +36,8 @@ jobs:
         with:
           global-json-file: global.json
 
-      # The demo is WinForms; EnableWindowsTargeting lets Linux and macOS compile it.
       - name: Build
-        run: dotnet build AdamantiumVulkan.sln -c Release -warnaserror -p:EnableWindowsTargeting=true
+        run: dotnet build AdamantiumVulkan.sln -c Release -warnaserror
 
       - name: Pack
         shell: bash
