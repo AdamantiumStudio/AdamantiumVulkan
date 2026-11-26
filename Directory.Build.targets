@@ -1,5 +1,24 @@
 <Project>
 
+  <!-- A build for no platform copies the files of its packages for every system (runtimes/<rid>): built here, an app or
+       test runs on this machine's system, so the other systems' are not copied - each architecture of this one, unix
+       and any still are, laid out the same. Publishing and packing take them all, as they did. -->
+  <Target Name="LeaveOutOtherSystemsPackageFiles" AfterTargets="ResolveLockFileCopyLocalFiles"
+          Condition="'$(RuntimeIdentifier)' == ''">
+    <PropertyGroup>
+      <_ThisSystem>$(NETCoreSdkPortableRuntimeIdentifier.Split('-')[0])</_ThisSystem>
+    </PropertyGroup>
+    <ItemGroup>
+      <_OtherSystemsPackageFile Include="@(ReferenceCopyLocalPaths)"
+                                Condition="'%(ReferenceCopyLocalPaths.RuntimeIdentifier)' != '' And
+                                           '%(ReferenceCopyLocalPaths.RuntimeIdentifier)' != 'any' And
+                                           !$([System.String]::Copy('%(ReferenceCopyLocalPaths.RuntimeIdentifier)').StartsWith('$(_ThisSystem)')) And
+                                           ('$(_ThisSystem)' == 'win' Or
+                                            !$([System.String]::Copy('%(ReferenceCopyLocalPaths.RuntimeIdentifier)').StartsWith('unix')))" />
+      <ReferenceCopyLocalPaths Remove="@(_OtherSystemsPackageFile)" />
+    </ItemGroup>
+  </Target>
+
   <!-- QuantumBinding.Utils, named once as a QuantumBindingUtilsReference: its project when QuantumBinding's source is
        beside, as the generator is; its package of QuantumBindingUtilsVersion when it is not. -->
   <ItemGroup Condition="'$(UseQuantumBindingSource)' == 'true'">
