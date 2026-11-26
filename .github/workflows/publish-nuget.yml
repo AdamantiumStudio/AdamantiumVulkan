@@ -48,7 +48,7 @@ jobs:
           path: Adamantium.Vulkan.ShaderObjectLayer/layers
           merge-multiple: true
 
-      # One project at a time rather than the solution, which also holds the generator and the demo: only these five
+      # One project at a time rather than the solution, which also holds the generator and the tests: only these five
       # are IsPackable.
       # AnyCPU: the libraries load in any 64-bit process, the ARM64 ones of Apple Silicon included.
       - name: Pack

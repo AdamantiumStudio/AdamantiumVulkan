@@ -1,6 +1,8 @@
-# Builds the solution, the demo and the binding generator included, and packs the four published packages, on Windows,
-# Linux and macOS; builds the shader-object layer on each of them and packs its package from the three. The bindings are not regenerated here: the generator needs an installed Vulkan SDK for the SPIR-V
-# headers.
+# Builds the solution, the binding generator included, tests the bindings and packs the four published packages, on
+# Windows, Linux and macOS; builds the shader-object layer on each of them and packs its package from the three. The
+# bindings are not regenerated here: the generator needs an installed Vulkan SDK for the SPIR-V headers.
+# The tests draw on Linux with lavapipe, Mesa's Vulkan on the CPU, under the validation layer; the Windows and macOS
+# runners have no Vulkan driver, so there the tests that need a device are ignored and the rest run.
 name: CI
 
 on:
@@ -38,6 +40,17 @@ jobs:
 
       - name: Build
         run: dotnet build AdamantiumVulkan.sln -c Release -warnaserror
+
+      - name: Vulkan on the CPU
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libvulkan1 mesa-vulkan-drivers vulkan-validationlayers
+          echo "ADAMANTIUM_VULKAN_TESTS_NEED_A_DEVICE=1" >> "$GITHUB_ENV"
+          echo "ADAMANTIUM_VULKAN_TESTS_NEED_VALIDATION=1" >> "$GITHUB_ENV"
+
+      - name: Test
+        run: dotnet test Adamantium.Vulkan.Tests/Adamantium.Vulkan.Tests.csproj -c Release --no-build
 
       - name: Pack
         shell: bash

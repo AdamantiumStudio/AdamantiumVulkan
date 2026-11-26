@@ -106,13 +106,6 @@ Upstream: https://github.com/KhronosGroup/Vulkan-ExtensionLayer
 
 ---
 
-## Not third-party
-
-For the avoidance of doubt, these committed binaries are this project's own and are covered by the repository's
-`LICENSE`: `Adamantium.Core.dll`, `Adamantium.Imaging.dll`, `Adamantium.Mathematics.dll`.
-
----
-
 ## Worth fixing
 
 Committing other people's binaries is what makes this file necessary. The Slang, SPIRV-Cross and SPIRV-Tools

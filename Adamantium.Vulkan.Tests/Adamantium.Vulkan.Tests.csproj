@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- The bindings at work on this machine's Vulkan: an instance and a device, a shader through Slang and SPIRV-Cross, a
+       triangle drawn off screen and read back. With no Vulkan here the tests are ignored, or fail where
+       ADAMANTIUM_VULKAN_TESTS_NEED_A_DEVICE=1 says this machine has one. -->
+  <PropertyGroup>
+    <TargetFramework>net11.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.7.0" />
+    <PackageReference Include="NUnit" Version="3.13.2" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Adamantium.Vulkan\Adamantium.Vulkan.csproj" />
+    <ProjectReference Include="..\Adamantium.Vulkan.Loader\Adamantium.Vulkan.Loader.csproj" />
+    <ProjectReference Include="..\Adamantium.Vulkan.Slang\Adamantium.Vulkan.Slang.csproj" />
+    <ProjectReference Include="..\Adamantium.Vulkan.Spirv\Adamantium.Vulkan.Spirv.csproj" />
+  </ItemGroup>
+
+</Project>
